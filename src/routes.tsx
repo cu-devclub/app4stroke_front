@@ -7,7 +7,7 @@ import Yoke from "./Pages/yoke/index";
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/yoke">
+      <Route path="/yoke1">
         <Yoke />
       </Route>
       <Route path="/">
