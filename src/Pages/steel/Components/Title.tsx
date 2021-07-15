@@ -2,6 +2,7 @@ import React from "react";
 
 interface Props {
   name?: string;
+  email?: string;
 }
 
 const Title = (props: Props) => {
