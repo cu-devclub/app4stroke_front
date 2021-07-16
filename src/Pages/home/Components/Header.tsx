@@ -2,10 +2,11 @@ import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-// import Typography from "@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography";
 // import IconButton from "@material-ui/core/IconButton";
 // import MenuIcon from "@material-ui/icons/Menu";
 import strokeIcon from "../../../assets/stroke.png";
+import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,13 +16,18 @@ const useStyle = makeStyles((theme: Theme) =>
     menuButton: {
       marginRight: theme.spacing(2),
     },
-    toolbar: {
-      marginRight: "auto",
-    },
-    icon: {
+    toolbar: {},
+    logo: {
       margin: "auto",
       maxWidth: "150px",
       maxHeight: "30px",
+      marginRight: "auto",
+    },
+    title: {
+      flexGrow: 1,
+      textAlign: "right",
+      color: "#979797",
+      fontWeight: "lighter",
     },
   })
 );
@@ -32,7 +38,11 @@ const Header: React.FC = () => {
     <div className={classes.root}>
       <AppBar position="static" color="inherit">
         <Toolbar className={classes.toolbar}>
-          <img src={strokeIcon} alt="icon" className={classes.icon} />
+          <img src={strokeLogo} alt="icon" className={classes.logo} />
+          <Typography variant="h6" className={classes.title}>
+            Dr. John Doe
+          </Typography>
+          <AccountCircleRoundedIcon className={classes./>
         </Toolbar>
       </AppBar>
     </div>
