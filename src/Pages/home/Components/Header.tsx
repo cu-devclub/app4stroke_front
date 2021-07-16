@@ -15,11 +15,13 @@ const useStyle = makeStyles((theme: Theme) =>
     menuButton: {
       marginRight: theme.spacing(2),
     },
+    toolbar: {
+      marginRight: "auto",
+    },
     icon: {
       margin: "auto",
-      textAlign: "center",
-      maxWidth: "50%",
-      maxHeight: "70%",
+      maxWidth: "150px",
+      maxHeight: "30px",
     },
   })
 );
@@ -28,8 +30,8 @@ const Header: React.FC = () => {
   const classes = useStyle();
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" color="inherit">
+        <Toolbar className={classes.toolbar}>
           <img src={strokeIcon} alt="icon" className={classes.icon} />
         </Toolbar>
       </AppBar>
