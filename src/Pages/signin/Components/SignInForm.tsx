@@ -1,20 +1,24 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import styled from "styled-components";
+import background from "../../../assets/StrokeBackground.png";
+
+//background
+export const StyledContainer = styled.div`
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    url(${background});
+  background-size: cover;
+  background-attachment: fixed;
+`;
 
 const SignInForm: React.FC = () => {
   return (
     <>
-      <Box
-        color="white"
-        bgcolor="palevioletred"
-        p={1}
-        width="600px"
-        height="550px"
-        textAlign="center"
-      >
-        <Typography variant="h2">Stroke Analysis</Typography>
-      </Box>
+      <StyledContainer></StyledContainer>
     </>
   );
 };
