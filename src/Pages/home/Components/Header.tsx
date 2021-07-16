@@ -7,7 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 // import MenuIcon from "@material-ui/icons/Menu";
 import strokeIcon from "../../../assets/stroke.png";
 
-const styleComponent = makeStyles((theme: Theme) =>
+const useStyle = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
@@ -15,16 +15,22 @@ const styleComponent = makeStyles((theme: Theme) =>
     menuButton: {
       marginRight: theme.spacing(2),
     },
+    icon: {
+      margin: "auto",
+      textAlign: "center",
+      maxWidth: "50%",
+      maxHeight: "70%",
+    },
   })
 );
 
 const Header: React.FC = () => {
-  const classes = styleComponent();
+  const classes = useStyle();
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar variant="dense">
-          <img src="" alt="strokeIcon" />
+        <Toolbar>
+          <img src={strokeIcon} alt="icon" className={classes.icon} />
         </Toolbar>
       </AppBar>
     </div>
