@@ -5,8 +5,13 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 // import IconButton from "@material-ui/core/IconButton";
 // import MenuIcon from "@material-ui/icons/Menu";
-import strokeIcon from "../../../assets/stroke.png";
-import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import strokeLogo from "../../../assets/stroke.png";
+// import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+// import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+// import AccountCircleSharpIcon from "@material-ui/icons/AccountCircleSharp";
+// import AccountCircleTwoToneIcon from "@material-ui/icons/AccountCircleTwoTone";
+import PersonIcon from "@material-ui/icons/Person";
+import Avatar from "@material-ui/core/Avatar";
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,11 +28,19 @@ const useStyle = makeStyles((theme: Theme) =>
       maxHeight: "30px",
       marginRight: "auto",
     },
-    title: {
+    name: {
       flexGrow: 1,
       textAlign: "right",
       color: "#979797",
       fontWeight: "lighter",
+      marginRight: "20px",
+    },
+    icon: {
+      margin: "auto",
+      fontSize: "36px",
+    },
+    avatar: {
+      backgroundColor: "#505175",
     },
   })
 );
@@ -39,10 +52,12 @@ const Header: React.FC = () => {
       <AppBar position="static" color="inherit">
         <Toolbar className={classes.toolbar}>
           <img src={strokeLogo} alt="icon" className={classes.logo} />
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" className={classes.name}>
             Dr. John Doe
           </Typography>
-          <AccountCircleRoundedIcon className={classes./>
+          <Avatar className={classes.avatar}>
+            <PersonIcon style={{ color: "#BEBFE2" }} className={classes.icon} />
+          </Avatar>
         </Toolbar>
       </AppBar>
     </div>
