@@ -2,13 +2,14 @@ import React from "react";
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
 import SignInPage from "./Pages/signin/index";
-import Nan from "./Pages/nan/index";
+import HomePage from "./Pages/home/index";
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/nan">
-        <Nan />
+      <Route path="/home">
+        <HomePage />
       </Route>
+
       <Route path="/">
         <SignInPage />
       </Route>
