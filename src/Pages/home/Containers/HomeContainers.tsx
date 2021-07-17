@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
 const headCells = [
   { id: "testID", label: "Test ID" },
   { id: "date", label: "Date" },
@@ -55,13 +56,12 @@ const rows = [
   createData("1001", "12/01/2564", "19293948", "Srisaket Charoensri", 37, 25),
 ];
 
-const { TblContainer, TblHead, TblCenter, TblPagination } = Tables(
-  rows,
-  headCells
-);
-
 const HomeContainer: React.FC = () => {
   const classes = useStyles();
+  const { TblContainer, TblHead, TblCenter, TblPagination } = Tables({
+    rows: rows,
+    headCells: headCells,
+  });
 
   return (
     <>
@@ -70,8 +70,8 @@ const HomeContainer: React.FC = () => {
         <TblContainer>
           <TblHead />
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.testID} className={classes.root}>
+            {rows.map((row, index) => (
+              <TableRow key={index} className={classes.root}>
                 <TblCenter>{row.testID}</TblCenter>
                 <TblCenter>{row.date}</TblCenter>
                 <TblCenter>{row.patientID}</TblCenter>

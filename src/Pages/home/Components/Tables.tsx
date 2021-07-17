@@ -40,18 +40,12 @@ interface TableProps {
   headCells?: Array<Object>;
 }
 
-const Tables: React.FC = ({ rows, headCells }: TableProps) => {
-  const pages = [5, 10, 25];
-  const [page, setPage] = useState(0);
-  const [rowsPerPage] = useState(pages[page]);
+const Tables = ({ rows, headCells }: TableProps) => {
+  const TblContainer: React.FC = (props: any) => (
+    <Table>{props.children}</Table>
+  );
 
-  const TblContainer = () => <Table></Table>;
-
-  const handleChangePage = (newPage: number) => {
-    setPage(newPage);
-  };
-
-  const TblHead = () => (
+  const TblHead: React.FC = () => (
     <TableHead>
       <TableRow>
         {headCells &&
@@ -64,17 +58,29 @@ const Tables: React.FC = ({ rows, headCells }: TableProps) => {
     </TableHead>
   );
 
-  const TblCenter = () => <TableCellBody align="center"></TableCellBody>;
-
-  const TblPagination = () => (
-    <TablePagination
-      page={page}
-      rowsPerPageOptions={pages}
-      rowsPerPage={rowsPerPage}
-      count={rows !== undefined ? rows.length : 0}
-      onChangePage={() => handleChangePage}
-    ></TablePagination>
+  const TblCenter: React.FC = (props) => (
+    <TableCellBody align="center">{props.children}</TableCellBody>
   );
+
+  const TblPagination: React.FC = () => {
+    const pages = [5, 10, 25];
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(pages[page]);
+
+    const handleChangePage = (event: any, newPage: number) => {
+      setPage(newPage);
+    };
+
+    return (
+      <TablePagination
+        page={page}
+        rowsPerPageOptions={pages}
+        rowsPerPage={rowsPerPage}
+        count={rows !== undefined ? rows.length : 0}
+        onPageChange={handleChangePage}
+      />
+    );
+  };
 
   return {
     TblContainer,

@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Switch, Route } from "react-router-dom";
 import SignInPage from "./Pages/signin/index";
-import HomeContainer from "./Pages/home";
+import HomeContainer from "./Pages/home/index";
 
 const Routes: React.FC = () => {
   return (
