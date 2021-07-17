@@ -7,6 +7,7 @@ import strokeLogo from "../../../assets/stroke.png";
 import PersonIcon from "@material-ui/icons/Person";
 import Avatar from "@material-ui/core/Avatar";
 
+//todo Style
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -33,6 +34,7 @@ const useStyle = makeStyles((theme: Theme) =>
     icon: {
       margin: "auto",
       fontSize: "36px",
+      color: "#BEBFE2",
     },
     avatar: {
       backgroundColor: "#505175",
@@ -40,6 +42,7 @@ const useStyle = makeStyles((theme: Theme) =>
   })
 );
 
+//todo Header
 const Header: React.FC = () => {
   const classes = useStyle();
   return (
@@ -53,7 +56,7 @@ const Header: React.FC = () => {
           </Typography>
 
           <Avatar className={classes.avatar}>
-            <PersonIcon style={{ color: "#BEBFE2" }} className={classes.icon} />
+            <PersonIcon className={classes.icon} />
           </Avatar>
         </Toolbar>
       </AppBar>
