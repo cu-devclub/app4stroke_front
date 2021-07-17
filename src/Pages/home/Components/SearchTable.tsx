@@ -6,6 +6,7 @@ import {
   Button,
 } from "@material-ui/core";
 import React from "react";
+import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   pageTitle: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: "200px",
     },
+    fontSize: "20px",
   },
   buttonSearch: {
     backgroundColor: "#EF5DA8",
@@ -40,6 +42,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchTables = (props: any) => {
   const classes = useStyles();
+
+  const [date, setDate] = useState(new Date());
 
   const { title, subTitle } = props;
 
@@ -61,7 +65,9 @@ const SearchTables = (props: any) => {
             id="date"
             label="Date"
             type="date"
-            defaultValue=""
+            value={date}
+            onChange={(e: any) => setDate(e.target.value)}
+            defaultValue={new Date()}
             InputLabelProps={{
               shrink: true,
             }}

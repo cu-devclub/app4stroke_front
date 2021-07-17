@@ -1,10 +1,12 @@
-import React, { ReactNode } from "react";
-import { Table, TableCell, TableHead, TableRow } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+  Table,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
-
-interface Props {
-  children: ReactNode;
-}
 
 const TableCellHead = withStyles({
   root: {
@@ -33,46 +35,52 @@ export function createData(
   return { testID, date, patientID, name, age, cardioembolicProbability };
 }
 
-const Tables = (/*records?: any,*/ headCells?: any) => {
-  // const pages = [5, 10, 25];
-  // const [page] = useState(0);
-  // const [rowsPerPage] = useState(pages[page]);
+interface TableProps {
+  rows?: Array<Object>;
+  headCells?: Array<Object>;
+}
 
-  const TblContainer = (props: Props) => <Table>{props.children}</Table>;
+const Tables: React.FC = ({ rows, headCells }: TableProps) => {
+  const pages = [5, 10, 25];
+  const [page, setPage] = useState(0);
+  const [rowsPerPage] = useState(pages[page]);
 
-  const TblHead = () => {
-    return (
-      <TableHead>
-        <TableRow>
-          {headCells.map((headCell: any) => (
+  const TblContainer = () => <Table></Table>;
+
+  const handleChangePage = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  const TblHead = () => (
+    <TableHead>
+      <TableRow>
+        {headCells &&
+          headCells.map((headCell: any) => (
             <TableCellHead align="center" key={headCell.id}>
               {headCell.label}
             </TableCellHead>
           ))}
-        </TableRow>
-      </TableHead>
-    );
-  };
-
-  const TblCenter = (props: Props) => (
-    <TableCellBody align="center">{props.children}</TableCellBody>
+      </TableRow>
+    </TableHead>
   );
 
-  // const TblPagination = () => (
-  //   <TablePagination
-  //     component="div"
-  //     page={page}
-  //     rowsPerPageOptions={pages}
-  //     rowsPerPage={rowsPerPage}
-  //     count={records.length}
-  //   ></TablePagination>
-  // );
+  const TblCenter = () => <TableCellBody align="center"></TableCellBody>;
+
+  const TblPagination = () => (
+    <TablePagination
+      page={page}
+      rowsPerPageOptions={pages}
+      rowsPerPage={rowsPerPage}
+      count={rows !== undefined ? rows.length : 0}
+      onChangePage={() => handleChangePage}
+    ></TablePagination>
+  );
 
   return {
     TblContainer,
     TblHead,
     TblCenter,
-    /*TblPagination,*/
+    TblPagination,
   };
 };
 

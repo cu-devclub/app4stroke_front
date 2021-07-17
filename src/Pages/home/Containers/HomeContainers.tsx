@@ -55,7 +55,10 @@ const rows = [
   createData("1001", "12/01/2564", "19293948", "Srisaket Charoensri", 37, 25),
 ];
 
-const { TblContainer, TblHead, TblCenter } = Tables(headCells);
+const { TblContainer, TblHead, TblCenter, TblPagination } = Tables(
+  rows,
+  headCells
+);
 
 const HomeContainer: React.FC = () => {
   const classes = useStyles();
@@ -82,6 +85,7 @@ const HomeContainer: React.FC = () => {
             ))}
           </TableBody>
         </TblContainer>
+        <TblPagination />
       </Paper>
     </>
   );
