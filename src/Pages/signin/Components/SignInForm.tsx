@@ -27,7 +27,7 @@ export const StyledFormArea = styled.div`
   border-radius: 40px;
 `;
 //loginlogo
-export const Avatar = styled.div`
+export const Logo = styled.div`
   width: 250px;
   height: 100px;
   background-image: url(${LoginLogo});
@@ -36,14 +36,10 @@ export const Avatar = styled.div`
   margin: auto;
   margin-top: 30px;
 `;
+
 const SignInForm: React.FC = () => {
   return (
     <>
-      <StyledContainer>
-        <StyledFormArea>
-          <Avatar/>
-        </StyledFormArea>
-      </StyledContainer>
     </>
   );
 };
