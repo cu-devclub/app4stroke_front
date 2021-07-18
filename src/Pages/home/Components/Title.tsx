@@ -10,8 +10,7 @@ const useStyle = makeStyles(() =>
   createStyles({
     root: {
       width: "100%",
-      marginTop: "16px",
-      padding: "32px",
+      padding: "48px",
     },
 
     //! Box
