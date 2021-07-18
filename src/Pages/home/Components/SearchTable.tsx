@@ -40,27 +40,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchTables = (props: any) => {
+const SearchTables = () => {
   const classes = useStyles();
 
   const [date, setDate] = useState(new Date());
-
-  const { title, subTitle } = props;
 
   return (
     <>
       <Toolbar>
         <div className={classes.pageTitle}>
-          <Typography variant="h6" component="div">
-            {title}
-          </Typography>
-          <Typography variant="subtitle2" component="div">
-            {subTitle}
-          </Typography>
+          <Typography variant="h6">Patient Tests</Typography>
+          <Typography variant="subtitle2">Total 63 records</Typography>
         </div>
         <Toolbar className={classes.search}>
-          <TextField id="standard-basic" label="Patient ID"></TextField>
-          <TextField id="standard-basic" label="Name"></TextField>
+          <TextField id="patientID" label="Patient ID"></TextField>
+          <TextField id="name" label="Name"></TextField>
           <TextField
             id="date"
             label="Date"
@@ -72,7 +66,7 @@ const SearchTables = (props: any) => {
               shrink: true,
             }}
           />
-          <Button className={classes.buttonSearch}> Search </Button>
+          <Button className={classes.buttonSearch}>Search</Button>
         </Toolbar>
       </Toolbar>
     </>
