@@ -16,7 +16,7 @@ const useStyle = makeStyles(() =>
 
     //! Box
     boxWelcome: {
-      width: "45%",
+      width: "50%",
       height: "93px",
       padding: "27px",
       borderRadius: "20px",
@@ -25,7 +25,7 @@ const useStyle = makeStyles(() =>
       boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
     },
     boxTotalPatients: {
-      width: "10%",
+      width: "15%",
       height: "93px",
       padding: "27px",
       marginLeft: "24px",
@@ -50,7 +50,7 @@ const useStyle = makeStyles(() =>
     //! Button
     buttonRegister: {
       backgroundColor: "#EF5DA8",
-      width: "25%",
+      width: "35%",
       height: "144px",
       borderRadius: "24px",
       marginLeft: "47px",
