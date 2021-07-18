@@ -50,11 +50,9 @@ const Header: React.FC = () => {
       <AppBar position="static" color="inherit">
         <Toolbar className={classes.toolbar}>
           <img src={strokeLogo} alt="icon" className={classes.logo} />
-
           <Typography variant="h6" className={classes.name}>
             Dr. John Doe
           </Typography>
-
           <Avatar className={classes.avatar}>
             <PersonIcon className={classes.icon} />
           </Avatar>
