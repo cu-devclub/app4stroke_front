@@ -4,6 +4,7 @@ module.exports = {
     es6: true,
     node: true,
   },
+  plugins: ["@typescript-eslint"],
   extends: "eslint:recommended",
   globals: {
     Atomics: "readonly",
@@ -21,5 +22,6 @@ module.exports = {
     indent: ["error", 2],
     // we want to avoid useless spaces
     "no-multi-spaces": ["error"],
+    "no-unused-vars": "off",
   },
 };
