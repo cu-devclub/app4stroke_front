@@ -65,7 +65,7 @@ const HomeContainer: React.FC = () => {
 
   return (
     <>
-      <SearchTables title="Patient Tests " subTitle="Total 63 records " />
+      <SearchTables />
       <Paper className={classes.pageContent}>
         <TblContainer>
           <TblHead />
