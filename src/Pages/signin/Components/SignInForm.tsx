@@ -56,7 +56,6 @@ export const StyledFormButton = styled(Link)`
   text-decoration: none;
   color: ${colors.white};
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   padding: 16px 32px;
