@@ -32,22 +32,11 @@ const StyledFormArea = styled.div`
   position: absolute;
   width: 500px;
   height: 400px;
-  left: 500px;
-  top: 134px;
+  display: flex;
+  flex-direction: column;
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(4px);
   border-radius: 40px;
-`;
-
-//loginlogo
-const Logo = styled.div`
-  width: 250px;
-  height: 100px;
-  background-image: url(${LoginLogo});
-  background-size: cover;
-  background-position: center;
-  margin: auto;
-  margin-top: 30px;
 `;
 
 //loginbutton
@@ -77,8 +66,14 @@ const StyledFormButton = styled(Link)`
 const useStyles = makeStyles(() => ({
   form: {
     width: "80%",
-    marginLeft: "10%",
-    marginRight: "10%",
+    margin:"auto",
+    marginTop:"0.1%"
+  },
+  logo: {
+    width: "250px",
+    height: "110px",
+    margin: "auto",
+    
   },
 }));
 
@@ -88,7 +83,7 @@ const SignInForm: React.FC = () => {
     <>
       <StyledContainer>
         <StyledFormArea>
-          <Logo />
+          <img src={LoginLogo} className={classes.logo} />
           <form className={classes.form} noValidate>
             {/*Email*/}
             <TextField
