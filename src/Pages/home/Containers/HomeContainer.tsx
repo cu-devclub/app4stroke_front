@@ -8,6 +8,8 @@ import {
 import React from "react";
 import SearchTables from "../Components/SearchTable";
 import Tables, { createData } from "../Components/Tables";
+import Header from "../Components/Header";
+import Title from "../Components/Title";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -65,6 +67,8 @@ const HomeContainer: React.FC = () => {
 
   return (
     <>
+      <Header />
+      <Title />
       <SearchTables />
       <Paper className={classes.pageContent}>
         <TblContainer>
