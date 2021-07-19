@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Background from "../../../assets/StrokeBackground.png";
-import LoginLogo from "../../../assets/LoginLogo.png";
+import Background from "../../../Assets/StrokeBackground.png";
+import LoginLogo from "../../../Assets/LoginLogo.png";
 //React router
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
