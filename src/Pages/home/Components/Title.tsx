@@ -9,14 +9,13 @@ import AddIcon from "../../../Assets/add.png";
 const useStyle = makeStyles(() =>
   createStyles({
     root: {
-      width: "95%",
+      width: "100%",
       padding: "32px",
     },
 
     //! Box
     boxWelcome: {
       width: "50%",
-      height: "93px",
       padding: "27px",
       borderRadius: "20px",
       background:
@@ -24,8 +23,7 @@ const useStyle = makeStyles(() =>
       boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
     },
     boxTotalPatients: {
-      width: "15%",
-      height: "93px",
+      width: "20%",
       padding: "27px",
       marginLeft: "24px",
       background: "#FFFFFF",
@@ -49,8 +47,7 @@ const useStyle = makeStyles(() =>
     //! Button
     buttonRegister: {
       backgroundColor: "#EF5DA8",
-      width: "35%",
-      height: "144px",
+      width: "30%",
       borderRadius: "24px",
       marginLeft: "47px",
     },
