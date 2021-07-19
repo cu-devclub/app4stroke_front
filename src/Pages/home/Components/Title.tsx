@@ -3,14 +3,14 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import AddIcon from "../../../assets/add.png";
+import AddIcon from "../../../Assets/add.png";
 
 //todo Style
 const useStyle = makeStyles(() =>
   createStyles({
     root: {
-      width: "100%",
-      padding: "48px",
+      width: "95%",
+      padding: "32px",
     },
 
     //! Box
@@ -53,7 +53,6 @@ const useStyle = makeStyles(() =>
       height: "144px",
       borderRadius: "24px",
       marginLeft: "47px",
-      marginRight: "32px",
     },
   })
 );
