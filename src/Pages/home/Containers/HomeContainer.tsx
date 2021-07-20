@@ -20,11 +20,12 @@ const useStyles = makeStyles((theme) => ({
   buttonView: {
     backgroundColor: "transparent",
     color: "#CF658D",
-    border: "1.5px solid #CF658D",
+    border: "2.5px solid #CF658D",
     textTransform: "none",
     borderRadius: "20px",
     fontSize: "16px",
-    height: "30px",
+    height: "40px",
+    width: "70px",
   },
   root: {
     "&:nth-of-type(odd)": {

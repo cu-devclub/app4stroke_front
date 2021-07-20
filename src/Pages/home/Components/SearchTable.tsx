@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   search: {
-    marginLeft: "20%",
-    marginTop: "2.5%",
+    marginLeft: theme.spacing(66),
+    marginTop: theme.spacing(5),
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: "200px",
@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     borderRadius: "20px",
     fontSize: "18px",
+    width: "120px",
+    height: "40px",
   },
 }));
 
