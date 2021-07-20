@@ -6,12 +6,14 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "90%",
+      width: "100%",
+      padding: "118px",
     },
     text: {
       "&.MuiDivider-root": {
         "&::before": {
           borderTop: "none",
+          width: "0",
         },
         "&::after": {
           borderTop: "thin solid #D3D3D3",
@@ -28,12 +30,10 @@ const useStyle = makeStyles((theme: Theme) =>
 const SectionTitle: React.FC<{ title: string }> = ({ title }) => {
   const classes = useStyle();
   return (
-    <Box>
-      <Box className={classes.root}>
-        <Divider className={classes.text} textAlign="left">
-          <div>{title}</div>
-        </Divider>
-      </Box>
+    <Box className={classes.root}>
+      <Divider className={classes.text} textAlign="left">
+        <div>{title}</div>
+      </Divider>
     </Box>
   );
 };

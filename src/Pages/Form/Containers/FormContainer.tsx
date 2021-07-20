@@ -1,7 +1,7 @@
 import React from "react";
 import SectionTitle from "../Components/SectionTitle";
 
-const FormContainers: React.FC = () => {
-  return <SectionTitle title="Patient Information" />;
+const FormContainer: React.FC = () => {
+  return <></>;
 };
 export default SectionTitle;
