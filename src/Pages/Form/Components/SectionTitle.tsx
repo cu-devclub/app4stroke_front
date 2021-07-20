@@ -2,12 +2,11 @@ import React from "react";
 import { Box } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
+      width: "90%",
     },
     text: {
       "&.MuiDivider-root": {
@@ -26,13 +25,13 @@ const useStyle = makeStyles((theme: Theme) =>
   })
 );
 
-const SectionTitle: React.FC = () => {
+const SectionTitle: React.FC<{ title: string }> = ({ title }) => {
   const classes = useStyle();
   return (
     <Box>
       <Box className={classes.root}>
         <Divider className={classes.text} textAlign="left">
-          Patient Information
+          <div>{title}</div>
         </Divider>
       </Box>
     </Box>
