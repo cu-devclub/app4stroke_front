@@ -9,7 +9,7 @@ const Routes: React.FC = () => {
   return (
     <Switch>
       <Route path="/form">
-        <FormPage title="Patient Information" />
+        <FormPage />
       </Route>
       <Route path="/home">
         <HomePage />

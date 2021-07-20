@@ -4,4 +4,4 @@ import SectionTitle from "../Components/SectionTitle";
 const FormContainer: React.FC = () => {
   return <></>;
 };
-export default SectionTitle;
+export default FormContainer;
