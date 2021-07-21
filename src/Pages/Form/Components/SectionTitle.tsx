@@ -11,23 +11,21 @@ const useStyle = makeStyles((theme: Theme) =>
       padding: "118px",
       alignItems: "center",
     },
+    divider: {
+      marginLeft: "16px",
+    },
   })
 );
 
 const SectionTitle: React.FC<{ title: string }> = ({ title }) => {
   const classes = useStyle();
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="space-around"
-      className={classes.root}
-    >
+    <Grid container className={classes.root}>
       <Grid item xs="auto">
         <Typography variant="h2">{title}</Typography>
       </Grid>
-      <Grid item xs>
-        <Divider></Divider>
+      <Grid item xs className={classes.divider}>
+        <Divider />
       </Grid>
     </Grid>
   );
