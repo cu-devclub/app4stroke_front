@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "20px",
     fontSize: "16px",
     height: "40px",
-    width: "70px",
+    width: "90px",
   },
   root: {
     "&:nth-of-type(odd)": {
