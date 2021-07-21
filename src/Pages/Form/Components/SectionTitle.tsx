@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@material-ui/core";
-import Divider from "@material-ui/core/Divider";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,9 +31,7 @@ const SectionTitle: React.FC<{ title: string }> = ({ title }) => {
   const classes = useStyle();
   return (
     <Box className={classes.root}>
-      <Divider className={classes.text} textAlign="left">
-        <div>{title}</div>
-      </Divider>
+      <Typography>Patient Information</Typography>
     </Box>
   );
 };

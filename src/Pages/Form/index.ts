@@ -1,2 +1,2 @@
-import SectionContainer from "./Containers/FormContainer";
-export default SectionContainer;
+import FormContainer from "./Containers/FormContainer";
+export default FormContainer;
