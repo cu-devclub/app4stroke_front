@@ -3,6 +3,7 @@ import { Box } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
+import { Grid, Paper } from "@material-ui/core";
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -11,32 +12,25 @@ const useStyle = makeStyles((theme: Theme) =>
       padding: "118px",
       alignItems: "center",
     },
-    title: {
-      width: "auto",
-    },
-    divider: {
-      backgroundColor: "#D3D3D3",
-      maxWidth: "100%",
-      minWidth: "514px",
-      // width: "100%",
-      marginLeft: "16px",
-    },
   })
 );
 
 const SectionTitle: React.FC<{ title: string }> = ({ title }) => {
   const classes = useStyle();
   return (
-    <Box className={classes.root} display="flex">
-      <Box display="inline">
-        <Typography className={classes.title} variant="h2">
-          {title}
-        </Typography>
-      </Box>
-      <Box className={classes.divider}>
+    <Grid
+      container
+      direction="row"
+      justifyContent="space-around"
+      className={classes.root}
+    >
+      <Grid item xs="auto">
+        <Typography variant="h2">{title}</Typography>
+      </Grid>
+      <Grid item xs>
         <Divider></Divider>
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 
