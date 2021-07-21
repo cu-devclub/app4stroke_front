@@ -8,7 +8,7 @@ const useStyle = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "100%",
-      padding: "118px",
+      padding: "34px", //! change to 118px
       alignItems: "center",
     },
     divider: {
