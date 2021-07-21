@@ -65,27 +65,28 @@ const theme = createTheme({
     },
   },
 });
-export const colors = {
-  primary: "#fff",
-  secondary: "#EF5DA8",
-};
-
-const ButtonToggle = styled(Button)`
-  opacity: 0.7;
-  ${(active) =>
-    active &&
-    `
-    opacity:1;
-  `}
-`;
 
 const ChiefComplaintSection: React.FC = () => {
   const classes = useStyle();
-  const types = ["Wake-Up", "Peak at Onset", "Gradual", "Rapidly Improve"];
-  //const [active, setActive] = useState(types[0]);
-  const [flag, setFlag] = React.useState(true);
-  const handleClick = () => {
-    setFlag(!flag);
+  //WakeUp
+  const [WakeUp, setWakeUp] = React.useState(true);
+  const handleClickWakeUp = () => {
+    setWakeUp(!WakeUp);
+  };
+  //Peak
+  const [Peak, setPeak] = React.useState(true);
+  const handleClickPeak = () => {
+    setPeak(!Peak);
+  };
+  //Gradual
+  const [Gradual, setGradual] = React.useState(true);
+  const handleClickGradual = () => {
+    setGradual(!Gradual);
+  };
+  //Rapidly
+  const [Rapidly, setRapidly] = React.useState(true);
+  const handleClickRapidly = () => {
+    setRapidly(!Rapidly);
   };
   //checkbox
   const [state, setState] = React.useState({});
@@ -101,18 +102,38 @@ const ChiefComplaintSection: React.FC = () => {
             Time Course
           </Typography>
           <Box className={classes.groupButton}>
-            {types.map((type) => (
-              <ButtonToggle
-                className={classes.button}
-                variant="contained"
-                //active={active === type}
-                //onClick={() => setActive(type)}
-                onClick={handleClick}
-                color={flag ? "primary" : "secondary"}
-              >
-                {type}
-              </ButtonToggle>
-            ))}
+            <Button
+              className={classes.button}
+              variant="contained"
+              onClick={handleClickWakeUp}
+              color={WakeUp ? "primary" : "secondary"}
+            >
+              Wake-Up
+            </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              onClick={handleClickPeak}
+              color={Peak ? "primary" : "secondary"}
+            >
+              Peak at Onset
+            </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              onClick={handleClickGradual}
+              color={Gradual ? "primary" : "secondary"}
+            >
+              Gradual
+            </Button>
+            <Button
+              className={classes.button}
+              variant="contained"
+              onClick={handleClickRapidly}
+              color={Rapidly ? "primary" : "secondary"}
+            >
+              Rapidly Improve
+            </Button>
           </Box>
         </Box>
       </ThemeProvider>
@@ -135,7 +156,7 @@ const ChiefComplaintSection: React.FC = () => {
             control={
               <PinkCheckbox onChange={handleChange} name="Facial weakness" />
             }
-            label="Facial weakness"    
+            label="Facial weakness"
           />
           <FormControlLabel
             control={
