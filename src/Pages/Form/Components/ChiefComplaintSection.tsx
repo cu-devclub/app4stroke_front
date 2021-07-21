@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  makeStyles,
+  createTheme,
+  Theme,
+  ThemeProvider,
+} from "@material-ui/core/styles";
 import { Toolbar } from "@material-ui/core";
 
 const useStyle = makeStyles((theme) =>
@@ -12,7 +18,7 @@ const useStyle = makeStyles((theme) =>
     },
     text: {
       fontSize: "24px",
-      marginLeft:"240px",
+      marginLeft: "240px",
     },
     groupButton: {
       "& > *": {
@@ -20,28 +26,52 @@ const useStyle = makeStyles((theme) =>
       },
     },
     button: {
-      background: "#FFFFFF",
+      //background: "#FFFFFF",
       boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
       borderRadius: "20px",
       width: "180px",
       height: "81px",
-      right:"180px",
+      right: "180px",
       top: "80px",
     },
   })
 );
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#FFFFFF",
+      contrastText: "#3A3A3D",
+    },
+    secondary: {
+      main: "#EF5DA8",
+      contrastText: "#fff",
+    },
+  },
+});
 
 const ChiefComplaintSection: React.FC = () => {
   const classes = useStyle();
+  const [flag, setFlag] = React.useState(true);
+  const handleClick = () => {
+    setFlag(!flag);
+  };
   return (
     <Toolbar className={classes.root}>
       <Typography className={classes.text} variant="body1">
         Time Course
       </Typography>
       <Toolbar className={classes.groupButton}>
-        <Button className={classes.button} variant="outlined">
-          Wake-Up
-        </Button>
+        <ThemeProvider theme={theme}>
+          <Button
+            className={classes.button}
+            variant="contained"
+            onClick={handleClick}
+            color={flag ? "primary" : "secondary"}
+          >
+            Wake-Up
+          </Button>
+        </ThemeProvider>
+
         <Button className={classes.button} variant="outlined">
           Peak at Onset
         </Button>
