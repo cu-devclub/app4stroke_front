@@ -8,7 +8,7 @@ import {
   Theme,
   ThemeProvider,
 } from "@material-ui/core/styles";
-import { Toolbar } from "@material-ui/core";
+import { Toolbar, Box } from "@material-ui/core";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -56,12 +56,12 @@ const ChiefComplaintSection: React.FC = () => {
     setFlag(!flag);
   };
   return (
-    <Toolbar className={classes.root}>
-      <Typography className={classes.text} variant="body1">
-        Time Course
-      </Typography>
-      <Toolbar className={classes.groupButton}>
-        <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} >
+      <Toolbar className={classes.root}>
+        <Typography className={classes.text} variant="body1">
+          Time Course
+        </Typography>
+        <Toolbar className={classes.groupButton}>
           <Button
             className={classes.button}
             variant="contained"
@@ -70,19 +70,24 @@ const ChiefComplaintSection: React.FC = () => {
           >
             Wake-Up
           </Button>
-        </ThemeProvider>
-
-        <Button className={classes.button} variant="outlined">
-          Peak at Onset
-        </Button>
-        <Button className={classes.button} variant="outlined">
-          Gradual
-        </Button>
-        <Button className={classes.button} variant="outlined">
-          Rapidly Improve
-        </Button>
+          <Button className={classes.button} variant="outlined">
+            Peak at Onset
+          </Button>
+          <Button className={classes.button} variant="outlined">
+            Gradual
+          </Button>
+          <Button className={classes.button} variant="outlined">
+            Rapidly Improve
+          </Button>
+        </Toolbar>
       </Toolbar>
-    </Toolbar>
+      <Toolbar className={classes.root}>
+        <Typography className={classes.text} variant="body1">
+          Symptoms
+        </Typography>
+
+      </Toolbar>
+    </ThemeProvider>
   );
 };
 
