@@ -1,7 +1,7 @@
 import React from "react";
 import ChiefComplaintSection from "../Components/ChiefComplaintSection";
 
-const FormContainers: React.FC = () => {
+const FormContainer: React.FC = () => {
   return (
     <>
       <ChiefComplaintSection />
@@ -9,4 +9,4 @@ const FormContainers: React.FC = () => {
   );
 };
 
-export default FormContainers;
+export default FormContainer;

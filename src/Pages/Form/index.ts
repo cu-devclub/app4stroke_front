@@ -1,3 +1,3 @@
-import FormContainers from "./Containers/FormContainers";
+import FormContainer from "./Containers/FormContainer";
 
-export default FormContainers;
+export default FormContainer;
