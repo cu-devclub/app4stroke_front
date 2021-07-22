@@ -1,12 +1,8 @@
-import {
-  makeStyles,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  CheckboxProps,
-  withStyles,
-  TextField,
-} from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
+import FormGroup from "@material-ui/core/FormGroup";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
 import React, { ChangeEvent, useState } from "react";
 
 const useStyles = makeStyles(() => ({
@@ -30,7 +26,24 @@ const PinkCheckbox = withStyles({
   checked: {},
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />);
 
-const UnderLyingDiseaseSection: React.FC = () => {
+const checkboxLabel = [
+  "Deny underlying disease",
+  "Hx TIA (same site, within 2 weeks)",
+  "Previous TIA",
+  "Previous stroke",
+  "HT",
+  "DM",
+  "DLP",
+  "Valvular heart disease",
+  "AF",
+  "Coronary heart disease",
+  "CKD",
+  "Peripheral arterial disease",
+  "Obesity",
+  "Smoking",
+];
+
+const UnderLyingDiseaseCheckbox: React.FC = () => {
   const classes = useStyles();
   const [state, setState] = useState({});
 
@@ -39,83 +52,19 @@ const UnderLyingDiseaseSection: React.FC = () => {
   };
 
   return (
-    <>
-      <FormGroup className={classes.checkbox}>
+    <FormGroup className={classes.checkbox}>
+      {checkboxLabel.map((checkboxLabel) => (
         <FormControlLabel
-          control={
-            <PinkCheckbox
-              onChange={handleChange}
-              name="DenyUnderlyingDisease"
-            />
-          }
-          label="Deny Underlying disease"
+          control={<PinkCheckbox onChange={handleChange} />}
+          label={checkboxLabel}
         />
-        <FormControlLabel
-          control={<PinkCheckbox onChange={handleChange} name="HxTIA" />}
-          label="Hx TIA (same site, within 2 weeks)"
-        />
-        <FormControlLabel
-          control={
-            <PinkCheckbox onChange={handleChange} name="PreviousStroke" />
-          }
-          label="Previous stroke"
-        />
-        <FormControlLabel
-          control={<PinkCheckbox onChange={handleChange} name="HT" />}
-          label="HT"
-        />
-        <FormControlLabel
-          control={<PinkCheckbox onChange={handleChange} name="DM" />}
-          label="DM"
-        />
-        <FormControlLabel
-          control={<PinkCheckbox onChange={handleChange} name="DLP" />}
-          label="DLP"
-        />
-        <FormControlLabel
-          control={
-            <PinkCheckbox onChange={handleChange} name="ValvularHeartDisease" />
-          }
-          label="Valvular heart disease"
-        />
-        <FormControlLabel
-          control={<PinkCheckbox onChange={handleChange} name="AF" />}
-          label="AF"
-        />
-        <FormControlLabel
-          control={
-            <PinkCheckbox onChange={handleChange} name="CoronaryHeartDisease" />
-          }
-          label="Coronary heart disease"
-        />
-        <FormControlLabel
-          control={<PinkCheckbox onChange={handleChange} name="CKD" />}
-          label="CKD"
-        />
-        <FormControlLabel
-          control={
-            <PinkCheckbox
-              onChange={handleChange}
-              name="PeripheralArterialDisease"
-            />
-          }
-          label="Peripheral arterial disease"
-        />
-        <FormControlLabel
-          control={<PinkCheckbox onChange={handleChange} name="Obesity" />}
-          label="Obesity"
-        />
-        <FormControlLabel
-          control={<PinkCheckbox onChange={handleChange} name="Smoking" />}
-          label="Smoking"
-        />
-        <FormControlLabel
-          control={<PinkCheckbox onChange={handleChange} name="Others" />}
-          label={<TextField label="Others" />}
-        />
-      </FormGroup>
-    </>
+      ))}
+      <FormControlLabel
+        control={<PinkCheckbox onChange={handleChange} />}
+        label={<TextField label="Others" />}
+      />
+    </FormGroup>
   );
 };
 
-export default UnderLyingDiseaseSection;
+export default UnderLyingDiseaseCheckbox;
