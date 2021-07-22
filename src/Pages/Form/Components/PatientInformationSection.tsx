@@ -24,6 +24,19 @@ import {
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#FFF",
+      contrastText: "#3A3A3D",
+    },
+    secondary: {
+      main: "#EF5DA8",
+      contrastText: "#FFF",
+    },
+  },
+});
+
 const useStyle = makeStyles((theme) =>
   createStyles({
     root: {
@@ -51,13 +64,11 @@ const useStyle = makeStyles((theme) =>
       marginTop: "34px",
     },
     buttonOnset: {
-      marginTop: "16px",
-      textTransform: "none",
-      width: "218px",
-      height: "81px",
-      borderRadius: "20px",
-      backgroundColor: "#fff",
-      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+      "&.Mui-selected": {
+        backgroundColor: "#EF5DA8",
+        color: "#FFF",
+        pointerEvents: "none",
+      },
     },
     buttonUpload: {
       textTransform: "none",
@@ -72,25 +83,30 @@ const useStyle = makeStyles((theme) =>
   })
 );
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#FFF",
-      contrastText: "#3A3A3D",
-    },
-    secondary: {
-      main: "#EF5DA8",
-      contrastText: "#FFF",
-    },
-  },
-});
-
 const GenderStyledToggleButtonGroup = withStyles((theme) => ({
   grouped: {
     margin: theme.spacing(3),
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
     width: "150px",
     height: "95px",
+    backgroundColor: "#FFF",
+    border: "none",
+    "&:not(:first-child)": {
+      borderRadius: "20px",
+    },
+    "&:first-child": {
+      borderRadius: "20px",
+    },
+  },
+}))(ToggleButtonGroup);
+
+const OnsetStyledToggleButtonGroup = withStyles((theme) => ({
+  grouped: {
+    textTransform: "none",
+    margin: theme.spacing(3),
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+    width: "220px",
+    height: "80px",
     backgroundColor: "#FFF",
     border: "none",
     "&:not(:first-child)": {
@@ -112,6 +128,15 @@ const PatientInformationSection: React.FC = () => {
     newGender: string | null
   ) => {
     setGender(newGender);
+  };
+
+  //* Onset Button Handle
+  const [onset, setOnset] = React.useState<string | null>("left");
+  const handleOnset = (
+    event: React.MouseEvent<HTMLElement>,
+    newOnset: string | null
+  ) => {
+    setOnset(newOnset);
   };
 
   //* Date and Time Picker
@@ -202,20 +227,22 @@ const PatientInformationSection: React.FC = () => {
           <Typography variant="h4">Onset</Typography>
         </Box>
         <Grid container spacing={3}>
-          <Grid item>
-            <Button variant="contained" className={classes.buttonOnset}>
+          <OnsetStyledToggleButtonGroup
+            value={onset}
+            exclusive
+            onChange={handleOnset}
+          >
+            <ToggleButton value="clearOnset" className={classes.buttonOnset}>
               <Box display="flex">
                 <Typography variant="subtitle1">Clear onset</Typography>
               </Box>
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button variant="contained" className={classes.buttonOnset}>
+            </ToggleButton>
+            <ToggleButton value="unknownOnset" className={classes.buttonOnset}>
               <Box display="flex">
                 <Typography variant="subtitle1">Unknown onset</Typography>
               </Box>
-            </Button>
-          </Grid>
+            </ToggleButton>
+          </OnsetStyledToggleButtonGroup>
         </Grid>
         {/* Upload CT Scan - Button*/}
         <Box className={classes.textTitle}>
