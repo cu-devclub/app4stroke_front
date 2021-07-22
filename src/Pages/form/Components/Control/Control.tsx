@@ -1,4 +1,4 @@
-import PinkRadio from "../Control/PinkRadio";
+import PinkRadio from "./PinkRadio";
 
 const Controls = {
   PinkRadio,
