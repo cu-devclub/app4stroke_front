@@ -1,6 +1,13 @@
 import React, { ChangeEvent, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import {
   createStyles,
   makeStyles,
@@ -9,15 +16,6 @@ import {
   ThemeProvider,
   withStyles,
 } from "@material-ui/core/styles";
-import {
-  Box,
-  FormControlLabel,
-  Checkbox,
-  CheckboxProps,
-  FormGroup,
-  TextField,
-} from "@material-ui/core";
-import styled from "styled-components";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -25,21 +23,10 @@ const useStyle = makeStyles((theme) =>
       width: "100%",
       padding: "100px",
       paddingTop: "5px",
+      marginBottom: "32px",
     },
     text: {
       fontSize: "24px",
-    },
-    groupButton: {
-      "& > *": {
-        margin: theme.spacing(3),
-      },
-    },
-    button: {
-      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-      borderRadius: "20px",
-      width: "180px",
-      height: "81px",
-      right: "20px",
     },
   })
 );
@@ -65,34 +52,44 @@ const theme = createTheme({
     },
   },
 });
+const StyledToggleButtonGroup = withStyles((theme) => ({
+  grouped: {
+    margin: theme.spacing(3),
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+    right: "20px",
+    width: "180px",
+    height: "81px",
+    backgroundColor: "#FFFFFF",
+    color: "#3A3A3D",
+    "&:not(:first-child)": {
+      borderRadius: "20px",
+    },
+    "&:first-child": {
+      borderRadius: "20px",
+    },
+  },
+}))(ToggleButtonGroup);
 
 const ChiefComplaintSection: React.FC = () => {
   const classes = useStyle();
-  //WakeUp
-  const [WakeUp, setWakeUp] = React.useState(true);
-  const handleClickWakeUp = () => {
-    setWakeUp(!WakeUp);
+  //Time Course Button
+  const [timeCourse, setTimeCourse] = React.useState("wakeUp");
+  const handleTimeCourse = (
+    event: React.MouseEvent<HTMLElement>,
+    newTimeCourse: string
+  ) => {
+    setTimeCourse(newTimeCourse);
   };
-  //Peak
-  const [Peak, setPeak] = React.useState(true);
-  const handleClickPeak = () => {
-    setPeak(!Peak);
-  };
-  //Gradual
-  const [Gradual, setGradual] = React.useState(true);
-  const handleClickGradual = () => {
-    setGradual(!Gradual);
-  };
-  //Rapidly
-  const [Rapidly, setRapidly] = React.useState(true);
-  const handleClickRapidly = () => {
-    setRapidly(!Rapidly);
-  };
+
   //checkbox
-  const [state, setState] = React.useState({});
+  const [symptomsCheckbox, setSymptomsCheckbox] = React.useState({});
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    setSymptomsCheckbox({
+      ...symptomsCheckbox,
+      [event.target.name]: event.target.checked,
+    });
   };
+  
   return (
     <Box className={classes.root}>
       <ThemeProvider theme={theme}>
@@ -101,39 +98,30 @@ const ChiefComplaintSection: React.FC = () => {
           <Typography className={classes.text} variant="body1">
             Time Course
           </Typography>
-          <Box className={classes.groupButton}>
-            <Button
-              className={classes.button}
-              variant="contained"
-              onClick={handleClickWakeUp}
-              color={WakeUp ? "primary" : "secondary"}
+          <Box>
+            <StyledToggleButtonGroup
+              size="large"
+              value={timeCourse}
+              exclusive
+              onChange={handleTimeCourse}
+              aria-label="Time course"
             >
-              Wake-Up
-            </Button>
-            <Button
-              className={classes.button}
-              variant="contained"
-              onClick={handleClickPeak}
-              color={Peak ? "primary" : "secondary"}
-            >
-              Peak at Onset
-            </Button>
-            <Button
-              className={classes.button}
-              variant="contained"
-              onClick={handleClickGradual}
-              color={Gradual ? "primary" : "secondary"}
-            >
-              Gradual
-            </Button>
-            <Button
-              className={classes.button}
-              variant="contained"
-              onClick={handleClickRapidly}
-              color={Rapidly ? "primary" : "secondary"}
-            >
-              Rapidly Improve
-            </Button>
+              <ToggleButton value="wakeUP" aria-label="Wake-Up">
+                <Typography>Wake-Up</Typography>
+              </ToggleButton>
+              <ToggleButton value="peakAtOnset" aria-label="Peak at Onset">
+                <Typography>Peak at Onset</Typography>
+              </ToggleButton>
+              <ToggleButton value="Gradual" aria-label="Gradual">
+                <Typography>Gradual</Typography>
+              </ToggleButton>
+              <ToggleButton
+                value="rapidlyImprove"
+                aria-label=" Rapidly Improve"
+              >
+                <Typography>Rapidly Improve</Typography>
+              </ToggleButton>
+            </StyledToggleButtonGroup>
           </Box>
         </Box>
       </ThemeProvider>
@@ -145,16 +133,13 @@ const ChiefComplaintSection: React.FC = () => {
         <FormGroup>
           <FormControlLabel
             control={
-              <PinkCheckbox
-                onChange={handleChange}
-                name="Alteration of consciousness"
-              />
+              <PinkCheckbox onChange={handleChange} name="alterationOfConsciousness"/>
             }
             label="Alteration of consciousness"
           />
           <FormControlLabel
             control={
-              <PinkCheckbox onChange={handleChange} name="Facial weakness" />
+              <PinkCheckbox onChange={handleChange} name="facialWeakness" />
             }
             label="Facial weakness"
           />
@@ -190,7 +175,7 @@ const ChiefComplaintSection: React.FC = () => {
           />
           <FormControlLabel
             control={
-              <PinkCheckbox onChange={handleChange} name="Visual problem" />
+              <PinkCheckbox onChange={handleChange} name="visualProblem" />
             }
             label="Visual problem"
           />
