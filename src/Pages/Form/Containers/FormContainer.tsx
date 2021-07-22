@@ -1,10 +1,10 @@
 import React from "react";
-import UnderLyingDiseaseSection from "../Components/UnderLyingDiseaseSection";
+import UnderLyingDiseaseCheckbox from "../Components/UnderLyingDiseaseSection";
 
 const FormContainer: React.FC = () => {
   return (
     <>
-      <UnderLyingDiseaseSection />
+      <UnderLyingDiseaseCheckbox />
     </>
   );
 };
