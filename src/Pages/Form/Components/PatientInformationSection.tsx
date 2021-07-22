@@ -43,27 +43,24 @@ const useStyle = makeStyles((theme) =>
       width: "100%",
       marginLeft: "32px",
     },
+    picker: {
+      marginTop: "34px",
+    },
     textField: {
       width: "80%",
     },
     textTitle: {
       marginTop: "40px",
     },
-    buttonGender: {
-      "&.Mui-selected": {
-        backgroundColor: "#EF5DA8",
-        color: "#FFF",
-        pointerEvents: "none",
-      },
-    },
-    textGender: {
+    boxMale: {
+      width: "165px",
       textAlign: "center",
-      marginTop: "8px",
     },
-    picker: {
-      marginTop: "34px",
+    boxFemale: {
+      width: "190px",
+      textAlign: "center",
     },
-    buttonOnset: {
+    button: {
       "&.Mui-selected": {
         backgroundColor: "#EF5DA8",
         color: "#FFF",
@@ -73,11 +70,11 @@ const useStyle = makeStyles((theme) =>
     buttonUpload: {
       textTransform: "none",
       marginTop: "16px",
-      color: "#fff",
+      color: "#FFF",
       backgroundColor: "#3A3A3D",
       boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
       borderRadius: "20px",
-      width: "168px",
+      width: "170px",
       height: "40px",
     },
   })
@@ -108,6 +105,7 @@ const OnsetStyledToggleButtonGroup = withStyles((theme) => ({
     width: "220px",
     height: "80px",
     backgroundColor: "#FFF",
+    color: "#000",
     border: "none",
     "&:not(:first-child)": {
       borderRadius: "20px",
@@ -121,7 +119,7 @@ const OnsetStyledToggleButtonGroup = withStyles((theme) => ({
 const PatientInformationSection: React.FC = () => {
   const classes = useStyle();
 
-  //* Gender Button Handle
+  //* Gender Button
   const [gender, setGender] = React.useState<string | null>("left");
   const handleGender = (
     event: React.MouseEvent<HTMLElement>,
@@ -130,7 +128,7 @@ const PatientInformationSection: React.FC = () => {
     setGender(newGender);
   };
 
-  //* Onset Button Handle
+  //* Onset Button
   const [onset, setOnset] = React.useState<string | null>("left");
   const handleOnset = (
     event: React.MouseEvent<HTMLElement>,
@@ -177,18 +175,26 @@ const PatientInformationSection: React.FC = () => {
             exclusive
             onChange={handleGender}
           >
-            <ToggleButton value="male" className={classes.buttonGender}>
+            <ToggleButton value="male" className={classes.button}>
               <Box display="flex">
                 <img src={MaleIcon} alt="male icon" />
               </Box>
             </ToggleButton>
-            <ToggleButton value="female" className={classes.buttonGender}>
+            <ToggleButton value="female" className={classes.button}>
               <Box display="flex">
                 <img src={FemaleIcon} alt="female icon" />
               </Box>
             </ToggleButton>
           </GenderStyledToggleButtonGroup>
         </Grid>
+        <Box display="flex">
+          <Box className={classes.boxMale}>
+            <Typography variant="body1">Male</Typography>
+          </Box>
+          <Box className={classes.boxFemale}>
+            <Typography variant="body1">Female</Typography>
+          </Box>
+        </Box>
         {/* Arrival Time - Date & Time Picker*/}
         <Box className={classes.textTitle}>
           <Typography variant="h4">Arrival Time</Typography>
@@ -232,12 +238,12 @@ const PatientInformationSection: React.FC = () => {
             exclusive
             onChange={handleOnset}
           >
-            <ToggleButton value="clearOnset" className={classes.buttonOnset}>
+            <ToggleButton value="clearOnset" className={classes.button}>
               <Box display="flex">
                 <Typography variant="subtitle1">Clear onset</Typography>
               </Box>
             </ToggleButton>
-            <ToggleButton value="unknownOnset" className={classes.buttonOnset}>
+            <ToggleButton value="unknownOnset" className={classes.button}>
               <Box display="flex">
                 <Typography variant="subtitle1">Unknown onset</Typography>
               </Box>
