@@ -28,6 +28,11 @@ const useStyle = makeStyles((theme) =>
     text: {
       fontSize: "24px",
     },
+    buttonColor: {
+      "&.Mui-selected": {
+        backgroundColor: "#EF5DA8"
+      }
+    }
   })
 );
 const PinkCheckbox = withStyles({
@@ -118,19 +123,16 @@ const ChiefComplaintSection: React.FC = () => {
               onChange={handleTimeCourse}
               aria-label="Time course"
             >
-              <ToggleButton value="wakeUP" aria-label="Wake-Up">
+              <ToggleButton value="wakeUP" aria-label="Wake-Up" className={classes.buttonColor}>
                 <Typography>Wake-Up</Typography>
               </ToggleButton>
-              <ToggleButton value="peakAtOnset" aria-label="Peak at Onset">
+              <ToggleButton value="peakAtOnset" aria-label="Peak at Onset" className={classes.buttonColor}>
                 <Typography>Peak at Onset</Typography>
               </ToggleButton>
-              <ToggleButton value="Gradual" aria-label="Gradual">
+              <ToggleButton value="Gradual" aria-label="Gradual" className={classes.buttonColor}>
                 <Typography>Gradual</Typography>
               </ToggleButton>
-              <ToggleButton
-                value="rapidlyImprove"
-                aria-label=" Rapidly Improve"
-              >
+              <ToggleButton value="rapidlyImprove" aria-label=" Rapidly Improve" className={classes.buttonColor}>
                 <Typography>Rapidly Improve</Typography>
               </ToggleButton>
             </StyledToggleButtonGroup>
