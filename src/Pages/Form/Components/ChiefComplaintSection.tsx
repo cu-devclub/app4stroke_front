@@ -70,6 +70,18 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
+const checkBoxLabel = [
+  "Alteration of consciousness",
+  "Facial weakness",
+  "Hemiparesis",
+  "Hemiparesthesia",
+  "Dysarthria",
+  "Dysphasia/aphasia",
+  "Ataxia",
+  "Vertigo",
+  "Visual problem",
+];
+
 const ChiefComplaintSection: React.FC = () => {
   const classes = useStyle();
   //Time Course Button
@@ -89,7 +101,7 @@ const ChiefComplaintSection: React.FC = () => {
       [event.target.name]: event.target.checked,
     });
   };
-  
+
   return (
     <Box className={classes.root}>
       <ThemeProvider theme={theme}>
@@ -131,54 +143,12 @@ const ChiefComplaintSection: React.FC = () => {
           Symptoms
         </Typography>
         <FormGroup>
-          <FormControlLabel
-            control={
-              <PinkCheckbox onChange={handleChange} name="alterationOfConsciousness"/>
-            }
-            label="Alteration of consciousness"
-          />
-          <FormControlLabel
-            control={
-              <PinkCheckbox onChange={handleChange} name="facialWeakness" />
-            }
-            label="Facial weakness"
-          />
-          <FormControlLabel
-            control={
-              <PinkCheckbox onChange={handleChange} name="Hemiparesis" />
-            }
-            label="Hemiparesis"
-          />
-          <FormControlLabel
-            control={
-              <PinkCheckbox onChange={handleChange} name="Hemiparesthesia" />
-            }
-            label="Hemiparesthesia"
-          />
-          <FormControlLabel
-            control={<PinkCheckbox onChange={handleChange} name="Dysarthria" />}
-            label="Dysarthria"
-          />
-          <FormControlLabel
-            control={
-              <PinkCheckbox onChange={handleChange} name="Dysphasia/aphasia" />
-            }
-            label="Dysphasia/aphasia"
-          />
-          <FormControlLabel
-            control={<PinkCheckbox onChange={handleChange} name="Ataxia" />}
-            label="Ataxia"
-          />
-          <FormControlLabel
-            control={<PinkCheckbox onChange={handleChange} name="Vertigo" />}
-            label="Vertigo"
-          />
-          <FormControlLabel
-            control={
-              <PinkCheckbox onChange={handleChange} name="visualProblem" />
-            }
-            label="Visual problem"
-          />
+          {checkBoxLabel.map((checkBoxLabel) => (
+            <FormControlLabel
+              control={<PinkCheckbox onChange={handleChange} />}
+              label={checkBoxLabel}
+            />
+          ))}
           <FormControlLabel
             control={<PinkCheckbox onChange={handleChange} name="Others" />}
             label={<TextField label="Others" />}
