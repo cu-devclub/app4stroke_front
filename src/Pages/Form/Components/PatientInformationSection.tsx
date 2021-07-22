@@ -1,6 +1,13 @@
 import "date-fns";
 import React, { useState } from "react";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  makeStyles,
+  withStyles,
+  Theme,
+  ThemeProvider,
+  createTheme,
+} from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -14,8 +21,10 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
-const useStyle = makeStyles(() =>
+const useStyle = makeStyles((theme) =>
   createStyles({
     root: {
       width: "100%",
@@ -28,12 +37,11 @@ const useStyle = makeStyles(() =>
       marginTop: "40px",
     },
     buttonGender: {
-      marginTop: "16px",
-      width: "150px",
-      height: "95px",
-      borderRadius: "20px",
-      backgroundColor: "#fff",
-      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+      "&.Mui-selected": {
+        backgroundColor: "#EF5DA8",
+        color: "#FFF",
+        pointerEvents: "none",
+      },
     },
     textGender: {
       textAlign: "center",
@@ -64,8 +72,49 @@ const useStyle = makeStyles(() =>
   })
 );
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#FFF",
+      contrastText: "#3A3A3D",
+    },
+    secondary: {
+      main: "#EF5DA8",
+      contrastText: "#FFF",
+    },
+  },
+});
+
+const GenderStyledToggleButtonGroup = withStyles((theme) => ({
+  grouped: {
+    margin: theme.spacing(3),
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+    width: "150px",
+    height: "95px",
+    backgroundColor: "#FFF",
+    border: "none",
+    "&:not(:first-child)": {
+      borderRadius: "20px",
+    },
+    "&:first-child": {
+      borderRadius: "20px",
+    },
+  },
+}))(ToggleButtonGroup);
+
 const PatientInformationSection: React.FC = () => {
   const classes = useStyle();
+
+  //* Gender Button Handle
+  const [gender, setGender] = React.useState<string | null>("left");
+  const handleGender = (
+    event: React.MouseEvent<HTMLElement>,
+    newGender: string | null
+  ) => {
+    setGender(newGender);
+  };
+
+  //* Date and Time Picker
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
   );
@@ -75,109 +124,107 @@ const PatientInformationSection: React.FC = () => {
 
   return (
     <Box className={classes.root}>
-      {/* Patient - Text Field */}
-      <Grid container spacing={6}>
-        <Grid item xs={4}>
-          <TextField label="Enter patient ID" className={classes.textField} />
+      <ThemeProvider theme={theme}>
+        {/* Patient - Text Field */}
+        <Grid container spacing={6}>
+          <Grid item xs={4}>
+            <TextField label="Enter patient ID" className={classes.textField} />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField label="Enter age" className={classes.textField} />
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <TextField label="Enter age" className={classes.textField} />
+        <Grid container spacing={6}>
+          <Grid item xs={4}>
+            <TextField label="Enter first name" className={classes.textField} />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField label="Enter last name" className={classes.textField} />
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid container spacing={6}>
-        <Grid item xs={4}>
-          <TextField label="Enter first name" className={classes.textField} />
+        {/* Gender - Button */}
+        <Box className={classes.textTitle}>
+          <Typography variant="h4">Gender</Typography>
+        </Box>
+        <Grid container spacing={3}>
+          <GenderStyledToggleButtonGroup
+            value={gender}
+            exclusive
+            onChange={handleGender}
+          >
+            <ToggleButton value="male" className={classes.buttonGender}>
+              <Box display="flex">
+                <img src={MaleIcon} alt="male icon" />
+              </Box>
+            </ToggleButton>
+            <ToggleButton value="female" className={classes.buttonGender}>
+              <Box display="flex">
+                <img src={FemaleIcon} alt="female icon" />
+              </Box>
+            </ToggleButton>
+          </GenderStyledToggleButtonGroup>
         </Grid>
-        <Grid item xs={4}>
-          <TextField label="Enter last name" className={classes.textField} />
+        {/* Arrival Time - Date & Time Picker*/}
+        <Box className={classes.textTitle}>
+          <Typography variant="h4">Arrival Time</Typography>
+        </Box>
+        <Grid container spacing={7}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid item>
+              <KeyboardDatePicker
+                variant="inline"
+                format="dd/MM/yyyy"
+                label="Arrival Date"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+                className={classes.picker}
+              />
+            </Grid>
+            <Grid item>
+              <KeyboardTimePicker
+                variant="inline"
+                label="Arrival Time"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change time",
+                }}
+                className={classes.picker}
+              />
+            </Grid>
+          </MuiPickersUtilsProvider>
         </Grid>
-      </Grid>
-      {/* Gender - Button */}
-      <Box className={classes.textTitle}>
-        <Typography variant="h4">Gender</Typography>
-      </Box>
-      <Grid container spacing={3}>
-        <Grid item>
-          <Button variant="contained" className={classes.buttonGender}>
-            <Box display="flex">
-              <img src={MaleIcon} alt="male icon" />
-            </Box>
-          </Button>
-          <Box className={classes.textGender}>
-            <Typography variant="subtitle1">Male</Typography>
-          </Box>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" className={classes.buttonGender}>
-            <Box display="flex">
-              <img src={FemaleIcon} alt="female icon" />
-            </Box>
-          </Button>
-          <Box className={classes.textGender}>
-            <Typography variant="subtitle1">Male</Typography>
-          </Box>
-        </Grid>
-      </Grid>
-      {/* Arrival Time - Date & Time Picker*/}
-      <Box className={classes.textTitle}>
-        <Typography variant="h4">Arrival Time</Typography>
-      </Box>
-      <Grid container spacing={7}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        {/* Onset - Button */}
+        <Box className={classes.textTitle}>
+          <Typography variant="h4">Onset</Typography>
+        </Box>
+        <Grid container spacing={3}>
           <Grid item>
-            <KeyboardDatePicker
-              variant="inline"
-              format="dd/MM/yyyy"
-              label="Arrival Date"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-              className={classes.picker}
-            />
+            <Button variant="contained" className={classes.buttonOnset}>
+              <Box display="flex">
+                <Typography variant="subtitle1">Clear onset</Typography>
+              </Box>
+            </Button>
           </Grid>
           <Grid item>
-            <KeyboardTimePicker
-              variant="inline"
-              label="Arrival Time"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                "aria-label": "change time",
-              }}
-              className={classes.picker}
-            />
+            <Button variant="contained" className={classes.buttonOnset}>
+              <Box display="flex">
+                <Typography variant="subtitle1">Unknown onset</Typography>
+              </Box>
+            </Button>
           </Grid>
-        </MuiPickersUtilsProvider>
-      </Grid>
-      {/* Onset - Button */}
-      <Box className={classes.textTitle}>
-        <Typography variant="h4">Onset</Typography>
-      </Box>
-      <Grid container spacing={3}>
-        <Grid item>
-          <Button variant="contained" className={classes.buttonOnset}>
-            <Box display="flex">
-              <Typography variant="subtitle1">Clear onset</Typography>
-            </Box>
-          </Button>
         </Grid>
-        <Grid item>
-          <Button variant="contained" className={classes.buttonOnset}>
-            <Box display="flex">
-              <Typography variant="subtitle1">Unknown onset</Typography>
-            </Box>
-          </Button>
-        </Grid>
-      </Grid>
-      {/* Upload CT Scan - Button*/}
-      <Box className={classes.textTitle}>
-        <Typography variant="h4">Upload CT Scan</Typography>
-      </Box>
-      <Button variant="contained" className={classes.buttonUpload}>
-        <Typography variant="subtitle1">Upload</Typography>
-      </Button>
+        {/* Upload CT Scan - Button*/}
+        <Box className={classes.textTitle}>
+          <Typography variant="h4">Upload CT Scan</Typography>
+        </Box>
+        <Button variant="contained" className={classes.buttonUpload}>
+          <Typography variant="subtitle1">Upload</Typography>
+        </Button>
+      </ThemeProvider>
     </Box>
   );
 };
