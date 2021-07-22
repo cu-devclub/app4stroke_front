@@ -1,56 +1,47 @@
 import React from "react";
-import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
-import { Grid, TextField } from "@material-ui/core";
+import {
+  createStyles,
+  makeStyles,
+  withStyles,
+  Theme,
+} from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
 
-const useStyle = makeStyles(() =>
+const useStyle = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "100%",
-      padding: "34px",
-      alignItems: "center",
+      marginLeft: "32px",
+    },
+    textField: {
+      width: "80%",
     },
   })
 );
 
-const GridStyles = withStyles({
-  root: {
-    width: "50%",
-  },
-})(Grid);
-
-const TextFieldStyles = withStyles({
-  root: {
-    width: "50%",
-  },
-})(TextField);
-
 const PatientInformationSection: React.FC = () => {
   const classes = useStyle();
   return (
-    <Grid container className={classes.root}>
-      {/* Container 1 */}
-      <GridStyles item xs="auto">
-        {/* PatientID */}
-        <Grid style={{ marginBottom: "60px" }}>
-          <TextFieldStyles id="standard-basic" label="Enter patient ID" />
+    <Box className={classes.root}>
+      <Grid container spacing={6}>
+        <Grid item xs={4}>
+          <TextField label="Enter patient ID" className={classes.textField} />
         </Grid>
-        {/* FirstName */}
-        <Grid>
-          <TextFieldStyles id="standard-basic" label="Enter first name" />
+        <Grid item xs={4}>
+          <TextField label="Enter age" className={classes.textField} />
         </Grid>
-      </GridStyles>
-      {/* Container 2 */}
-      <GridStyles item xs="auto">
-        {/* Age */}
-        <Grid>
-          <TextFieldStyles id="standard-basic" label="Enter age" />
+      </Grid>
+      <Grid container spacing={6}>
+        <Grid item xs={4}>
+          <TextField label="Enter first name" className={classes.textField} />
         </Grid>
-        {/* LastName */}
-        <Grid>
-          <TextFieldStyles id="standard-basic" label="Enter last name" />
+        <Grid item xs={4}>
+          <TextField label="Enter last name" className={classes.textField} />
         </Grid>
-      </GridStyles>
-    </Grid>
+      </Grid>
+    </Box>
   );
 };
 
