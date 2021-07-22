@@ -56,7 +56,7 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
   grouped: {
     margin: theme.spacing(3),
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-    right: "20px",
+    marginLeft: "5px",
     width: "180px",
     height: "81px",
     backgroundColor: "#FFFFFF",
