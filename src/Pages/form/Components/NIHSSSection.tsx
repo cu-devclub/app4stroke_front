@@ -35,7 +35,6 @@ const BestVisual = [
 ];
 const useStyles = makeStyles(() => ({
   textNIHSS: {
-    marginTop: "16px",
     marginBottom: "48px",
     marginLeft: "32px",
     color: "#797979",
@@ -47,11 +46,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 const RValues = {
-  LevelOfConsciousness: "",
-  TwoQuestions: "",
-  TwoCommands: "",
-  BestGaze: "",
-  BestVisual: "",
+  levelOfConsciousness: "",
+  twoQuestions: "",
+  twoCommands: "",
+  bestGaze: "",
+  bestVisual: "",
 };
 
 const NIHSSSection: React.FC = () => {
@@ -72,45 +71,45 @@ const NIHSSSection: React.FC = () => {
       </Typography>
       <Box>
         <Controls.PinkRadio
-          name="LevelOfConsciousness"
+          name="levelOfConsciousness"
           label="1a. Level of consciousness"
-          value={values.LevelOfConsciousness}
+          value={values.levelOfConsciousness}
           onChange={handleInputChange}
           items={LevelOfConsciousness}
         />
       </Box>
       <Box>
         <Controls.PinkRadio
-          name="TwoQuestions"
+          name="twoQuestions"
           label="1b. Two questions"
-          value={values.TwoQuestions}
+          value={values.twoQuestions}
           onChange={handleInputChange}
           items={TwoQuestions}
         />
       </Box>
       <Box>
         <Controls.PinkRadio
-          name="TwoCommands"
+          name="twoCommands"
           label="1c. Two commands"
-          value={values.TwoCommands}
+          value={values.twoCommands}
           onChange={handleInputChange}
           items={TwoCommands}
         />
       </Box>
       <Box>
         <Controls.PinkRadio
-          name="BestGaze"
+          name="bestGaze"
           label="2. Best gaze"
-          value={values.BestGaze}
+          value={values.bestGaze}
           onChange={handleInputChange}
           items={BestGaze}
         />
       </Box>
       <Box>
         <Controls.PinkRadio
-          name="BestVisual"
+          name="bestVisual"
           label="3. Best visual"
-          value={values.BestVisual}
+          value={values.bestVisual}
           onChange={handleInputChange}
           items={BestVisual}
         />
