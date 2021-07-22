@@ -30,7 +30,9 @@ const useStyle = makeStyles((theme) =>
     },
     buttonColor: {
       "&.Mui-selected": {
-        backgroundColor: "#EF5DA8"
+        backgroundColor: "#EF5DA8",
+        color:"#FFFFFF",
+        pointerEvents:"none"
       }
     }
   })
