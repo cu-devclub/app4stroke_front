@@ -16,11 +16,13 @@ import {
 } from "@material-ui/pickers";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import Input from "@material-ui/core/Input";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
     root: {
       width: "100%",
+      marginTop: "0",
     },
     textField: {
       width: "100%",
@@ -47,7 +49,7 @@ const useStyle = makeStyles((theme) =>
     },
     boxUpload: {
       marginLeft: "32px",
-      marginBottom: "40px",
+      marginBottom: "65px",
     },
     //* button
     button: {
@@ -59,7 +61,6 @@ const useStyle = makeStyles((theme) =>
     },
     buttonUpload: {
       textTransform: "none",
-      marginTop: "16px",
       color: "#FFF",
       backgroundColor: "#3A3A3D",
       boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
@@ -79,19 +80,19 @@ const GenderStyledToggleButtonGroup = withStyles((theme) => ({
     height: "95px",
     backgroundColor: "#FFF",
     border: "none",
-    //! "&:not(:first-child)": {
-    //   borderRadius: "20px",
-    // },
-    // "&:first-child": {
-    //   borderRadius: "20px",
-    // },
+    "&:not(:first-child)": {
+      borderRadius: "20px",
+    },
+    "&:first-child": {
+      borderRadius: "20px",
+    },
   },
 }))(ToggleButtonGroup);
 
 const OnsetStyledToggleButtonGroup = withStyles((theme) => ({
   grouped: {
     textTransform: "none",
-    margin: theme.spacing(3),
+    marginRight: "24px",
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
     width: "220px",
     height: "80px",
@@ -111,7 +112,7 @@ const PatientInformationSection: React.FC = () => {
   const classes = useStyle();
 
   //* Gender Button
-  const [gender, setGender] = React.useState<string | null>("left");
+  const [gender, setGender] = React.useState<string | null>("");
   const handleGender = (
     event: React.MouseEvent<HTMLElement>,
     newGender: string | null
@@ -120,7 +121,7 @@ const PatientInformationSection: React.FC = () => {
   };
 
   //* Onset Button
-  const [onset, setOnset] = React.useState<string | null>("left");
+  const [onset, setOnset] = React.useState<string | null>("");
   const handleOnset = (
     event: React.MouseEvent<HTMLElement>,
     newOnset: string | null
@@ -271,8 +272,13 @@ const PatientInformationSection: React.FC = () => {
         <Box className={classes.textTitle}>
           <Typography variant="h4">Upload CT Scan</Typography>
         </Box>
-        <Button variant="contained" className={classes.buttonUpload}>
-          <Typography variant="subtitle1">Upload</Typography>
+        <Button
+          variant="contained"
+          component="label"
+          className={classes.buttonUpload}
+        >
+          Upload
+          <input type="file" hidden />
         </Button>
       </Box>
     </Box>
