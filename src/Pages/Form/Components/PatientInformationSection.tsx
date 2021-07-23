@@ -1,11 +1,10 @@
 import "date-fns";
-import React, { useState } from "react";
+import React from "react";
 import {
   createStyles,
   makeStyles,
   withStyles,
   Theme,
-  createTheme,
 } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -38,14 +37,6 @@ const useStyle = makeStyles((theme) =>
     textTitle: {
       marginTop: "40px",
     },
-    boxMale: {
-      width: "165px",
-      textAlign: "center",
-    },
-    boxFemale: {
-      width: "190px",
-      textAlign: "center",
-    },
     button: {
       "&.Mui-selected": {
         backgroundColor: "#EF5DA8",
@@ -68,18 +59,19 @@ const useStyle = makeStyles((theme) =>
 
 const GenderStyledToggleButtonGroup = withStyles((theme) => ({
   grouped: {
-    margin: theme.spacing(3),
+    margin: theme.spacing(2),
+    marginBottom: "8px",
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
     width: "150px",
     height: "95px",
     backgroundColor: "#FFF",
     border: "none",
-    "&:not(:first-child)": {
-      borderRadius: "20px",
-    },
-    "&:first-child": {
-      borderRadius: "20px",
-    },
+    //! "&:not(:first-child)": {
+    //   borderRadius: "20px",
+    // },
+    // "&:first-child": {
+    //   borderRadius: "20px",
+    // },
   },
 }))(ToggleButtonGroup);
 
@@ -154,32 +146,42 @@ const PatientInformationSection: React.FC = () => {
       <Box className={classes.textTitle}>
         <Typography variant="h4">Gender</Typography>
       </Box>
-      <Grid container spacing={3}>
-        <GenderStyledToggleButtonGroup
-          value={gender}
-          exclusive
-          onChange={handleGender}
-        >
-          <ToggleButton value="male" className={classes.button}>
-            <Box display="flex">
-              <img src={MaleIcon} alt="male icon" />
-            </Box>
-          </ToggleButton>
-          <ToggleButton value="female" className={classes.button}>
-            <Box display="flex">
-              <img src={FemaleIcon} alt="female icon" />
-            </Box>
-          </ToggleButton>
-        </GenderStyledToggleButtonGroup>
+      <Grid container spacing={2}>
+        {/* MALE */}
+        <Box>
+          <GenderStyledToggleButtonGroup
+            value={gender}
+            exclusive
+            onChange={handleGender}
+          >
+            <ToggleButton value="male" className={classes.button}>
+              <Box display="flex">
+                <img src={MaleIcon} alt="male icon" />
+              </Box>
+            </ToggleButton>
+          </GenderStyledToggleButtonGroup>
+          <Box textAlign="center">
+            <Typography variant="body1">Male</Typography>
+          </Box>
+        </Box>
+        {/* FEMALE */}
+        <Box>
+          <GenderStyledToggleButtonGroup
+            value={gender}
+            exclusive
+            onChange={handleGender}
+          >
+            <ToggleButton value="female" className={classes.button}>
+              <Box display="flex">
+                <img src={FemaleIcon} alt="female icon" />
+              </Box>
+            </ToggleButton>
+          </GenderStyledToggleButtonGroup>
+          <Box textAlign="center">
+            <Typography variant="body1">Female</Typography>
+          </Box>
+        </Box>
       </Grid>
-      <Box display="flex">
-        <Box className={classes.boxMale}>
-          <Typography variant="body1">Male</Typography>
-        </Box>
-        <Box className={classes.boxFemale}>
-          <Typography variant="body1">Female</Typography>
-        </Box>
-      </Box>
       {/* Arrival Time - Date & Time Picker*/}
       <Box className={classes.textTitle}>
         <Typography variant="h4">Arrival Time</Typography>
