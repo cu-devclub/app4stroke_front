@@ -16,9 +16,8 @@ import {
 } from "@material-ui/pickers";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import Input from "@material-ui/core/Input";
 
-const useStyle = makeStyles((theme) =>
+const useStyle = makeStyles(() =>
   createStyles({
     root: {
       width: "100%",
@@ -172,7 +171,6 @@ const PatientInformationSection: React.FC = () => {
           <Typography variant="h4">Gender</Typography>
         </Box>
         <Grid container spacing={2}>
-          {/* MALE */}
           <Box>
             <GenderStyledToggleButtonGroup
               value={gender}
@@ -191,7 +189,6 @@ const PatientInformationSection: React.FC = () => {
               </Typography>
             </Box>
           </Box>
-          {/* FEMALE */}
           <Box>
             <GenderStyledToggleButtonGroup
               value={gender}
