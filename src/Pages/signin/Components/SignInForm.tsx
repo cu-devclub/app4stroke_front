@@ -53,8 +53,7 @@ const StyledFormButton = styled(Link)`
   padding: 16px 32px;
   width: 250px;
   height: 2px;
-  margin-left: 50px;
-  margin-right: 50px;
+  margin:auto;
   margin-top: 30px;
 
   &:hover {
