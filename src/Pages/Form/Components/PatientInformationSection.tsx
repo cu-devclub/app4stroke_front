@@ -1,11 +1,6 @@
 import "date-fns";
 import React from "react";
-import {
-  createStyles,
-  makeStyles,
-  withStyles,
-  Theme,
-} from "@material-ui/core/styles";
+import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -115,12 +110,20 @@ const PatientInformationSection: React.FC = () => {
     setOnset(newOnset);
   };
 
-  //* Date and Time Picker
+  //* Date Picker
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
   );
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
+  };
+
+  //* Time Picker
+  const [selectedTime, setSelectedTime] = React.useState<Date | null>(
+    new Date()
+  );
+  const handleTimeChange = (time: Date | null) => {
+    setSelectedTime(time);
   };
 
   return (
@@ -205,8 +208,8 @@ const PatientInformationSection: React.FC = () => {
             <KeyboardTimePicker
               variant="inline"
               label="Arrival Time"
-              value={selectedDate}
-              onChange={handleDateChange}
+              value={selectedTime}
+              onChange={handleTimeChange}
               KeyboardButtonProps={{
                 "aria-label": "change time",
               }}
