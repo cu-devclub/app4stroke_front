@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   buttonView: {
     backgroundColor: "transparent",
     color: "#CF658D",
-    border: "2.5px solid #CF658D",
+    border: "1.5px solid #CF658D",
     textTransform: "none",
     borderRadius: "20px",
     fontSize: "16px",
