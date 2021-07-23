@@ -43,12 +43,17 @@ const checkboxLabel = [
   "Smoking",
 ];
 
-const UnderLyingDiseaseCheckbox: React.FC = () => {
+const UnderLyingDiseaseSection: React.FC = () => {
   const classes = useStyles();
-  const [state, setState] = useState({});
+  const [underLyingDiseaseCheckbox, setUnderLyingDiseaseCheckbox] = useState(
+    {}
+  );
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    setUnderLyingDiseaseCheckbox({
+      ...underLyingDiseaseCheckbox,
+      [event.target.name]: event.target.checked,
+    });
   };
 
   return (
@@ -67,4 +72,4 @@ const UnderLyingDiseaseCheckbox: React.FC = () => {
   );
 };
 
-export default UnderLyingDiseaseCheckbox;
+export default UnderLyingDiseaseSection;
