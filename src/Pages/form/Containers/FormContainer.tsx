@@ -14,6 +14,11 @@ const FormContainer: React.FC = () => {
       <ChiefComplaintSection />
       <SectionTitle title="Underlying Disease" />
       <UnderLyingDiseaseSection />
+<<<<<<< HEAD
+=======
+      <SectionTitle title="EKG 12 Leads" />
+      <EKG12LeadsSection />
+>>>>>>> 296d8eccaa4d0bd786cef92006328bb6dc14839a
       <SectionTitle title="NIHSS" />
       <NIHSSSection />
     </>
