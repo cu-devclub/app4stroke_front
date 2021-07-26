@@ -1,13 +1,15 @@
 import "date-fns";
-import React from "react";
+import React, { useState } from "react";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import MaleIcon from "../../../Assets/male.png";
-import FemaleIcon from "../../../Assets/female.png";
+import FemaleIcon from "@material-ui/icons/FemaleRounded";
+// import MaleIcon from "@material-ui/icons/MaleRounded";
+import { IoIosMale } from "react-icons/io";
+import { IoIosFemale } from "react-icons/io";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -54,7 +56,6 @@ const useStyle = makeStyles(() =>
     button: {
       "&.Mui-selected": {
         backgroundColor: "#EF5DA8",
-        color: "#FFF",
         pointerEvents: "none",
       },
     },
@@ -66,6 +67,15 @@ const useStyle = makeStyles(() =>
       borderRadius: "20px",
       width: "170px",
       height: "40px",
+    },
+    //* icon
+    maleIcon: {
+      color: "#5D5FEF",
+      fontSize: "75px",
+    },
+    femaleIcon: {
+      color: "#FF4181",
+      fontSize: "75px",
     },
   })
 );
@@ -144,6 +154,10 @@ const PatientInformationSection: React.FC = () => {
     setSelectedTime(time);
   };
 
+  //* onClick
+  const [isMaleWhite, setIsMaleWhite] = React.useState(false);
+  const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
+
   return (
     <Box className={classes.root}>
       {/* Patient - Text Field */}
@@ -176,10 +190,14 @@ const PatientInformationSection: React.FC = () => {
               value={gender}
               exclusive
               onChange={handleGender}
+              onClick={() => setIsMaleWhite(!isMaleWhite)}
             >
               <ToggleButton value="male" className={classes.button}>
                 <Box display="flex">
-                  <img src={MaleIcon} alt="male icon" />
+                  <IoIosMale
+                    color={isMaleWhite ? "white" : "#5D5FEF"}
+                    className={classes.maleIcon}
+                  />
                 </Box>
               </ToggleButton>
             </GenderStyledToggleButtonGroup>
@@ -194,10 +212,14 @@ const PatientInformationSection: React.FC = () => {
               value={gender}
               exclusive
               onChange={handleGender}
+              onClick={() => setIsFemaleWhite(!isFemaleWhite)}
             >
               <ToggleButton value="female" className={classes.button}>
                 <Box display="flex">
-                  <img src={FemaleIcon} alt="female icon" />
+                  <IoIosFemale
+                    color={isFemaleWhite ? "white" : "#FF4181"}
+                    className={classes.femaleIcon}
+                  />
                 </Box>
               </ToggleButton>
             </GenderStyledToggleButtonGroup>
