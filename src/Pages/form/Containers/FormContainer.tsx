@@ -4,6 +4,7 @@ import ChiefComplaintSection from "../Components/ChiefComplaintSection";
 import NIHSSSection from "../Components/NIHSSSection";
 import SectionTitle from "../Components/SectionTitle";
 import UnderLyingDiseaseSection from "../Components/UnderLyingDiseaseSection";
+import EKG12LeadsSection from "../Components/EKG12LeadsSection";
 
 const FormContainer: React.FC = () => {
   return (
@@ -14,11 +15,8 @@ const FormContainer: React.FC = () => {
       <ChiefComplaintSection />
       <SectionTitle title="Underlying Disease" />
       <UnderLyingDiseaseSection />
-<<<<<<< HEAD
-=======
       <SectionTitle title="EKG 12 Leads" />
       <EKG12LeadsSection />
->>>>>>> 296d8eccaa4d0bd786cef92006328bb6dc14839a
       <SectionTitle title="NIHSS" />
       <NIHSSSection />
     </>
