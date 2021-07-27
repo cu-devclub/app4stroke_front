@@ -111,28 +111,28 @@ const ChiefComplaintSection: React.FC = () => {
               aria-label="Wake-Up"
               className={classes.buttonColor}
             >
-              <Typography>Wake-Up</Typography>
+              <Typography variant="subtitle1">Wake-Up</Typography>
             </ToggleButton>
             <ToggleButton
               value="peakAtOnset"
               aria-label="Peak at Onset"
               className={classes.buttonColor}
             >
-              <Typography>Peak at Onset</Typography>
+              <Typography variant="subtitle1">Peak at Onset</Typography>
             </ToggleButton>
             <ToggleButton
               value="Gradual"
               aria-label="Gradual"
               className={classes.buttonColor}
             >
-              <Typography>Gradual</Typography>
+              <Typography variant="subtitle1">Gradual</Typography>
             </ToggleButton>
             <ToggleButton
               value="rapidlyImprove"
               aria-label=" Rapidly Improve"
               className={classes.buttonColor}
             >
-              <Typography>Rapidly Improve</Typography>
+              <Typography variant="subtitle1">Rapidly Improve</Typography>
             </ToggleButton>
           </StyledToggleButtonGroup>
         </Box>
