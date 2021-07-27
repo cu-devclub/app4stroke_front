@@ -23,9 +23,6 @@ const useStyle = makeStyles(() =>
       width: "100%",
       marginTop: "0",
     },
-    textField: {
-      width: "100%",
-    },
     textTitle: {
       marginBottom: "16px",
     },
@@ -76,6 +73,13 @@ const useStyle = makeStyles(() =>
       color: "#FF4181",
       fontSize: "75px",
     },
+    //* textfield
+    patientTextField: {
+      width: "100%",
+    },
+    clearTextField: {
+      width: "100%",
+    },
   })
 );
 
@@ -116,7 +120,27 @@ const OnsetStyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
-const Text = () => <div>You clicked the button!</div>;
+//* Clear onset
+const StyleTextField = withStyles({
+  root: {
+    width: "100%",
+    marginTop: "70px",
+  },
+})(TextField);
+
+const ClearTextField = () => (
+  <StyleTextField
+    label="Select date"
+    type="date"
+    value=""
+    InputLabelProps={{
+      shrink: true,
+    }}
+  />
+);
+
+//* Unknown onset
+const UnknownTextField = () => <TextField label="Select date" />;
 
 //optimize: React.FC
 const PatientInformationSection: React.FC = () => {
@@ -173,18 +197,27 @@ const PatientInformationSection: React.FC = () => {
       <Box className={classes.boxPatient}>
         <Grid container spacing={6}>
           <Grid item xs={3}>
-            <TextField label="Enter patient ID" className={classes.textField} />
+            <TextField
+              label="Enter patient ID"
+              className={classes.patientTextField}
+            />
           </Grid>
           <Grid item xs={3}>
-            <TextField label="Enter age" className={classes.textField} />
+            <TextField label="Enter age" className={classes.patientTextField} />
           </Grid>
         </Grid>
         <Grid container spacing={6}>
           <Grid item xs={3}>
-            <TextField label="Enter first name" className={classes.textField} />
+            <TextField
+              label="Enter first name"
+              className={classes.patientTextField}
+            />
           </Grid>
           <Grid item xs={3}>
-            <TextField label="Enter last name" className={classes.textField} />
+            <TextField
+              label="Enter last name"
+              className={classes.patientTextField}
+            />
           </Grid>
         </Grid>
       </Box>
@@ -293,7 +326,7 @@ const PatientInformationSection: React.FC = () => {
                 </Box>
               </ToggleButton>
             </OnsetStyledToggleButtonGroup>
-            <Box>{showClearTextField ? <Text /> : null}</Box>
+            <Box>{showClearTextField ? <ClearTextField /> : null}</Box>
           </Box>
           <Box>
             <OnsetStyledToggleButtonGroup
@@ -311,7 +344,7 @@ const PatientInformationSection: React.FC = () => {
                 </Box>
               </ToggleButton>
             </OnsetStyledToggleButtonGroup>
-            <Box>{showUnknownTextField ? <Text /> : null}</Box>
+            <Box>{showUnknownTextField ? <UnknownTextField /> : null}</Box>
           </Box>
         </Grid>
       </Box>
