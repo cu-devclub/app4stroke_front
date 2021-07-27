@@ -141,7 +141,7 @@ const ChiefComplaintSection: React.FC = () => {
               aria-label=" Rapidly Improve"
               className={classes.buttonColor}
             >
-              <Typography>Rapidly Improve</Typography>
+              <Typography variant="subtitle1">Rapidly Improve</Typography>
             </ToggleButton>
           </StyledToggleButtonGroup>
         </Box>
