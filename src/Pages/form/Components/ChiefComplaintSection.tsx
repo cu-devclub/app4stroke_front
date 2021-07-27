@@ -93,8 +93,6 @@ const ChiefComplaintSection: React.FC = () => {
       [event.target.name]: event.target.checked,
     });
   };
-  console.log(symptomsCheckbox);
-
   return (
     <Box className={classes.root}>
       {/* Time Course */}
