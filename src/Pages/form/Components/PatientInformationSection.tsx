@@ -6,10 +6,8 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import FemaleIcon from "@material-ui/icons/FemaleRounded";
-// import MaleIcon from "@material-ui/icons/MaleRounded";
-import { IoIosMale } from "react-icons/io";
-import { IoIosFemale } from "react-icons/io";
+import { IoMaleOutline } from "react-icons/io5";
+import { IoFemaleOutline } from "react-icons/io5";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -56,6 +54,7 @@ const useStyle = makeStyles(() =>
     button: {
       "&.Mui-selected": {
         backgroundColor: "#EF5DA8",
+        color: "#FFFFFF",
         pointerEvents: "none",
       },
     },
@@ -117,6 +116,9 @@ const OnsetStyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
+const Text = () => <div>You clicked the button!</div>;
+
+//optimize: React.FC
 const PatientInformationSection: React.FC = () => {
   const classes = useStyle();
 
@@ -129,6 +131,10 @@ const PatientInformationSection: React.FC = () => {
     setGender(newGender);
   };
 
+  //* Gender icon onClick
+  const [isMaleWhite, setIsMaleWhite] = React.useState(false);
+  const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
+
   //* Onset Button
   const [onset, setOnset] = React.useState<string | null>("");
   const handleOnset = (
@@ -138,7 +144,14 @@ const PatientInformationSection: React.FC = () => {
     setOnset(newOnset);
   };
 
-  //* Date Picker
+  //! Onset show Textfield onClick
+  const [showClearTextField, setShowTextFieldClear] = useState(false);
+  const onClearClick = () => setShowTextFieldClear(true);
+
+  const [showUnknownTextField, setShowTextFieldUnknown] = useState(false);
+  const onUnknownClick = () => setShowTextFieldUnknown(true);
+
+  // Date Picker
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
   );
@@ -146,17 +159,13 @@ const PatientInformationSection: React.FC = () => {
     setSelectedDate(date);
   };
 
-  //* Time Picker
+  // Time Picker
   const [selectedTime, setSelectedTime] = React.useState<Date | null>(
     new Date()
   );
   const handleTimeChange = (time: Date | null) => {
     setSelectedTime(time);
   };
-
-  //* onClick
-  const [isMaleWhite, setIsMaleWhite] = React.useState(false);
-  const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
 
   return (
     <Box className={classes.root}>
@@ -194,7 +203,7 @@ const PatientInformationSection: React.FC = () => {
             >
               <ToggleButton value="male" className={classes.button}>
                 <Box display="flex">
-                  <IoIosMale
+                  <IoMaleOutline
                     color={isMaleWhite ? "white" : "#5D5FEF"}
                     className={classes.maleIcon}
                   />
@@ -216,7 +225,7 @@ const PatientInformationSection: React.FC = () => {
             >
               <ToggleButton value="female" className={classes.button}>
                 <Box display="flex">
-                  <IoIosFemale
+                  <IoFemaleOutline
                     color={isFemaleWhite ? "white" : "#FF4181"}
                     className={classes.femaleIcon}
                   />
@@ -262,28 +271,48 @@ const PatientInformationSection: React.FC = () => {
           </MuiPickersUtilsProvider>
         </Grid>
       </Box>
-      {/* Onset - Button */}
+      {/*todo Onset - Button */}
       <Box className={classes.boxOnset}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Onset</Typography>
         </Box>
-        <Grid container spacing={3}>
-          <OnsetStyledToggleButtonGroup
-            value={onset}
-            exclusive
-            onChange={handleOnset}
-          >
-            <ToggleButton value="clearOnset" className={classes.button}>
-              <Box>
-                <Typography variant="subtitle1">Clear onset</Typography>
-              </Box>
-            </ToggleButton>
-            <ToggleButton value="unknownOnset" className={classes.button}>
-              <Box>
-                <Typography variant="subtitle1">Unknown onset</Typography>
-              </Box>
-            </ToggleButton>
-          </OnsetStyledToggleButtonGroup>
+        <Grid container spacing={2}>
+          <Box>
+            <OnsetStyledToggleButtonGroup
+              value={onset}
+              exclusive
+              onChange={handleOnset}
+            >
+              <ToggleButton
+                value="clearOnset"
+                className={classes.button}
+                onClick={onClearClick}
+              >
+                <Box>
+                  <Typography variant="subtitle1">Clear onset</Typography>
+                </Box>
+              </ToggleButton>
+            </OnsetStyledToggleButtonGroup>
+            <Box>{showClearTextField ? <Text /> : null}</Box>
+          </Box>
+          <Box>
+            <OnsetStyledToggleButtonGroup
+              value={onset}
+              exclusive
+              onChange={handleOnset}
+            >
+              <ToggleButton
+                value="unknownOnset"
+                className={classes.button}
+                onClick={onUnknownClick}
+              >
+                <Box>
+                  <Typography variant="subtitle1">Unknown onset</Typography>
+                </Box>
+              </ToggleButton>
+            </OnsetStyledToggleButtonGroup>
+            <Box>{showUnknownTextField ? <Text /> : null}</Box>
+          </Box>
         </Grid>
       </Box>
       {/* Upload CT Scan - Button*/}
