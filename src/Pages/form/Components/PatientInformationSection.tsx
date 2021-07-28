@@ -16,6 +16,7 @@ import {
 } from "@material-ui/pickers";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { ClickAwayListener } from "@material-ui/core";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -47,6 +48,18 @@ const useStyle = makeStyles(() =>
       marginLeft: "32px",
       marginBottom: "65px",
     },
+    boxClearPicker: {
+      marginTop: "70px",
+    },
+    boxDuration: {
+      backgroundColor: "#C4C4C4",
+      width: "176px",
+      height: "40px",
+      borderRadius: "20px",
+      padding: "7px",
+      textAlign: "center",
+      marginTop: "18px",
+    },
     //* button
     button: {
       "&.Mui-selected": {
@@ -57,13 +70,14 @@ const useStyle = makeStyles(() =>
     },
     buttonUpload: {
       textTransform: "none",
-      color: "#FFF",
+      color: "#FFFFFF",
       backgroundColor: "#3A3A3D",
       boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.1)",
       borderRadius: "20px",
       width: "170px",
       height: "40px",
     },
+
     //* icon
     maleIcon: {
       color: "#5D5FEF",
@@ -145,8 +159,8 @@ const UnknownTextField = () => <TextField label="Select date" />;
 //optimize: React.FC
 const PatientInformationSection: React.FC = () => {
   const classes = useStyle();
-
-  //* Gender Button
+  //* Gender
+  // Button
   const [gender, setGender] = React.useState<string | null>("");
   const handleGender = (
     event: React.MouseEvent<HTMLElement>,
@@ -155,26 +169,17 @@ const PatientInformationSection: React.FC = () => {
     setGender(newGender);
   };
 
-  //* Gender icon onClick
+  // Icon
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
+  const handleClickAwayMale = () => {
+    setIsMaleWhite(false);
+  };
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
-
-  //* Onset Button
-  const [onset, setOnset] = React.useState<string | null>("");
-  const handleOnset = (
-    event: React.MouseEvent<HTMLElement>,
-    newOnset: string | null
-  ) => {
-    setOnset(newOnset);
+  const handleClickAwayFemale = () => {
+    setIsFemaleWhite(false);
   };
 
-  //! Onset show Textfield onClick
-  const [showClearTextField, setShowTextFieldClear] = useState(false);
-  const onClearClick = () => setShowTextFieldClear(true);
-
-  const [showUnknownTextField, setShowTextFieldUnknown] = useState(false);
-  const onUnknownClick = () => setShowTextFieldUnknown(true);
-
+  //* Arrival Time
   // Date Picker
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
@@ -190,6 +195,26 @@ const PatientInformationSection: React.FC = () => {
   const handleTimeChange = (time: Date | null) => {
     setSelectedTime(time);
   };
+
+  //* Onset
+  // Button
+  const [onset, setOnset] = React.useState<string | null>("");
+  const handleOnset = (
+    event: React.MouseEvent<HTMLElement>,
+    newOnset: string | null
+  ) => {
+    setOnset(newOnset);
+  };
+
+  //* clear onset
+  // picker
+  const [showClearPicker, setShowPickerClear] = useState(false);
+  const onClearClick = () => setShowPickerClear(true);
+
+  //* unknown onset
+  // picker
+  const [showUnknownPicker, setShowPickerUnknown] = useState(false);
+  const onUnknownClick = () => setShowPickerUnknown(true);
 
   return (
     <Box className={classes.root}>
@@ -228,6 +253,7 @@ const PatientInformationSection: React.FC = () => {
         </Box>
         <Grid container spacing={2}>
           <Box>
+            {/* <ClickAwayListener onClickAway={handleClickAwayMale}> */}
             <GenderStyledToggleButtonGroup
               value={gender}
               exclusive
@@ -248,6 +274,7 @@ const PatientInformationSection: React.FC = () => {
                 Male
               </Typography>
             </Box>
+            {/* </ClickAwayListener> */}
           </Box>
           <Box>
             <GenderStyledToggleButtonGroup
@@ -265,6 +292,7 @@ const PatientInformationSection: React.FC = () => {
                 </Box>
               </ToggleButton>
             </GenderStyledToggleButtonGroup>
+
             <Box textAlign="center">
               <Typography variant="body1">Female</Typography>
             </Box>
@@ -304,7 +332,7 @@ const PatientInformationSection: React.FC = () => {
           </MuiPickersUtilsProvider>
         </Grid>
       </Box>
-      {/*todo Onset - Button */}
+      {/*fix: Onset - Button */}
       <Box className={classes.boxOnset}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Onset</Typography>
@@ -326,7 +354,6 @@ const PatientInformationSection: React.FC = () => {
                 </Box>
               </ToggleButton>
             </OnsetStyledToggleButtonGroup>
-            <Box>{showClearTextField ? <ClearTextField /> : null}</Box>
           </Box>
           <Box>
             <OnsetStyledToggleButtonGroup
@@ -344,9 +371,48 @@ const PatientInformationSection: React.FC = () => {
                 </Box>
               </ToggleButton>
             </OnsetStyledToggleButtonGroup>
-            <Box>{showUnknownTextField ? <UnknownTextField /> : null}</Box>
+            <Box>{showUnknownPicker ? <UnknownTextField /> : null}</Box>
           </Box>
         </Grid>
+        <Box>
+          {showClearPicker ? (
+            <Box className={classes.boxClearPicker}>
+              <Grid container spacing={7}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid item>
+                    <KeyboardDatePicker
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      label="Select date"
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <KeyboardTimePicker
+                      variant="inline"
+                      label="Select time"
+                      value={selectedTime}
+                      onChange={handleTimeChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change time",
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Typography>Duration</Typography>
+                    <Box className={classes.boxDuration}>
+                      <Typography>dd:hh:mm</Typography>
+                    </Box>
+                  </Grid>
+                </MuiPickersUtilsProvider>
+              </Grid>
+            </Box>
+          ) : null}
+        </Box>
       </Box>
       {/* Upload CT Scan - Button*/}
       <Box className={classes.boxUpload}>
