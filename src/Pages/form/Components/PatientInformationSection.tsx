@@ -40,15 +40,12 @@ const useStyle = makeStyles(() =>
       marginLeft: "32px",
       marginBottom: "40px",
     },
+    //todo Onset
     boxOnset: {
       marginLeft: "32px",
       marginBottom: "40px",
     },
-    boxUpload: {
-      marginLeft: "32px",
-      marginBottom: "65px",
-    },
-    boxClearPicker: {
+    boxOnsetPicker: {
       marginTop: "70px",
     },
     boxDuration: {
@@ -59,6 +56,16 @@ const useStyle = makeStyles(() =>
       padding: "7px",
       textAlign: "center",
       marginTop: "18px",
+    },
+    boxUpload: {
+      marginLeft: "32px",
+      marginBottom: "65px",
+    },
+    addMarginTop: {
+      marginTop: "34px",
+    },
+    addMarginBottom: {
+      marginBottom: "10px",
     },
     //* button
     button: {
@@ -371,15 +378,58 @@ const PatientInformationSection: React.FC = () => {
                 </Box>
               </ToggleButton>
             </OnsetStyledToggleButtonGroup>
-            <Box>{showUnknownPicker ? <UnknownTextField /> : null}</Box>
           </Box>
         </Grid>
         <Box>
           {showClearPicker ? (
-            <Box className={classes.boxClearPicker}>
+            <Box className={classes.boxOnsetPicker}>
               <Grid container spacing={7}>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <Grid item>
+                    <KeyboardDatePicker
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      label="Select date"
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                      className={classes.addMarginTop}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <KeyboardTimePicker
+                      variant="inline"
+                      label="Select time"
+                      value={selectedTime}
+                      onChange={handleTimeChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change time",
+                      }}
+                      className={classes.addMarginTop}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Typography>Duration</Typography>
+                    <Box className={classes.boxDuration}>
+                      <Typography>dd:hh:mm</Typography>
+                    </Box>
+                  </Grid>
+                </MuiPickersUtilsProvider>
+              </Grid>
+            </Box>
+          ) : null}
+        </Box>
+        <Box>
+          {showUnknownPicker ? (
+            <Box className={classes.boxOnsetPicker}>
+              <Grid container spacing={7}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid item>
+                    <Typography className={classes.addMarginBottom}>
+                      Last seen normal
+                    </Typography>
                     <KeyboardDatePicker
                       variant="inline"
                       format="dd/MM/yyyy"
@@ -400,6 +450,44 @@ const PatientInformationSection: React.FC = () => {
                       KeyboardButtonProps={{
                         "aria-label": "change time",
                       }}
+                      className={classes.addMarginTop}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Typography>Duration</Typography>
+                    <Box className={classes.boxDuration}>
+                      <Typography>dd:hh:mm</Typography>
+                    </Box>
+                  </Grid>
+                </MuiPickersUtilsProvider>
+              </Grid>
+              <Grid container spacing={7}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Grid item>
+                    <Typography className={classes.addMarginBottom}>
+                      First seen abnormal
+                    </Typography>
+                    <KeyboardDatePicker
+                      variant="inline"
+                      format="dd/MM/yyyy"
+                      label="Select date"
+                      value={selectedDate}
+                      onChange={handleDateChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change date",
+                      }}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <KeyboardTimePicker
+                      variant="inline"
+                      label="Select time"
+                      value={selectedTime}
+                      onChange={handleTimeChange}
+                      KeyboardButtonProps={{
+                        "aria-label": "change time",
+                      }}
+                      className={classes.addMarginTop}
                     />
                   </Grid>
                   <Grid item>
