@@ -149,20 +149,6 @@ const StyleTextField = withStyles({
   },
 })(TextField);
 
-const ClearTextField = () => (
-  <StyleTextField
-    label="Select date"
-    type="date"
-    value=""
-    InputLabelProps={{
-      shrink: true,
-    }}
-  />
-);
-
-//* Unknown onset
-const UnknownTextField = () => <TextField label="Select date" />;
-
 //optimize: React.FC
 const PatientInformationSection: React.FC = () => {
   const classes = useStyle();
@@ -188,19 +174,15 @@ const PatientInformationSection: React.FC = () => {
 
   //* Arrival Time
   // Date Picker
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date()
-  );
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
+  const [arrivalDate, setArrivalDate] = React.useState<Date | null>(new Date());
+  const handleArrivalDateChange = (date: Date | null) => {
+    setArrivalDate(date);
   };
 
   // Time Picker
-  const [selectedTime, setSelectedTime] = React.useState<Date | null>(
-    new Date()
-  );
-  const handleTimeChange = (time: Date | null) => {
-    setSelectedTime(time);
+  const [arrivalTime, setArrivalTime] = React.useState<Date | null>(new Date());
+  const handleArrivalTimeChange = (time: Date | null) => {
+    setArrivalTime(time);
   };
 
   //* Onset
@@ -214,14 +196,58 @@ const PatientInformationSection: React.FC = () => {
   };
 
   //* clear onset
-  // picker
+  // Show Picker
   const [showClearPicker, setShowPickerClear] = useState(false);
-  const onClearClick = () => setShowPickerClear(true);
+  const handleShowPickerClear = () => {
+    setShowPickerClear((prev) => !prev);
+  };
+  const onClearClick = () => setShowPickerClear(false);
+
+  // Date Picker
+  const [clearDate, setClearDate] = React.useState<Date | null>(new Date());
+  const handleClearDateChange = (date: Date | null) => {
+    setClearDate(date);
+  };
+
+  // Time Picker
+  const [clearTime, setClearTime] = React.useState<Date | null>(new Date());
+  const handleClearTimeChange = (time: Date | null) => {
+    setClearTime(time);
+  };
 
   //* unknown onset
-  // picker
+  // Show Picker
   const [showUnknownPicker, setShowPickerUnknown] = useState(false);
-  const onUnknownClick = () => setShowPickerUnknown(true);
+  const handleShowPickerUnknown = () => {
+    setShowPickerUnknown((prev) => !prev);
+  };
+  const onUnknownClick = () => setShowPickerUnknown(false);
+
+  //* last seen
+  // Date Picker
+  const [lastDate, setLastDate] = React.useState<Date | null>(new Date());
+  const handleLastDateChange = (date: Date | null) => {
+    setLastDate(date);
+  };
+
+  // Time Picker
+  const [lastTime, setLastTime] = React.useState<Date | null>(new Date());
+  const handleLastTimeChange = (time: Date | null) => {
+    setLastTime(time);
+  };
+
+  //* first seen
+  // Date Picker
+  const [firstDate, setFirstDate] = React.useState<Date | null>(new Date());
+  const handleFirstDateChange = (date: Date | null) => {
+    setFirstDate(date);
+  };
+
+  // Time Picker
+  const [firstTime, setFirstTime] = React.useState<Date | null>(new Date());
+  const handleFirstTimeChange = (time: Date | null) => {
+    setFirstTime(time);
+  };
 
   return (
     <Box className={classes.root}>
@@ -260,7 +286,6 @@ const PatientInformationSection: React.FC = () => {
         </Box>
         <Grid container spacing={2}>
           <Box>
-            {/* <ClickAwayListener onClickAway={handleClickAwayMale}> */}
             <GenderStyledToggleButtonGroup
               value={gender}
               exclusive
@@ -281,7 +306,6 @@ const PatientInformationSection: React.FC = () => {
                 Male
               </Typography>
             </Box>
-            {/* </ClickAwayListener> */}
           </Box>
           <Box>
             <GenderStyledToggleButtonGroup
@@ -318,8 +342,8 @@ const PatientInformationSection: React.FC = () => {
                 variant="inline"
                 format="dd/MM/yyyy"
                 label="Arrival Date"
-                value={selectedDate}
-                onChange={handleDateChange}
+                value={arrivalDate}
+                onChange={handleArrivalDateChange}
                 KeyboardButtonProps={{
                   "aria-label": "change date",
                 }}
@@ -329,8 +353,8 @@ const PatientInformationSection: React.FC = () => {
               <KeyboardTimePicker
                 variant="inline"
                 label="Arrival Time"
-                value={selectedTime}
-                onChange={handleTimeChange}
+                value={arrivalTime}
+                onChange={handleArrivalTimeChange}
                 KeyboardButtonProps={{
                   "aria-label": "change time",
                 }}
@@ -346,38 +370,50 @@ const PatientInformationSection: React.FC = () => {
         </Box>
         <Grid container spacing={2}>
           <Box>
-            <OnsetStyledToggleButtonGroup
-              value={onset}
-              exclusive
-              onChange={handleOnset}
+            <ClickAwayListener
+              mouseEvent="onMouseDown"
+              touchEvent="onTouchStart"
+              onClickAway={onClearClick}
             >
-              <ToggleButton
-                value="clearOnset"
-                className={classes.button}
-                onClick={onClearClick}
+              <OnsetStyledToggleButtonGroup
+                value={onset}
+                exclusive
+                onChange={handleOnset}
               >
-                <Box>
-                  <Typography variant="subtitle1">Clear onset</Typography>
-                </Box>
-              </ToggleButton>
-            </OnsetStyledToggleButtonGroup>
+                <ToggleButton
+                  value="clearOnset"
+                  className={classes.button}
+                  onClick={handleShowPickerClear}
+                >
+                  <Box>
+                    <Typography variant="subtitle1">Clear onset</Typography>
+                  </Box>
+                </ToggleButton>
+              </OnsetStyledToggleButtonGroup>
+            </ClickAwayListener>
           </Box>
           <Box>
-            <OnsetStyledToggleButtonGroup
-              value={onset}
-              exclusive
-              onChange={handleOnset}
+            <ClickAwayListener
+              mouseEvent="onMouseDown"
+              touchEvent="onTouchStart"
+              onClickAway={onUnknownClick}
             >
-              <ToggleButton
-                value="unknownOnset"
-                className={classes.button}
-                onClick={onUnknownClick}
+              <OnsetStyledToggleButtonGroup
+                value={onset}
+                exclusive
+                onChange={handleOnset}
               >
-                <Box>
-                  <Typography variant="subtitle1">Unknown onset</Typography>
-                </Box>
-              </ToggleButton>
-            </OnsetStyledToggleButtonGroup>
+                <ToggleButton
+                  value="unknownOnset"
+                  className={classes.button}
+                  onClick={handleShowPickerUnknown}
+                >
+                  <Box>
+                    <Typography variant="subtitle1">Unknown onset</Typography>
+                  </Box>
+                </ToggleButton>
+              </OnsetStyledToggleButtonGroup>
+            </ClickAwayListener>
           </Box>
         </Grid>
         <Box>
@@ -390,8 +426,8 @@ const PatientInformationSection: React.FC = () => {
                       variant="inline"
                       format="dd/MM/yyyy"
                       label="Select date"
-                      value={selectedDate}
-                      onChange={handleDateChange}
+                      value={clearDate}
+                      onChange={handleClearDateChange}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
@@ -402,8 +438,8 @@ const PatientInformationSection: React.FC = () => {
                     <KeyboardTimePicker
                       variant="inline"
                       label="Select time"
-                      value={selectedTime}
-                      onChange={handleTimeChange}
+                      value={clearTime}
+                      onChange={handleClearTimeChange}
                       KeyboardButtonProps={{
                         "aria-label": "change time",
                       }}
@@ -434,8 +470,8 @@ const PatientInformationSection: React.FC = () => {
                       variant="inline"
                       format="dd/MM/yyyy"
                       label="Select date"
-                      value={selectedDate}
-                      onChange={handleDateChange}
+                      value={lastDate}
+                      onChange={handleLastDateChange}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
@@ -445,8 +481,8 @@ const PatientInformationSection: React.FC = () => {
                     <KeyboardTimePicker
                       variant="inline"
                       label="Select time"
-                      value={selectedTime}
-                      onChange={handleTimeChange}
+                      value={lastTime}
+                      onChange={handleLastTimeChange}
                       KeyboardButtonProps={{
                         "aria-label": "change time",
                       }}
@@ -471,8 +507,8 @@ const PatientInformationSection: React.FC = () => {
                       variant="inline"
                       format="dd/MM/yyyy"
                       label="Select date"
-                      value={selectedDate}
-                      onChange={handleDateChange}
+                      value={firstDate}
+                      onChange={handleFirstDateChange}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
@@ -482,8 +518,8 @@ const PatientInformationSection: React.FC = () => {
                     <KeyboardTimePicker
                       variant="inline"
                       label="Select time"
-                      value={selectedTime}
-                      onChange={handleTimeChange}
+                      value={firstTime}
+                      onChange={handleFirstTimeChange}
                       KeyboardButtonProps={{
                         "aria-label": "change time",
                       }}
