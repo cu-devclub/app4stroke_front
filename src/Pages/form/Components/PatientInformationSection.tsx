@@ -16,7 +16,6 @@ import {
 } from "@material-ui/pickers";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import { ClickAwayListener } from "@material-ui/core";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -40,7 +39,6 @@ const useStyle = makeStyles(() =>
       marginLeft: "32px",
       marginBottom: "40px",
     },
-    //todo Onset
     boxOnset: {
       marginLeft: "32px",
       marginBottom: "40px",
@@ -67,7 +65,6 @@ const useStyle = makeStyles(() =>
     addMarginBottom: {
       marginBottom: "10px",
     },
-    //* button
     button: {
       "&.Mui-selected": {
         backgroundColor: "#EF5DA8",
@@ -84,8 +81,6 @@ const useStyle = makeStyles(() =>
       width: "170px",
       height: "40px",
     },
-
-    //* icon
     maleIcon: {
       color: "#5D5FEF",
       fontSize: "75px",
@@ -94,7 +89,6 @@ const useStyle = makeStyles(() =>
       color: "#FF4181",
       fontSize: "75px",
     },
-    //* textfield
     patientTextField: {
       width: "100%",
     },
@@ -104,14 +98,14 @@ const useStyle = makeStyles(() =>
   })
 );
 
-const GenderStyledToggleButtonGroup = withStyles((theme) => ({
+const GenderStyledToggleButtonGroup = withStyles(() => ({
   grouped: {
     marginBottom: "8px",
     marginRight: "24px",
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
     width: "150px",
     height: "95px",
-    backgroundColor: "#FFF",
+    backgroundColor: "#FFFFFF",
     border: "none",
     "&:not(:first-child)": {
       borderRadius: "20px",
@@ -122,15 +116,15 @@ const GenderStyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
-const OnsetStyledToggleButtonGroup = withStyles((theme) => ({
+const OnsetStyledToggleButtonGroup = withStyles(() => ({
   grouped: {
     textTransform: "none",
     marginRight: "24px",
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
     width: "220px",
     height: "80px",
-    backgroundColor: "#FFF",
-    color: "#000",
+    backgroundColor: "#FFFFFF",
+    color: "#000000",
     border: "none",
     "&:not(:first-child)": {
       borderRadius: "20px",
@@ -141,19 +135,12 @@ const OnsetStyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
-//* Clear onset
-const StyleTextField = withStyles({
-  root: {
-    width: "100%",
-    marginTop: "70px",
-  },
-})(TextField);
-
 //optimize: React.FC
 const PatientInformationSection: React.FC = () => {
   const classes = useStyle();
+
   //* Gender
-  // Button
+  // button
   const [gender, setGender] = React.useState<string | null>("");
   const handleGender = (
     event: React.MouseEvent<HTMLElement>,
@@ -161,26 +148,22 @@ const PatientInformationSection: React.FC = () => {
   ) => {
     setGender(newGender);
   };
-
-  // Icon
+  // icon
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
 
   //* Arrival Time
-  // Date Picker
   const [arrivalDate, setArrivalDate] = React.useState<Date | null>(new Date());
   const handleArrivalDateChange = (date: Date | null) => {
     setArrivalDate(date);
   };
-
-  // Time Picker
   const [arrivalTime, setArrivalTime] = React.useState<Date | null>(new Date());
   const handleArrivalTimeChange = (time: Date | null) => {
     setArrivalTime(time);
   };
 
   //* Onset
-  // Button
+  // button
   const [onset, setOnset] = React.useState<string | null>("");
   const handleOnset = (
     event: React.MouseEvent<HTMLElement>,
@@ -188,56 +171,37 @@ const PatientInformationSection: React.FC = () => {
   ) => {
     setOnset(newOnset);
   };
-
-  //* clear onset
-  // Show Picker
+  //+ clear onset
+  // picker
   const [showClearPicker, setShowPickerClear] = useState(false);
-  const handleShowPickerClear = () => {
-    setShowPickerClear((prev) => !prev);
-  };
-  const onClearClick = () => setShowPickerClear(false);
-
-  // Date Picker
   const [clearDate, setClearDate] = React.useState<Date | null>(new Date());
   const handleClearDateChange = (date: Date | null) => {
     setClearDate(date);
   };
-
-  // Time Picker
   const [clearTime, setClearTime] = React.useState<Date | null>(new Date());
   const handleClearTimeChange = (time: Date | null) => {
     setClearTime(time);
   };
 
-  //* unknown onset
-  // Show Picker
+  //+ unknown onset
+  // picker
   const [showUnknownPicker, setShowPickerUnknown] = useState(false);
-  const handleShowPickerUnknown = () => {
-    setShowPickerUnknown((prev) => !prev);
-  };
-  const onUnknownClick = () => setShowPickerUnknown(false);
-
-  //* last seen
-  // Date Picker
+  //- last seen
+  // picker
   const [lastDate, setLastDate] = React.useState<Date | null>(new Date());
   const handleLastDateChange = (date: Date | null) => {
     setLastDate(date);
   };
-
-  // Time Picker
   const [lastTime, setLastTime] = React.useState<Date | null>(new Date());
   const handleLastTimeChange = (time: Date | null) => {
     setLastTime(time);
   };
-
-  //* first seen
-  // Date Picker
+  //- first seen
+  // picker
   const [firstDate, setFirstDate] = React.useState<Date | null>(new Date());
   const handleFirstDateChange = (date: Date | null) => {
     setFirstDate(date);
   };
-
-  // Time Picker
   const [firstTime, setFirstTime] = React.useState<Date | null>(new Date());
   const handleFirstTimeChange = (time: Date | null) => {
     setFirstTime(time);
@@ -245,7 +209,7 @@ const PatientInformationSection: React.FC = () => {
 
   return (
     <Box className={classes.root}>
-      {/* Patient - Text Field */}
+      {/* Patient Information */}
       <Box className={classes.boxPatient}>
         <Grid container spacing={6}>
           <Grid item xs={3}>
@@ -273,7 +237,7 @@ const PatientInformationSection: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
-      {/* Gender - Button */}
+      {/* Gender */}
       <Box className={classes.boxGender}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Gender</Typography>
@@ -323,14 +287,13 @@ const PatientInformationSection: React.FC = () => {
                 </Box>
               </ToggleButton>
             </GenderStyledToggleButtonGroup>
-
             <Box textAlign="center">
               <Typography variant="body1">Female</Typography>
             </Box>
           </Box>
         </Grid>
       </Box>
-      {/* Arrival Time - Date & Time Picker*/}
+      {/* Arrival Time */}
       <Box className={classes.boxPicker}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Arrival Time</Typography>
@@ -363,57 +326,51 @@ const PatientInformationSection: React.FC = () => {
           </MuiPickersUtilsProvider>
         </Grid>
       </Box>
-      {/*fix: Onset - Button */}
+      {/* Onset */}
       <Box className={classes.boxOnset}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Onset</Typography>
         </Box>
         <Grid container spacing={2}>
           <Box>
-            <ClickAwayListener
-              mouseEvent="onMouseDown"
-              touchEvent="onTouchStart"
-              onClickAway={onClearClick}
+            <OnsetStyledToggleButtonGroup
+              value={onset}
+              exclusive
+              onChange={handleOnset}
             >
-              <OnsetStyledToggleButtonGroup
-                value={onset}
-                exclusive
-                onChange={handleOnset}
+              <ToggleButton
+                value="clearOnset"
+                className={classes.button}
+                onClick={() => {
+                  setShowPickerClear(true);
+                  setShowPickerUnknown(false);
+                }}
               >
-                <ToggleButton
-                  value="clearOnset"
-                  className={classes.button}
-                  onClick={handleShowPickerClear}
-                >
-                  <Box>
-                    <Typography variant="subtitle1">Clear onset</Typography>
-                  </Box>
-                </ToggleButton>
-              </OnsetStyledToggleButtonGroup>
-            </ClickAwayListener>
+                <Box>
+                  <Typography variant="subtitle1">Clear onset</Typography>
+                </Box>
+              </ToggleButton>
+            </OnsetStyledToggleButtonGroup>
           </Box>
           <Box>
-            <ClickAwayListener
-              mouseEvent="onMouseDown"
-              touchEvent="onTouchStart"
-              onClickAway={onUnknownClick}
+            <OnsetStyledToggleButtonGroup
+              value={onset}
+              exclusive
+              onChange={handleOnset}
             >
-              <OnsetStyledToggleButtonGroup
-                value={onset}
-                exclusive
-                onChange={handleOnset}
+              <ToggleButton
+                value="unknownOnset"
+                className={classes.button}
+                onClick={() => {
+                  setShowPickerClear(false);
+                  setShowPickerUnknown(true);
+                }}
               >
-                <ToggleButton
-                  value="unknownOnset"
-                  className={classes.button}
-                  onClick={handleShowPickerUnknown}
-                >
-                  <Box>
-                    <Typography variant="subtitle1">Unknown onset</Typography>
-                  </Box>
-                </ToggleButton>
-              </OnsetStyledToggleButtonGroup>
-            </ClickAwayListener>
+                <Box>
+                  <Typography variant="subtitle1">Unknown onset</Typography>
+                </Box>
+              </ToggleButton>
+            </OnsetStyledToggleButtonGroup>
           </Box>
         </Grid>
         <Box>
@@ -538,7 +495,7 @@ const PatientInformationSection: React.FC = () => {
           ) : null}
         </Box>
       </Box>
-      {/* Upload CT Scan - Button*/}
+      {/* Upload CT Scan */}
       <Box className={classes.boxUpload}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Upload CT Scan</Typography>
