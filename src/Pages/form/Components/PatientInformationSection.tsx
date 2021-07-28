@@ -164,13 +164,7 @@ const PatientInformationSection: React.FC = () => {
 
   // Icon
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
-  const handleClickAwayMale = () => {
-    setIsMaleWhite(false);
-  };
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
-  const handleClickAwayFemale = () => {
-    setIsFemaleWhite(false);
-  };
 
   //* Arrival Time
   // Date Picker
@@ -290,7 +284,10 @@ const PatientInformationSection: React.FC = () => {
               value={gender}
               exclusive
               onChange={handleGender}
-              onClick={() => setIsMaleWhite(!isMaleWhite)}
+              onClick={() => {
+                setIsMaleWhite(true);
+                setIsFemaleWhite(false);
+              }}
             >
               <ToggleButton value="male" className={classes.button}>
                 <Box display="flex">
@@ -312,7 +309,10 @@ const PatientInformationSection: React.FC = () => {
               value={gender}
               exclusive
               onChange={handleGender}
-              onClick={() => setIsFemaleWhite(!isFemaleWhite)}
+              onClick={() => {
+                setIsMaleWhite(false);
+                setIsFemaleWhite(true);
+              }}
             >
               <ToggleButton value="female" className={classes.button}>
                 <Box display="flex">
