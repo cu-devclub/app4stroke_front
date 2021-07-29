@@ -193,10 +193,7 @@ const PatientInformationSection: React.FC = () => {
   };
   //- first seen
   // picker
-  const [firstDate, setFirstDate] = React.useState<Date | null>(new Date());
-  const handleFirstDateChange = (date: Date | null) => {
-    setFirstDate(date);
-  };
+  const [firstDate, setFirstDate] = React.useState<Date>(new Date());
   const [firstTime, setFirstTime] = React.useState<Date | null>(new Date());
   const handleFirstTimeChange = (time: Date | null) => {
     setFirstTime(time);
@@ -207,6 +204,8 @@ const PatientInformationSection: React.FC = () => {
   console.log("arrival - clear : " + arrivalClearDiff);
   const arrivalLastSeenDiff = differenceInDays(arrivalDate, lastDate);
   console.log("arrival - last seen : " + arrivalLastSeenDiff);
+  const arrivalFirstSeenDiff = differenceInDays(arrivalDate, firstDate);
+  console.log("arrival - first seen : " + arrivalFirstSeenDiff);
 
   return (
     <Box className={classes.root}>
@@ -470,7 +469,8 @@ const PatientInformationSection: React.FC = () => {
                       format="dd/MM/yyyy"
                       label="Select date"
                       value={firstDate}
-                      onChange={handleFirstDateChange}
+                      autoOk={true}
+                      onChange={(date: any) => setFirstDate(date)}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
