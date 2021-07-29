@@ -158,16 +158,13 @@ const PatientInformationSection: React.FC = () => {
 
   //* Arrival
   const [arrivalDate, setArrivalDate] = React.useState<Date>(new Date());
-  // const handleArrivalDateChange = (date: number | Date) => {
-  //   setArrivalDate(date);
-  // };
   const [arrivalTime, setArrivalTime] = React.useState<Date | null>(new Date());
   const handleArrivalTimeChange = (time: Date | null) => {
     setArrivalTime(time);
   };
 
   //* Onset
-  // button
+  // toggle button
   const [onset, setOnset] = React.useState<string | null>("");
   const handleOnset = (
     event: React.MouseEvent<HTMLElement>,
@@ -179,23 +176,17 @@ const PatientInformationSection: React.FC = () => {
   // picker
   const [showClearPicker, setShowPickerClear] = useState(false);
   const [clearDate, setClearDate] = React.useState<Date>(new Date());
-  // const handleClearDateChange = (date: number | Date) => {
-  //   setClearDate(date);
-  // };
   const [clearTime, setClearTime] = React.useState<Date | null>(new Date());
   const handleClearTimeChange = (time: Date | null) => {
     setClearTime(time);
   };
-
   //+ unknown onset
-  // picker
+  // show picker
   const [showUnknownPicker, setShowPickerUnknown] = useState(false);
   //- last seen
   // picker
-  const [lastDate, setLastDate] = React.useState<Date | null>(new Date());
-  const handleLastDateChange = (date: Date | null) => {
-    setLastDate(date);
-  };
+  const [lastDate, setLastDate] = React.useState<Date>(new Date());
+
   const [lastTime, setLastTime] = React.useState<Date | null>(new Date());
   const handleLastTimeChange = (time: Date | null) => {
     setLastTime(time);
@@ -213,7 +204,9 @@ const PatientInformationSection: React.FC = () => {
 
   //* Duration
   const arrivalClearDiff = differenceInDays(arrivalDate, clearDate);
-  console.log(arrivalClearDiff);
+  console.log("arrival - clear : " + arrivalClearDiff);
+  const arrivalLastSeenDiff = differenceInDays(arrivalDate, lastDate);
+  console.log("arrival - last seen : " + arrivalLastSeenDiff);
 
   return (
     <Box className={classes.root}>
@@ -309,12 +302,13 @@ const PatientInformationSection: React.FC = () => {
         <Grid container spacing={7}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid item>
+              {/* fix */}
               <KeyboardDatePicker
                 variant="inline"
                 format="dd/MM/yyyy"
                 label="Arrival Date"
-                autoOk={true}
                 value={arrivalDate}
+                autoOk={true}
                 onChange={(date: any) => setArrivalDate(date)}
                 KeyboardButtonProps={{
                   "aria-label": "change date",
@@ -438,7 +432,8 @@ const PatientInformationSection: React.FC = () => {
                       format="dd/MM/yyyy"
                       label="Select date"
                       value={lastDate}
-                      onChange={handleLastDateChange}
+                      autoOk={true}
+                      onChange={(date: any) => setLastDate(date)}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
