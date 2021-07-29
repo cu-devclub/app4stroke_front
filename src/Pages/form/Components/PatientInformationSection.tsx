@@ -16,6 +16,10 @@ import {
 } from "@material-ui/pickers";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import differenceInDays from "date-fns/differenceInDays";
+import differenceInHours from "date-fns/differenceInHours";
+import differenceInMinutes from "date-fns/differenceInMinutes";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -152,11 +156,11 @@ const PatientInformationSection: React.FC = () => {
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
 
-  //* Arrival Time
-  const [arrivalDate, setArrivalDate] = React.useState<Date | null>(new Date());
-  const handleArrivalDateChange = (date: Date | null) => {
-    setArrivalDate(date);
-  };
+  //* Arrival
+  const [arrivalDate, setArrivalDate] = React.useState<Date>(new Date());
+  // const handleArrivalDateChange = (date: number | Date) => {
+  //   setArrivalDate(date);
+  // };
   const [arrivalTime, setArrivalTime] = React.useState<Date | null>(new Date());
   const handleArrivalTimeChange = (time: Date | null) => {
     setArrivalTime(time);
@@ -174,10 +178,10 @@ const PatientInformationSection: React.FC = () => {
   //+ clear onset
   // picker
   const [showClearPicker, setShowPickerClear] = useState(false);
-  const [clearDate, setClearDate] = React.useState<Date | null>(new Date());
-  const handleClearDateChange = (date: Date | null) => {
-    setClearDate(date);
-  };
+  const [clearDate, setClearDate] = React.useState<Date>(new Date());
+  // const handleClearDateChange = (date: number | Date) => {
+  //   setClearDate(date);
+  // };
   const [clearTime, setClearTime] = React.useState<Date | null>(new Date());
   const handleClearTimeChange = (time: Date | null) => {
     setClearTime(time);
@@ -206,6 +210,10 @@ const PatientInformationSection: React.FC = () => {
   const handleFirstTimeChange = (time: Date | null) => {
     setFirstTime(time);
   };
+
+  //* Duration
+  const arrivalClearDiff = differenceInDays(arrivalDate, clearDate);
+  console.log(arrivalClearDiff);
 
   return (
     <Box className={classes.root}>
@@ -305,8 +313,9 @@ const PatientInformationSection: React.FC = () => {
                 variant="inline"
                 format="dd/MM/yyyy"
                 label="Arrival Date"
+                autoOk={true}
                 value={arrivalDate}
-                onChange={handleArrivalDateChange}
+                onChange={(date: any) => setArrivalDate(date)}
                 KeyboardButtonProps={{
                   "aria-label": "change date",
                 }}
@@ -383,8 +392,9 @@ const PatientInformationSection: React.FC = () => {
                       variant="inline"
                       format="dd/MM/yyyy"
                       label="Select date"
+                      autoOk={true}
                       value={clearDate}
-                      onChange={handleClearDateChange}
+                      onChange={(date: any) => setClearDate(date)}
                       KeyboardButtonProps={{
                         "aria-label": "change date",
                       }}
