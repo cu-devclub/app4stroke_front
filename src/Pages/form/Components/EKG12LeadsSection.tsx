@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
-import { ErrorMessage } from 'formik';
+import { ErrorMessage } from "formik";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -20,6 +20,11 @@ const useStyle = makeStyles((theme) =>
         pointerEvents: "none",
       },
     },
+    errorMessage: {
+      color: "#FF0000",
+      fontSize: "16px",
+      marginLeft:"10px"
+    },
   })
 );
 
@@ -32,6 +37,8 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
     height: "81px",
     backgroundColor: "#FFFFFF",
     color: "#3A3A3D",
+    border: "none",
+    textTransform: "none",
     "&:not(:first-child)": {
       borderRadius: "20px",
     },
@@ -41,26 +48,28 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
-interface Props{
-  value:string;
-  name:string;
-  onChange:Function;
+interface Props {
+  value: string;
+  name: string;
+  onChange: Function;
 }
 
-const EKG12LeadsSection = (props:Props) => {
+const EKG12LeadsSection = (props: Props) => {
   const classes = useStyle();
-  const {value,name,onChange}=props;
+  const { value, name, onChange } = props;
   //EKG12 Leads Button
   const handleEKG12Leads = (
     event: React.MouseEvent<HTMLElement>,
     newEKG12Leads: string
   ) => {
-    onChange(name,newEKG12Leads);
+    onChange(name, newEKG12Leads);
   };
   return (
     <Box className={classes.root}>
       {/* Time Course */}
-      <ErrorMessage name={name}/>
+      <ErrorMessage name={name}>
+        {(msg) => <div className={classes.errorMessage}>{msg}</div>}
+      </ErrorMessage>
       <Box>
         <StyledToggleButtonGroup
           size="large"
