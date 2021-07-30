@@ -68,7 +68,7 @@ const EKG12LeadsSection = (props: Props) => {
     <Box className={classes.root}>
       {/* Time Course */}
       <ErrorMessage name={name}>
-        {(msg) => <div className={classes.errorMessage}>{msg}</div>}
+        {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
       </ErrorMessage>
       <Box>
         <StyledToggleButtonGroup
