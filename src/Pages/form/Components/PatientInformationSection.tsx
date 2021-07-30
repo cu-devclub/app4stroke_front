@@ -17,6 +17,7 @@ import {
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import intervalToDuration from "date-fns/intervalToDuration";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -154,8 +155,8 @@ const PatientInformationSection: React.FC = () => {
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
 
   //* Arrival
-  const [arrivalDate, setArrivalDate] = React.useState<Date>(new Date());
-  const [arrivalTime, setArrivalTime] = React.useState<Date>(arrivalDate);
+  const [arrivalDate, setArrivalDate] = React.useState<Date | null>(null);
+  console.log(arrivalDate);
 
   //* Onset
   // toggle button
@@ -182,21 +183,30 @@ const PatientInformationSection: React.FC = () => {
   // picker
   const [firstDate, setFirstDate] = React.useState<Date>(new Date());
   const [firstTime, setFirstTime] = React.useState<Date>(firstDate);
+  // duration
+  const ArrivalClearDiff =
+    arrivalDate !== null
+      ? intervalToDuration({
+          start: arrivalDate,
+          end: clearDate,
+        })
+      : "";
+  const ArrivalLastDiff =
+    arrivalDate !== null
+      ? intervalToDuration({
+          start: arrivalDate,
+          end: lastDate,
+        })
+      : "";
+  const ArrivalFirstDiff =
+    arrivalDate !== null
+      ? intervalToDuration({
+          start: arrivalDate,
+          end: firstDate,
+        })
+      : "";
 
-  const ArrivalClearDiff = intervalToDuration({
-    start: arrivalDate,
-    end: clearDate,
-  });
-
-  const ArrivalLastDiff = intervalToDuration({
-    start: arrivalDate,
-    end: lastDate,
-  });
-
-  const ArrivalFirstDiff = intervalToDuration({
-    start: arrivalDate,
-    end: firstDate,
-  });
+  const [duration, setDuration] = React.useState(false);
 
   return (
     <Box className={classes.root}>
@@ -298,7 +308,7 @@ const PatientInformationSection: React.FC = () => {
                 label="Arrival Date"
                 value={arrivalDate}
                 autoOk={true}
-                onChange={(date: any) => setArrivalDate(date)}
+                onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
                 KeyboardButtonProps={{
                   "aria-label": "change date",
                 }}
@@ -308,13 +318,9 @@ const PatientInformationSection: React.FC = () => {
               <KeyboardTimePicker
                 variant="inline"
                 label="Arrival Time"
-                value={arrivalTime}
+                value={arrivalDate}
                 autoOk={true}
-                // fix
-                onChange={(time: any) => {
-                  setArrivalTime(time);
-                  setArrivalDate(time);
-                }}
+                onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
                 KeyboardButtonProps={{
                   "aria-label": "change time",
                 }}
@@ -408,10 +414,15 @@ const PatientInformationSection: React.FC = () => {
                   <Grid item>
                     <Typography>Duration</Typography>
                     <Box className={classes.boxDuration}>
-                      <Typography>
-                        {ArrivalClearDiff.days} : {ArrivalClearDiff.hours} :{" "}
-                        {ArrivalClearDiff.minutes}
-                      </Typography>
+                      {/* fix */}
+                      {ArrivalClearDiff !== "" ? (
+                        <Typography>
+                          {ArrivalClearDiff.days} : {ArrivalClearDiff.hours} :{" "}
+                          {ArrivalClearDiff.minutes}
+                        </Typography>
+                      ) : (
+                        "dd:hh:mm"
+                      )}
                     </Box>
                   </Grid>
                 </MuiPickersUtilsProvider>
@@ -458,10 +469,17 @@ const PatientInformationSection: React.FC = () => {
                   </Grid>
                   <Grid item>
                     <Typography>Duration</Typography>
-                    <Box className={classes.boxDuration}>
+                    <Box
+                      className={classes.boxDuration}
+                      style={{
+                        backgroundColor: `${
+                          ArrivalLastDiff !== null ? "#6ED0BB" : "#C4C4C4"
+                        }`,
+                      }}
+                    >
                       <Typography>
-                        {ArrivalLastDiff.days} : {ArrivalLastDiff.hours} :{" "}
-                        {ArrivalLastDiff.minutes}
+                        {/* {ArrivalLastDiff.days} : {ArrivalLastDiff.hours} :{" "}
+                        {ArrivalLastDiff.minutes} */}
                       </Typography>
                     </Box>
                   </Grid>
@@ -505,8 +523,8 @@ const PatientInformationSection: React.FC = () => {
                     <Typography>Duration</Typography>
                     <Box className={classes.boxDuration}>
                       <Typography>
-                        {ArrivalFirstDiff.days} : {ArrivalFirstDiff.hours} :{" "}
-                        {ArrivalFirstDiff.minutes}
+                        {/* {ArrivalFirstDiff.days} : {ArrivalFirstDiff.hours} :{" "}
+                        {ArrivalFirstDiff.minutes} */}
                       </Typography>
                     </Box>
                   </Grid>
