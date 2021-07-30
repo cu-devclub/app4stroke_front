@@ -23,7 +23,7 @@ const useStyle = makeStyles((theme) =>
     errorMessage: {
       color: "#FF0000",
       fontSize: "16px",
-      marginLeft:"10px"
+      marginLeft: "10px",
     },
   })
 );
@@ -51,7 +51,7 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
 interface Props {
   value: string;
   name: string;
-  onChange: Function;
+  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 
 const EKG12LeadsSection = (props: Props) => {
