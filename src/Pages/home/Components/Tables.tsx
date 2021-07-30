@@ -36,8 +36,15 @@ export function createData(
 }
 
 interface TableProps {
-  rows?: Array<Object>;
-  headCells?: Array<Object>;
+  rows?: Array<{
+    testID: string;
+    date: string;
+    patientID: string;
+    name: string;
+    age: number;
+    cardioembolicProbability: number;
+  }>;
+  headCells?: Array<{ id: string; label: string }>;
 }
 
 const Tables = ({ rows, headCells }: TableProps) => {
