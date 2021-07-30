@@ -37,7 +37,6 @@ const useStyle = makeStyles(() =>
       marginTop: "70px",
     },
     boxDuration: {
-      backgroundColor: "#C4C4C4",
       width: "176px",
       height: "40px",
       borderRadius: "20px",
@@ -100,38 +99,31 @@ const ArrivalOnset: React.FC = () => {
     setOnset(newOnset);
   };
   //+ clear onset
-  // picker
   const [showClearPicker, setShowPickerClear] = useState(false);
-  const [clearDate, setClearDate] = React.useState<Date>(new Date());
-  const [clearTime, setClearTime] = React.useState<Date>(clearDate);
+  const [clearDate, setClearDate] = React.useState<Date | null>(null);
   //+ unknown onset
-  // show picker
   const [showUnknownPicker, setShowPickerUnknown] = useState(false);
   //- last seen
-  // picker
-  const [lastDate, setLastDate] = React.useState<Date>(new Date());
-  const [lastTime, setLastTime] = React.useState<Date>(lastDate);
+  const [lastDate, setLastDate] = React.useState<Date | null>(null);
   //- first seen
-  // picker
-  const [firstDate, setFirstDate] = React.useState<Date>(new Date());
-  const [firstTime, setFirstTime] = React.useState<Date>(firstDate);
+  const [firstDate, setFirstDate] = React.useState<Date | null>(null);
   // duration
   const ArrivalClearDiff =
-    arrivalDate !== null
+    arrivalDate && clearDate !== null
       ? intervalToDuration({
           start: arrivalDate,
           end: clearDate,
         })
       : "";
   const ArrivalLastDiff =
-    arrivalDate !== null
+    arrivalDate && lastDate !== null
       ? intervalToDuration({
           start: arrivalDate,
           end: lastDate,
         })
       : "";
   const ArrivalFirstDiff =
-    arrivalDate !== null
+    arrivalDate && firstDate !== null
       ? intervalToDuration({
           start: arrivalDate,
           end: firstDate,
@@ -244,11 +236,10 @@ const ArrivalOnset: React.FC = () => {
                     <KeyboardTimePicker
                       variant="inline"
                       label="Select time"
-                      value={clearTime}
+                      value={clearDate}
                       autoOk={true}
-                      onChange={(time: any) => {
-                        setClearTime(time);
-                        setClearDate(time);
+                      onChange={(date: MaterialUiPickersDate) => {
+                        setClearDate(date);
                       }}
                       KeyboardButtonProps={{
                         "aria-label": "change time",
@@ -258,9 +249,22 @@ const ArrivalOnset: React.FC = () => {
                   </Grid>
                   <Grid item>
                     <Typography>Duration</Typography>
-                    <Box className={classes.boxDuration}>
+                    <Box
+                      className={classes.boxDuration}
+                      style={{
+                        backgroundColor: `${
+                          ArrivalClearDiff !== "" ? "#6ED0BB" : "#C4C4C4"
+                        }`,
+                      }}
+                    >
                       {ArrivalClearDiff !== "" ? (
-                        <Typography>
+                        <Typography
+                          style={{
+                            color: `${
+                              ArrivalClearDiff !== "" ? "#FFFFFF" : "#000000"
+                            }`,
+                          }}
+                        >
                           {ArrivalClearDiff.days} : {ArrivalClearDiff.hours} :{" "}
                           {ArrivalClearDiff.minutes}
                         </Typography>
@@ -299,12 +303,11 @@ const ArrivalOnset: React.FC = () => {
                     <KeyboardTimePicker
                       variant="inline"
                       label="Select time"
-                      value={lastTime}
+                      value={lastDate}
                       autoOk={true}
-                      onChange={(time: any) => {
-                        setLastTime(time);
-                        setLastDate(time);
-                      }}
+                      onChange={(date: MaterialUiPickersDate) =>
+                        setLastDate(date)
+                      }
                       KeyboardButtonProps={{
                         "aria-label": "change time",
                       }}
@@ -317,14 +320,24 @@ const ArrivalOnset: React.FC = () => {
                       className={classes.boxDuration}
                       style={{
                         backgroundColor: `${
-                          ArrivalLastDiff !== null ? "#6ED0BB" : "#C4C4C4"
+                          ArrivalLastDiff !== "" ? "#6ED0BB" : "#C4C4C4"
                         }`,
                       }}
                     >
-                      <Typography>
-                        {/* {ArrivalLastDiff.days} : {ArrivalLastDiff.hours} :{" "}
-                      {ArrivalLastDiff.minutes} */}
-                      </Typography>
+                      {ArrivalLastDiff !== "" ? (
+                        <Typography
+                          style={{
+                            color: `${
+                              ArrivalLastDiff !== "" ? "#FFFFFF" : "#000000"
+                            }`,
+                          }}
+                        >
+                          {ArrivalLastDiff.days} : {ArrivalLastDiff.hours} :{" "}
+                          {ArrivalLastDiff.minutes}
+                        </Typography>
+                      ) : (
+                        "dd:hh:mm"
+                      )}
                     </Box>
                   </Grid>
                 </MuiPickersUtilsProvider>
@@ -351,12 +364,11 @@ const ArrivalOnset: React.FC = () => {
                     <KeyboardTimePicker
                       variant="inline"
                       label="Select time"
-                      value={firstTime}
+                      value={firstDate}
                       autoOk={true}
-                      onChange={(time: any) => {
-                        setFirstTime(time);
-                        setFirstDate(time);
-                      }}
+                      onChange={(date: MaterialUiPickersDate) =>
+                        setFirstDate(date)
+                      }
                       KeyboardButtonProps={{
                         "aria-label": "change time",
                       }}
@@ -365,11 +377,28 @@ const ArrivalOnset: React.FC = () => {
                   </Grid>
                   <Grid item>
                     <Typography>Duration</Typography>
-                    <Box className={classes.boxDuration}>
-                      <Typography>
-                        {/* {ArrivalFirstDiff.days} : {ArrivalFirstDiff.hours} :{" "}
-                      {ArrivalFirstDiff.minutes} */}
-                      </Typography>
+                    <Box
+                      className={classes.boxDuration}
+                      style={{
+                        backgroundColor: `${
+                          ArrivalFirstDiff !== "" ? "#6ED0BB" : "#C4C4C4"
+                        }`,
+                      }}
+                    >
+                      {ArrivalFirstDiff !== "" ? (
+                        <Typography
+                          style={{
+                            color: `${
+                              ArrivalFirstDiff !== "" ? "#FFFFFF" : "#000000"
+                            }`,
+                          }}
+                        >
+                          {ArrivalFirstDiff.days} : {ArrivalFirstDiff.hours} :{" "}
+                          {ArrivalFirstDiff.minutes}
+                        </Typography>
+                      ) : (
+                        "dd:hh:mm"
+                      )}
                     </Box>
                   </Grid>
                 </MuiPickersUtilsProvider>
