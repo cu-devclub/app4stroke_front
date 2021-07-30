@@ -8,7 +8,7 @@ import UnderLyingDiseaseSection from "../Components/UnderLyingDiseaseSection";
 import VitalSignsSection from "../Components/VitalSignsSection";
 import { Formik, Form } from "formik";
 import { Button } from "@material-ui/core";
-import validation from "../validation/validation";
+import validation from "../Validation/validations";
 
 const StrokePredictionForm: React.FC = () => {
   return (
