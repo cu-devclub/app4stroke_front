@@ -7,7 +7,6 @@ import EKG12LeadsSection from "../Components/EKG12LeadsSection";
 import UnderLyingDiseaseSection from "../Components/UnderLyingDiseaseSection";
 import VitalSignsSection from "../Components/VitalSignsSection";
 import { Formik, Form } from "formik";
-import { Button } from "@material-ui/core";
 import validation from "../Validation/validations";
 
 const StrokePredictionForm: React.FC = () => {
