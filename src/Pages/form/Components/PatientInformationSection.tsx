@@ -16,10 +16,7 @@ import {
 } from "@material-ui/pickers";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import differenceInDays from "date-fns/differenceInDays";
-import differenceInHours from "date-fns/differenceInHours";
-import differenceInMinutes from "date-fns/differenceInMinutes";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import intervalToDuration from "date-fns/intervalToDuration";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -158,10 +155,7 @@ const PatientInformationSection: React.FC = () => {
 
   //* Arrival
   const [arrivalDate, setArrivalDate] = React.useState<Date>(new Date());
-  const [arrivalTime, setArrivalTime] = React.useState<Date | null>(new Date());
-  const handleArrivalTimeChange = (time: Date | null) => {
-    setArrivalTime(time);
-  };
+  const [arrivalTime, setArrivalTime] = React.useState<Date>(arrivalDate);
 
   //* Onset
   // toggle button
@@ -176,36 +170,37 @@ const PatientInformationSection: React.FC = () => {
   // picker
   const [showClearPicker, setShowPickerClear] = useState(false);
   const [clearDate, setClearDate] = React.useState<Date>(new Date());
-  const [clearTime, setClearTime] = React.useState<Date | null>(new Date());
-  const handleClearTimeChange = (time: Date | null) => {
-    setClearTime(time);
-  };
+  const [clearTime, setClearTime] = React.useState<Date>(clearDate);
   //+ unknown onset
   // show picker
   const [showUnknownPicker, setShowPickerUnknown] = useState(false);
   //- last seen
   // picker
   const [lastDate, setLastDate] = React.useState<Date>(new Date());
-
-  const [lastTime, setLastTime] = React.useState<Date | null>(new Date());
-  const handleLastTimeChange = (time: Date | null) => {
-    setLastTime(time);
-  };
+  const [lastTime, setLastTime] = React.useState<Date>(lastDate);
   //- first seen
   // picker
   const [firstDate, setFirstDate] = React.useState<Date>(new Date());
-  const [firstTime, setFirstTime] = React.useState<Date | null>(new Date());
-  const handleFirstTimeChange = (time: Date | null) => {
-    setFirstTime(time);
-  };
+  const [firstTime, setFirstTime] = React.useState<Date>(firstDate);
 
-  //* Duration
-  const arrivalClearDiff = differenceInDays(arrivalDate, clearDate);
-  console.log("arrival - clear : " + arrivalClearDiff);
-  const arrivalLastSeenDiff = differenceInDays(arrivalDate, lastDate);
-  console.log("arrival - last seen : " + arrivalLastSeenDiff);
-  const arrivalFirstSeenDiff = differenceInDays(arrivalDate, firstDate);
-  console.log("arrival - first seen : " + arrivalFirstSeenDiff);
+  console.log(
+    intervalToDuration({
+      start: arrivalDate,
+      end: clearDate,
+    })
+  );
+  console.log(
+    intervalToDuration({
+      start: arrivalDate,
+      end: lastDate,
+    })
+  );
+  console.log(
+    intervalToDuration({
+      start: arrivalDate,
+      end: firstDate,
+    })
+  );
 
   return (
     <Box className={classes.root}>
@@ -301,7 +296,6 @@ const PatientInformationSection: React.FC = () => {
         <Grid container spacing={7}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid item>
-              {/* fix */}
               <KeyboardDatePicker
                 variant="inline"
                 format="dd/MM/yyyy"
@@ -319,7 +313,12 @@ const PatientInformationSection: React.FC = () => {
                 variant="inline"
                 label="Arrival Time"
                 value={arrivalTime}
-                onChange={handleArrivalTimeChange}
+                autoOk={true}
+                // fix
+                onChange={(time: any) => {
+                  setArrivalTime(time);
+                  setArrivalDate(time);
+                }}
                 KeyboardButtonProps={{
                   "aria-label": "change time",
                 }}
@@ -399,7 +398,11 @@ const PatientInformationSection: React.FC = () => {
                       variant="inline"
                       label="Select time"
                       value={clearTime}
-                      onChange={handleClearTimeChange}
+                      autoOk={true}
+                      onChange={(time: any) => {
+                        setClearTime(time);
+                        setClearDate(time);
+                      }}
                       KeyboardButtonProps={{
                         "aria-label": "change time",
                       }}
@@ -443,7 +446,11 @@ const PatientInformationSection: React.FC = () => {
                       variant="inline"
                       label="Select time"
                       value={lastTime}
-                      onChange={handleLastTimeChange}
+                      autoOk={true}
+                      onChange={(time: any) => {
+                        setLastTime(time);
+                        setLastDate(time);
+                      }}
                       KeyboardButtonProps={{
                         "aria-label": "change time",
                       }}
@@ -481,7 +488,11 @@ const PatientInformationSection: React.FC = () => {
                       variant="inline"
                       label="Select time"
                       value={firstTime}
-                      onChange={handleFirstTimeChange}
+                      autoOk={true}
+                      onChange={(time: any) => {
+                        setFirstTime(time);
+                        setFirstDate(time);
+                      }}
                       KeyboardButtonProps={{
                         "aria-label": "change time",
                       }}
