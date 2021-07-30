@@ -18,7 +18,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import intervalToDuration from "date-fns/intervalToDuration";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
-
+import ArrivalOnset from "./ArrivalOnset";
 const useStyle = makeStyles(() =>
   createStyles({
     root: {
@@ -92,9 +92,6 @@ const useStyle = makeStyles(() =>
       fontSize: "75px",
     },
     patientTextField: {
-      width: "100%",
-    },
-    clearTextField: {
       width: "100%",
     },
   })
@@ -206,8 +203,6 @@ const PatientInformationSection: React.FC = () => {
         })
       : "";
 
-  const [duration, setDuration] = React.useState(false);
-
   return (
     <Box className={classes.root}>
       {/* Patient Information */}
@@ -294,246 +289,7 @@ const PatientInformationSection: React.FC = () => {
           </Box>
         </Grid>
       </Box>
-      {/* Arrival Time */}
-      <Box className={classes.boxPicker}>
-        <Box className={classes.textTitle}>
-          <Typography variant="h4">Arrival Time</Typography>
-        </Box>
-        <Grid container spacing={7}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid item>
-              <KeyboardDatePicker
-                variant="inline"
-                format="dd/MM/yyyy"
-                label="Arrival Date"
-                value={arrivalDate}
-                autoOk={true}
-                onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <KeyboardTimePicker
-                variant="inline"
-                label="Arrival Time"
-                value={arrivalDate}
-                autoOk={true}
-                onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
-                KeyboardButtonProps={{
-                  "aria-label": "change time",
-                }}
-              />
-            </Grid>
-          </MuiPickersUtilsProvider>
-        </Grid>
-      </Box>
-      {/* Onset */}
-      <Box className={classes.boxOnset}>
-        <Box className={classes.textTitle}>
-          <Typography variant="h4">Onset</Typography>
-        </Box>
-        <Grid container spacing={2}>
-          <Box>
-            <OnsetStyledToggleButtonGroup
-              value={onset}
-              exclusive
-              onChange={handleOnset}
-            >
-              <ToggleButton
-                value="clearOnset"
-                className={classes.button}
-                onClick={() => {
-                  setShowPickerClear(true);
-                  setShowPickerUnknown(false);
-                }}
-              >
-                <Box>
-                  <Typography variant="subtitle1">Clear onset</Typography>
-                </Box>
-              </ToggleButton>
-            </OnsetStyledToggleButtonGroup>
-          </Box>
-          <Box>
-            <OnsetStyledToggleButtonGroup
-              value={onset}
-              exclusive
-              onChange={handleOnset}
-            >
-              <ToggleButton
-                value="unknownOnset"
-                className={classes.button}
-                onClick={() => {
-                  setShowPickerClear(false);
-                  setShowPickerUnknown(true);
-                }}
-              >
-                <Box>
-                  <Typography variant="subtitle1">Unknown onset</Typography>
-                </Box>
-              </ToggleButton>
-            </OnsetStyledToggleButtonGroup>
-          </Box>
-        </Grid>
-        <Box>
-          {showClearPicker ? (
-            <Box className={classes.boxOnsetPicker}>
-              <Grid container spacing={7}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Grid item>
-                    <KeyboardDatePicker
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      label="Select date"
-                      autoOk={true}
-                      value={clearDate}
-                      onChange={(date: any) => setClearDate(date)}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                      className={classes.addMarginTop}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <KeyboardTimePicker
-                      variant="inline"
-                      label="Select time"
-                      value={clearTime}
-                      autoOk={true}
-                      onChange={(time: any) => {
-                        setClearTime(time);
-                        setClearDate(time);
-                      }}
-                      KeyboardButtonProps={{
-                        "aria-label": "change time",
-                      }}
-                      className={classes.addMarginTop}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography>Duration</Typography>
-                    <Box className={classes.boxDuration}>
-                      {/* fix */}
-                      {ArrivalClearDiff !== "" ? (
-                        <Typography>
-                          {ArrivalClearDiff.days} : {ArrivalClearDiff.hours} :{" "}
-                          {ArrivalClearDiff.minutes}
-                        </Typography>
-                      ) : (
-                        "dd:hh:mm"
-                      )}
-                    </Box>
-                  </Grid>
-                </MuiPickersUtilsProvider>
-              </Grid>
-            </Box>
-          ) : null}
-        </Box>
-        <Box>
-          {showUnknownPicker ? (
-            <Box className={classes.boxOnsetPicker}>
-              <Grid container spacing={7}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Grid item>
-                    <Typography className={classes.addMarginBottom}>
-                      Last seen normal
-                    </Typography>
-                    <KeyboardDatePicker
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      label="Select date"
-                      value={lastDate}
-                      autoOk={true}
-                      onChange={(date: any) => setLastDate(date)}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <KeyboardTimePicker
-                      variant="inline"
-                      label="Select time"
-                      value={lastTime}
-                      autoOk={true}
-                      onChange={(time: any) => {
-                        setLastTime(time);
-                        setLastDate(time);
-                      }}
-                      KeyboardButtonProps={{
-                        "aria-label": "change time",
-                      }}
-                      className={classes.addMarginTop}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography>Duration</Typography>
-                    <Box
-                      className={classes.boxDuration}
-                      style={{
-                        backgroundColor: `${
-                          ArrivalLastDiff !== null ? "#6ED0BB" : "#C4C4C4"
-                        }`,
-                      }}
-                    >
-                      <Typography>
-                        {/* {ArrivalLastDiff.days} : {ArrivalLastDiff.hours} :{" "}
-                        {ArrivalLastDiff.minutes} */}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </MuiPickersUtilsProvider>
-              </Grid>
-              <Grid container spacing={7}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Grid item>
-                    <Typography className={classes.addMarginBottom}>
-                      First seen abnormal
-                    </Typography>
-                    <KeyboardDatePicker
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      label="Select date"
-                      value={firstDate}
-                      autoOk={true}
-                      onChange={(date: any) => setFirstDate(date)}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <KeyboardTimePicker
-                      variant="inline"
-                      label="Select time"
-                      value={firstTime}
-                      autoOk={true}
-                      onChange={(time: any) => {
-                        setFirstTime(time);
-                        setFirstDate(time);
-                      }}
-                      KeyboardButtonProps={{
-                        "aria-label": "change time",
-                      }}
-                      className={classes.addMarginTop}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography>Duration</Typography>
-                    <Box className={classes.boxDuration}>
-                      <Typography>
-                        {/* {ArrivalFirstDiff.days} : {ArrivalFirstDiff.hours} :{" "}
-                        {ArrivalFirstDiff.minutes} */}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </MuiPickersUtilsProvider>
-              </Grid>
-            </Box>
-          ) : null}
-        </Box>
-      </Box>
+      <ArrivalOnset />
       {/* Upload CT Scan */}
       <Box className={classes.boxUpload}>
         <Box className={classes.textTitle}>
