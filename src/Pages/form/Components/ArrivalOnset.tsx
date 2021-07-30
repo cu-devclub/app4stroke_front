@@ -1,30 +1,25 @@
 import "date-fns";
 import React, { useState } from "react";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import DateFnsUtils from "@date-io/date-fns";
 import intervalToDuration from "date-fns/intervalToDuration";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 const useStyle = makeStyles(() =>
   createStyles({
-    root: {
-      width: "100%",
-      marginTop: "0",
-    },
     textTitle: {
       marginBottom: "16px",
     },
-    //* box
     boxPicker: {
       marginLeft: "32px",
       marginBottom: "40px",
@@ -82,7 +77,6 @@ const OnsetStyledToggleButtonGroup = withStyles(() => ({
   },
 }))(ToggleButtonGroup);
 
-//optimize: React.FC
 const ArrivalOnset: React.FC = () => {
   const classes = useStyle();
   //* Arrival
@@ -130,7 +124,7 @@ const ArrivalOnset: React.FC = () => {
         })
       : "";
   return (
-    <Box className={classes.root}>
+    <Box>
       {/* Arrival Time */}
       <Box className={classes.boxPicker}>
         <Box className={classes.textTitle}>
