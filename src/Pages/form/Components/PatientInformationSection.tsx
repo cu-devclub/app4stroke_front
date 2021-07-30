@@ -183,24 +183,20 @@ const PatientInformationSection: React.FC = () => {
   const [firstDate, setFirstDate] = React.useState<Date>(new Date());
   const [firstTime, setFirstTime] = React.useState<Date>(firstDate);
 
-  console.log(
-    intervalToDuration({
-      start: arrivalDate,
-      end: clearDate,
-    })
-  );
-  console.log(
-    intervalToDuration({
-      start: arrivalDate,
-      end: lastDate,
-    })
-  );
-  console.log(
-    intervalToDuration({
-      start: arrivalDate,
-      end: firstDate,
-    })
-  );
+  const ArrivalClearDiff = intervalToDuration({
+    start: arrivalDate,
+    end: clearDate,
+  });
+
+  const ArrivalLastDiff = intervalToDuration({
+    start: arrivalDate,
+    end: lastDate,
+  });
+
+  const ArrivalFirstDiff = intervalToDuration({
+    start: arrivalDate,
+    end: firstDate,
+  });
 
   return (
     <Box className={classes.root}>
@@ -412,7 +408,10 @@ const PatientInformationSection: React.FC = () => {
                   <Grid item>
                     <Typography>Duration</Typography>
                     <Box className={classes.boxDuration}>
-                      <Typography>dd:hh:mm</Typography>
+                      <Typography>
+                        {ArrivalClearDiff.days} : {ArrivalClearDiff.hours} :{" "}
+                        {ArrivalClearDiff.minutes}
+                      </Typography>
                     </Box>
                   </Grid>
                 </MuiPickersUtilsProvider>
@@ -460,7 +459,10 @@ const PatientInformationSection: React.FC = () => {
                   <Grid item>
                     <Typography>Duration</Typography>
                     <Box className={classes.boxDuration}>
-                      <Typography>dd:hh:mm</Typography>
+                      <Typography>
+                        {ArrivalLastDiff.days} : {ArrivalLastDiff.hours} :{" "}
+                        {ArrivalLastDiff.minutes}
+                      </Typography>
                     </Box>
                   </Grid>
                 </MuiPickersUtilsProvider>
@@ -502,7 +504,10 @@ const PatientInformationSection: React.FC = () => {
                   <Grid item>
                     <Typography>Duration</Typography>
                     <Box className={classes.boxDuration}>
-                      <Typography>dd:hh:mm</Typography>
+                      <Typography>
+                        {ArrivalFirstDiff.days} : {ArrivalFirstDiff.hours} :{" "}
+                        {ArrivalFirstDiff.minutes}
+                      </Typography>
                     </Box>
                   </Grid>
                 </MuiPickersUtilsProvider>
