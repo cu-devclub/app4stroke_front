@@ -12,7 +12,7 @@ const validate = (values: ValidateProps) => {
     values.EKG12Leads === undefined ||
     values.EKG12Leads === ""
   ) {  
-    errors.EKG12Leads = "Please select EKG 12 Leads";
+    errors.EKG12Leads = "Please select EKG 12 leads";
   }
   return errors;
 };
