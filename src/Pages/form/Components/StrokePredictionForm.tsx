@@ -38,9 +38,6 @@ const StrokePredictionForm: React.FC = () => {
             />
             <SectionTitle title="NIHSS" />
             <NIHSSSection />
-            <Button disabled={isSubmitting} type="submit">
-              Submit{""}
-            </Button>
           </Form>
         )}
       </Formik>
