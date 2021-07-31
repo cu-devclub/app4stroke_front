@@ -8,12 +8,11 @@ import UnderLyingDiseaseSection from "../Components/UnderLyingDiseaseSection";
 import VitalSignsSection from "../Components/VitalSignsSection";
 import { Formik, Form } from "formik";
 import validation from "../Validation/validations";
-
 const StrokePredictionForm: React.FC = () => {
   return (
     <>
       <Formik
-        initialValues={{ EKG12Leads: "" }}
+        initialValues={{ ChiefComplaint: "",EKG12Leads: "" }}
         validate={validation}
         onSubmit={(values) => {
           console.log(values);
@@ -24,7 +23,11 @@ const StrokePredictionForm: React.FC = () => {
             <SectionTitle title="Patient Information" />
             <PatientInformationSection />
             <SectionTitle title="Chief Complaint" />
-            <ChiefComplaintSection />
+            <ChiefComplaintSection
+              value={values.ChiefComplaint}
+              name="ChiefComplaint"
+              onChange={setFieldValue}
+            />
             <SectionTitle title="Underlying Disease" />
             <UnderLyingDiseaseSection />
             <SectionTitle title="Vital Signs" />
