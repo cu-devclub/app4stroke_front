@@ -4,13 +4,13 @@ import Box from "@material-ui/core/Box";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
+import { ErrorMessage } from "formik";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
     root: {
       width: "100%",
-      padding: "100px",
-      paddingTop: "5px",
+      marginLeft: "40px",
       marginBottom: "32px",
     },
     buttonColor: {
@@ -19,6 +19,11 @@ const useStyle = makeStyles((theme) =>
         color: "#FFFFFF",
         pointerEvents: "none",
       },
+    },
+    errorMessage: {
+      color: "#FF0000",
+      fontSize: "16px",
+      marginLeft: "10px",
     },
   })
 );
@@ -32,6 +37,8 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
     height: "81px",
     backgroundColor: "#FFFFFF",
     color: "#3A3A3D",
+    border: "none",
+    textTransform: "none",
     "&:not(:first-child)": {
       borderRadius: "20px",
     },
@@ -41,23 +48,32 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
-const EKG12LeadsSection: React.FC = () => {
+interface Props {
+  value: string;
+  name: string;
+  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+}
+
+const EKG12LeadsSection = (props: Props) => {
   const classes = useStyle();
+  const { value, name, onChange } = props;
   //EKG12 Leads Button
-  const [EKG12Leads, setEKG12Leads] = React.useState("");
   const handleEKG12Leads = (
     event: React.MouseEvent<HTMLElement>,
     newEKG12Leads: string
   ) => {
-    setEKG12Leads(newEKG12Leads);
+    onChange(name, newEKG12Leads);
   };
   return (
     <Box className={classes.root}>
       {/* Time Course */}
+      <ErrorMessage name={name}>
+        {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+      </ErrorMessage>
       <Box>
         <StyledToggleButtonGroup
           size="large"
-          value={EKG12Leads}
+          value={value}
           exclusive
           onChange={handleEKG12Leads}
           aria-label="EKG12 Leads"
