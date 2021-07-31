@@ -1,8 +1,9 @@
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import React, { useState } from "react";
+import React from "react";
 import Controls from "./Control/Control";
+import { ErrorMessage, setNestedObjectValues } from "formik";
 
 const LevelOfConsciousness = [
   { id: "Alert", title: "0 : Alert" },
@@ -90,6 +91,7 @@ const ExtinctionOrNeglect = [
 
 const useStyles = makeStyles(() => ({
   textNIHSS: {
+    marginTop: "-15px",
     marginBottom: "48px",
     marginLeft: "32px",
     color: "#797979",
@@ -98,35 +100,54 @@ const useStyles = makeStyles(() => ({
     lineHeight: "32px",
     letterSpacing: "0.4px",
   },
+  text: {
+    marginLeft: "32px",
+    marginTop: "40px",
+    color: "#3A3A3D",
+    fontSize: "24px",
+    fontWeight: "bold",
+    letterSpacing: "0.4px",
+    lineHeight: "32px",
+  },
+  error: {
+    marginLeft: "32px",
+    color: "#FF0000",
+    fontSize: "12px",
+    letterSpacing: "0.4px",
+    lineHeight: "20px",
+  },
 }));
 
-const RValues = {
-  levelOfConsciousness: "",
-  twoQuestions: "",
-  twoCommands: "",
-  bestGaze: "",
-  bestVisual: "",
-  facialPalsy: "",
-  bestMotorLeftArm: "",
-  bestMotorRightArm: "",
-  bestMotorLeftLeg: "",
-  bestMotorRightLeg: "",
-  limbAtaxia: "",
-  sensory: "",
-  bestLanguageAphasia: "",
-  dysarthria: "",
-  extinctionOrNeglect: "",
-};
+interface NIHSSProps {
+  levelOfConsciousness: string;
+  twoQuestions: string;
+  twoCommands: string;
+  bestGaze: string;
+  bestVisual: string;
+  facialPalsy: string;
+  bestMotorLeftArm: string;
+  bestMotorRightArm: string;
+  bestMotorLeftLeg: string;
+  bestMotorRightLeg: string;
+  limbAtaxia: string;
+  sensory: string;
+  bestLanguageAphasia: string;
+  dysarthria: string;
+  extinctionOrNeglect: string;
+}
 
-const NIHSSSection: React.FC = () => {
+interface Props {
+  values: NIHSSProps;
+  fieldName: string;
+  onChange: any;
+}
+
+const NIHSSSection = (props: Props) => {
   const classes = useStyles();
-  const [values, setValues] = useState(RValues);
+  const { values, fieldName, onChange } = props;
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
+    onChange(fieldName, { ...values, [name]: value });
   };
 
   return (
@@ -134,140 +155,201 @@ const NIHSSSection: React.FC = () => {
       <Typography className={classes.textNIHSS}>
         National Institute of Health Stroke Scale
       </Typography>
+
       <Box>
+        <Typography className={classes.text}>
+          1a. Level of consciousness
+        </Typography>
+        <ErrorMessage name={`${fieldName}.levelOfConsciousness`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
         <Controls.PinkRadio
           name="levelOfConsciousness"
-          label="1a. Level of consciousness"
           value={values.levelOfConsciousness}
           onChange={handleInputChange}
           items={LevelOfConsciousness}
         />
       </Box>
       <Box>
+        <Typography className={classes.text}>1b. Two questions</Typography>
+        <ErrorMessage name={`${fieldName}.twoQuestions`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
         <Controls.PinkRadio
           name="twoQuestions"
-          label="1b. Two questions"
           value={values.twoQuestions}
           onChange={handleInputChange}
           items={TwoQuestions}
         />
       </Box>
       <Box>
+        <Typography className={classes.text}>1c. Two commands</Typography>
+        <ErrorMessage name={`${fieldName}.twoCommands`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
         <Controls.PinkRadio
           name="twoCommands"
-          label="1c. Two commands"
           value={values.twoCommands}
           onChange={handleInputChange}
           items={TwoCommands}
         />
       </Box>
       <Box>
+        <Typography className={classes.text}>2. Best gaze</Typography>
+        <ErrorMessage name={`${fieldName}.bestGaze`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
         <Controls.PinkRadio
           name="bestGaze"
-          label="2. Best gaze"
           value={values.bestGaze}
           onChange={handleInputChange}
           items={BestGaze}
         />
       </Box>
       <Box>
+        <Typography className={classes.text}>3. Best visual</Typography>
+        <ErrorMessage name={`${fieldName}.bestVisual`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
         <Controls.PinkRadio
           name="bestVisual"
-          label="3. Best visual"
           value={values.bestVisual}
           onChange={handleInputChange}
           items={BestVisual}
         />
       </Box>
       <Box>
+        <Typography className={classes.text}>4. Facial palsy</Typography>
+        <ErrorMessage name={`${fieldName}.facialPalsy`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
         <Controls.PinkRadio
           name="facialPalsy"
-          label="4. Facial palsy"
           value={values.facialPalsy}
           onChange={handleInputChange}
           items={FacialPalsy}
         />
       </Box>
       <Box>
+        <Typography className={classes.text}>
+          5a. Best motor left arm
+        </Typography>
+        <ErrorMessage name={`${fieldName}.bestMotorLeftArm`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
         <Controls.PinkRadio
           name="bestMotorLeftArm"
-          label="5a. Best motor left arm"
           value={values.bestMotorLeftArm}
           onChange={handleInputChange}
           items={BestMotor}
         />
-        <Box>
-          <Controls.PinkRadio
-            name="bestMotorRightArm"
-            label="5b. Best motor right arm"
-            value={values.bestMotorRightArm}
-            onChange={handleInputChange}
-            items={BestMotor}
-          />
-        </Box>
-        <Box>
-          <Controls.PinkRadio
-            name="bestMotorLeftLeg"
-            label="6a. Best motor left leg"
-            value={values.bestMotorLeftLeg}
-            onChange={handleInputChange}
-            items={BestMotor}
-          />
-        </Box>
-        <Box>
-          <Controls.PinkRadio
-            name="bestMotorRightLeg"
-            label="6b. Best motor right leg"
-            value={values.bestMotorRightLeg}
-            onChange={handleInputChange}
-            items={BestMotor}
-          />
-        </Box>
-        <Box>
-          <Controls.PinkRadio
-            name="limbAtaxia"
-            label="7. Limb Ataxia"
-            value={values.limbAtaxia}
-            onChange={handleInputChange}
-            items={LimbAtaxia}
-          />
-        </Box>
-        <Box>
-          <Controls.PinkRadio
-            name="sensory"
-            label="8. Sensory"
-            value={values.sensory}
-            onChange={handleInputChange}
-            items={Sensory}
-          />
-        </Box>
-        <Box>
-          <Controls.PinkRadio
-            name="bestLanguageAphasia"
-            label="9. Best language Aphasia"
-            value={values.bestLanguageAphasia}
-            onChange={handleInputChange}
-            items={BestLanguageAphasia}
-          />
-        </Box>
-        <Box>
-          <Controls.PinkRadio
-            name="dysarthria"
-            label="10. Dysarthria"
-            value={values.dysarthria}
-            onChange={handleInputChange}
-            items={Dysarthria}
-          />
-        </Box>
-        <Box>
-          <Controls.PinkRadio
-            name="extinctionOrNeglect"
-            label="11. Extinction or neglect"
-            value={values.extinctionOrNeglect}
-            onChange={handleInputChange}
-            items={ExtinctionOrNeglect}
-          />
-        </Box>
+      </Box>
+      <Box>
+        <Typography className={classes.text}>
+          5b. Best motor right arm
+        </Typography>
+        <ErrorMessage name={`${fieldName}.bestMotorRightArm`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
+        <Controls.PinkRadio
+          name="bestMotorRightArm"
+          value={values.bestMotorRightArm}
+          onChange={handleInputChange}
+          items={BestMotor}
+        />
+      </Box>
+      <Box>
+        <Typography className={classes.text}>
+          6a. Best motor left leg
+        </Typography>
+        <ErrorMessage name={`${fieldName}.bestMotorLeftLeg`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
+        <Controls.PinkRadio
+          name="bestMotorLeftLeg"
+          value={values.bestMotorLeftLeg}
+          onChange={handleInputChange}
+          items={BestMotor}
+        />
+      </Box>
+      <Box>
+        <Typography className={classes.text}>
+          6b. Best motor right leg
+        </Typography>
+        <ErrorMessage name={`${fieldName}.bestMotorRightLeg`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
+        <Controls.PinkRadio
+          name="bestMotorRightLeg"
+          label="6b. Best motor right leg"
+          value={values.bestMotorRightLeg}
+          onChange={handleInputChange}
+          items={BestMotor}
+        />
+      </Box>
+      <Box>
+        <Typography className={classes.text}>7. Limb Ataxia</Typography>
+        <ErrorMessage name={`${fieldName}.limbAtaxia`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
+        <Controls.PinkRadio
+          name="limbAtaxia"
+          value={values.limbAtaxia}
+          onChange={handleInputChange}
+          items={LimbAtaxia}
+        />
+      </Box>
+      <Box>
+        <Typography className={classes.text}>8. Sensory</Typography>
+        <ErrorMessage name={`${fieldName}.sensory`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
+        <Controls.PinkRadio
+          name="sensory"
+          value={values.sensory}
+          onChange={handleInputChange}
+          items={Sensory}
+        />
+      </Box>
+      <Box>
+        <Typography className={classes.text}>
+          9. Best language Aphasia
+        </Typography>
+        <ErrorMessage name={`${fieldName}.bestLanguageAphasia`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
+        <Controls.PinkRadio
+          name="bestLanguageAphasia"
+          value={values.bestLanguageAphasia}
+          onChange={handleInputChange}
+          items={BestLanguageAphasia}
+        />
+      </Box>
+      <Box>
+        <Typography className={classes.text}>10. Dysarthria</Typography>
+        <ErrorMessage name={`${fieldName}.dysarthria`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
+        <Controls.PinkRadio
+          name="dysarthria"
+          value={values.dysarthria}
+          onChange={handleInputChange}
+          items={Dysarthria}
+        />
+      </Box>
+      <Box>
+        <Typography className={classes.text}>
+          11. Extinction or neglect
+        </Typography>
+        <ErrorMessage name={`${fieldName}.extinctionOrNeglect`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
+        <Controls.PinkRadio
+          name="extinctionOrNeglect"
+          value={values.extinctionOrNeglect}
+          onChange={handleInputChange}
+          items={ExtinctionOrNeglect}
+        />
       </Box>
     </>
   );
