@@ -14,6 +14,7 @@ import {
   Theme,
   withStyles,
 } from "@material-ui/core/styles";
+import { ErrorMessage } from "formik";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -31,6 +32,11 @@ const useStyle = makeStyles((theme) =>
     },
     checkbox: {
       marginLeft: "32px",
+    },
+    errorMessage: {
+      color: "#FF0000",
+      fontSize: "16px",
+      marginLeft: "5px",
     },
   })
 );
@@ -64,6 +70,12 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
+interface Props {
+  value: string;
+  name: string;
+  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+}
+
 const checkBoxLabel = [
   "Dysarthria",
   "Dysphasia/aphasia",
@@ -73,15 +85,15 @@ const checkBoxLabel = [
 ];
 const subCheckBoxLabel = ["Left", "Right"];
 
-const ChiefComplaintSection: React.FC = () => {
+const ChiefComplaintSection = (props: Props) => {
   const classes = useStyle();
+  const { value, name, onChange } = props;
   //Time Course Button
-  const [timeCourse, setTimeCourse] = React.useState("");
   const handleTimeCourse = (
     event: React.MouseEvent<HTMLElement>,
     newTimeCourse: string
   ) => {
-    setTimeCourse(newTimeCourse);
+    onChange(name,newTimeCourse);
   };
 
   //checkbox
@@ -107,10 +119,13 @@ const ChiefComplaintSection: React.FC = () => {
       {/* Time Course */}
       <Box>
         <Typography variant="h4">Time Course</Typography>
+        <ErrorMessage name={name}>
+        {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+      </ErrorMessage>
         <Box>
           <StyledToggleButtonGroup
             size="large"
-            value={timeCourse}
+            value={value}
             exclusive
             onChange={handleTimeCourse}
             aria-label="Time course"

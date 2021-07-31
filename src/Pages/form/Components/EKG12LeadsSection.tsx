@@ -66,7 +66,7 @@ const EKG12LeadsSection = (props: Props) => {
   };
   return (
     <Box className={classes.root}>
-      {/* Time Course */}
+      {/* EKG12 Leads */}
       <ErrorMessage name={name}>
         {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
       </ErrorMessage>
