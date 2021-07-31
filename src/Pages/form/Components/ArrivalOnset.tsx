@@ -1,19 +1,14 @@
 import "date-fns";
 import React, { useState } from "react";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import DateFnsUtils from "@date-io/date-fns";
 import intervalToDuration from "date-fns/intervalToDuration";
+import Controls from "./Control/Control";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -52,9 +47,6 @@ const useStyle = makeStyles(() =>
         pointerEvents: "none",
       },
     },
-    patientTextField: {
-      width: "100%",
-    },
   })
 );
 
@@ -81,7 +73,6 @@ const ArrivalOnset: React.FC = () => {
   const classes = useStyle();
   //* Arrival
   const [arrivalDate, setArrivalDate] = React.useState<Date | null>(null);
-  console.log(arrivalDate);
 
   //* Onset
   // toggle button
@@ -131,33 +122,20 @@ const ArrivalOnset: React.FC = () => {
           <Typography variant="h4">Arrival Time</Typography>
         </Box>
         <Grid container spacing={7}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid item>
-              <KeyboardDatePicker
-                variant="inline"
-                format="dd/MM/yyyy"
-                label="Arrival Date"
-                value={arrivalDate}
-                autoOk={true}
-                onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <KeyboardTimePicker
-                variant="inline"
-                label="Arrival Time"
-                value={arrivalDate}
-                autoOk={true}
-                onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
-                KeyboardButtonProps={{
-                  "aria-label": "change time",
-                }}
-              />
-            </Grid>
-          </MuiPickersUtilsProvider>
+          <Grid item>
+            <Controls.DatePicker
+              label="Arrival Date"
+              value={arrivalDate}
+              onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
+            />
+          </Grid>
+          <Grid item>
+            <Controls.TimePicker
+              label="Arrival Time"
+              value={arrivalDate}
+              onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
+            />
+          </Grid>
         </Grid>
       </Box>
       {/* Onset */}
@@ -211,63 +189,50 @@ const ArrivalOnset: React.FC = () => {
           {showClearPicker ? (
             <Box className={classes.boxOnsetPicker}>
               <Grid container spacing={7}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Grid item>
-                    <KeyboardDatePicker
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      label="Select date"
-                      autoOk={true}
-                      value={clearDate}
-                      onChange={(date: any) => setClearDate(date)}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                      className={classes.addMarginTop}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <KeyboardTimePicker
-                      variant="inline"
-                      label="Select time"
-                      value={clearDate}
-                      autoOk={true}
-                      onChange={(date: MaterialUiPickersDate) => {
-                        setClearDate(date);
-                      }}
-                      KeyboardButtonProps={{
-                        "aria-label": "change time",
-                      }}
-                      className={classes.addMarginTop}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography>Duration</Typography>
-                    <Box
-                      className={classes.boxDuration}
-                      style={{
-                        backgroundColor: `${
-                          ArrivalClearDiff !== "" ? "#6ED0BB" : "#C4C4C4"
-                        }`,
-                      }}
-                    >
-                      {ArrivalClearDiff !== "" ? (
-                        <Typography
-                          style={{
-                            color: `${
-                              ArrivalClearDiff !== "" ? "#FFFFFF" : "#000000"
-                            }`,
-                          }}
-                        >
-                          {ArrivalClearDiff.days} : {ArrivalClearDiff.hours} :{" "}
-                          {ArrivalClearDiff.minutes}
-                        </Typography>
-                      ) : (
-                        "dd:hh:mm"
-                      )}
-                    </Box>
-                  </Grid>
-                </MuiPickersUtilsProvider>
+                <Grid item>
+                  <Controls.DatePicker
+                    label="Select date"
+                    value={clearDate}
+                    onChange={(date: any) => setClearDate(date)}
+                    className={classes.addMarginTop}
+                  />
+                </Grid>
+                <Grid item>
+                  <Controls.TimePicker
+                    label="Select time"
+                    value={clearDate}
+                    onChange={(date: MaterialUiPickersDate) => {
+                      setClearDate(date);
+                    }}
+                    className={classes.addMarginTop}
+                  />
+                </Grid>
+                <Grid item>
+                  <Typography>Duration</Typography>
+                  <Box
+                    className={classes.boxDuration}
+                    style={{
+                      backgroundColor: `${
+                        ArrivalClearDiff !== "" ? "#6ED0BB" : "#C4C4C4"
+                      }`,
+                    }}
+                  >
+                    {ArrivalClearDiff !== "" ? (
+                      <Typography
+                        style={{
+                          color: `${
+                            ArrivalClearDiff !== "" ? "#FFFFFF" : "#000000"
+                          }`,
+                        }}
+                      >
+                        {ArrivalClearDiff.days} : {ArrivalClearDiff.hours} :{" "}
+                        {ArrivalClearDiff.minutes}
+                      </Typography>
+                    ) : (
+                      "dd:hh:mm"
+                    )}
+                  </Box>
+                </Grid>
               </Grid>
             </Box>
           ) : null}
@@ -276,126 +241,100 @@ const ArrivalOnset: React.FC = () => {
           {showUnknownPicker ? (
             <Box className={classes.boxOnsetPicker}>
               <Grid container spacing={7}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Grid item>
-                    <Typography className={classes.addMarginBottom}>
-                      Last seen normal
-                    </Typography>
-                    <KeyboardDatePicker
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      label="Select date"
-                      value={lastDate}
-                      autoOk={true}
-                      onChange={(date: any) => setLastDate(date)}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <KeyboardTimePicker
-                      variant="inline"
-                      label="Select time"
-                      value={lastDate}
-                      autoOk={true}
-                      onChange={(date: MaterialUiPickersDate) =>
-                        setLastDate(date)
-                      }
-                      KeyboardButtonProps={{
-                        "aria-label": "change time",
-                      }}
-                      className={classes.addMarginTop}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography>Duration</Typography>
-                    <Box
-                      className={classes.boxDuration}
-                      style={{
-                        backgroundColor: `${
-                          ArrivalLastDiff !== "" ? "#6ED0BB" : "#C4C4C4"
-                        }`,
-                      }}
-                    >
-                      {ArrivalLastDiff !== "" ? (
-                        <Typography
-                          style={{
-                            color: `${
-                              ArrivalLastDiff !== "" ? "#FFFFFF" : "#000000"
-                            }`,
-                          }}
-                        >
-                          {ArrivalLastDiff.days} : {ArrivalLastDiff.hours} :{" "}
-                          {ArrivalLastDiff.minutes}
-                        </Typography>
-                      ) : (
-                        "dd:hh:mm"
-                      )}
-                    </Box>
-                  </Grid>
-                </MuiPickersUtilsProvider>
+                <Grid item>
+                  <Typography className={classes.addMarginBottom}>
+                    Last seen normal
+                  </Typography>
+                  <Controls.DatePicker
+                    label="Select date"
+                    value={lastDate}
+                    onChange={(date: any) => setLastDate(date)}
+                  />
+                </Grid>
+                <Grid item>
+                  <Controls.TimePicker
+                    label="Select time"
+                    value={lastDate}
+                    onChange={(date: MaterialUiPickersDate) =>
+                      setLastDate(date)
+                    }
+                    className={classes.addMarginTop}
+                  />
+                </Grid>
+                <Grid item>
+                  <Typography>Duration</Typography>
+                  <Box
+                    className={classes.boxDuration}
+                    style={{
+                      backgroundColor: `${
+                        ArrivalLastDiff !== "" ? "#6ED0BB" : "#C4C4C4"
+                      }`,
+                    }}
+                  >
+                    {ArrivalLastDiff !== "" ? (
+                      <Typography
+                        style={{
+                          color: `${
+                            ArrivalLastDiff !== "" ? "#FFFFFF" : "#000000"
+                          }`,
+                        }}
+                      >
+                        {ArrivalLastDiff.days} : {ArrivalLastDiff.hours} :{" "}
+                        {ArrivalLastDiff.minutes}
+                      </Typography>
+                    ) : (
+                      "dd:hh:mm"
+                    )}
+                  </Box>
+                </Grid>
               </Grid>
               <Grid container spacing={7}>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Grid item>
-                    <Typography className={classes.addMarginBottom}>
-                      First seen abnormal
-                    </Typography>
-                    <KeyboardDatePicker
-                      variant="inline"
-                      format="dd/MM/yyyy"
-                      label="Select date"
-                      value={firstDate}
-                      autoOk={true}
-                      onChange={(date: any) => setFirstDate(date)}
-                      KeyboardButtonProps={{
-                        "aria-label": "change date",
-                      }}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <KeyboardTimePicker
-                      variant="inline"
-                      label="Select time"
-                      value={firstDate}
-                      autoOk={true}
-                      onChange={(date: MaterialUiPickersDate) =>
-                        setFirstDate(date)
-                      }
-                      KeyboardButtonProps={{
-                        "aria-label": "change time",
-                      }}
-                      className={classes.addMarginTop}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Typography>Duration</Typography>
-                    <Box
-                      className={classes.boxDuration}
-                      style={{
-                        backgroundColor: `${
-                          ArrivalFirstDiff !== "" ? "#6ED0BB" : "#C4C4C4"
-                        }`,
-                      }}
-                    >
-                      {ArrivalFirstDiff !== "" ? (
-                        <Typography
-                          style={{
-                            color: `${
-                              ArrivalFirstDiff !== "" ? "#FFFFFF" : "#000000"
-                            }`,
-                          }}
-                        >
-                          {ArrivalFirstDiff.days} : {ArrivalFirstDiff.hours} :{" "}
-                          {ArrivalFirstDiff.minutes}
-                        </Typography>
-                      ) : (
-                        "dd:hh:mm"
-                      )}
-                    </Box>
-                  </Grid>
-                </MuiPickersUtilsProvider>
+                <Grid item>
+                  <Typography className={classes.addMarginBottom}>
+                    First seen abnormal
+                  </Typography>
+                  <Controls.DatePicker
+                    label="Select date"
+                    value={firstDate}
+                    onChange={(date: any) => setFirstDate(date)}
+                  />
+                </Grid>
+                <Grid item>
+                  <Controls.TimePicker
+                    label="Select time"
+                    value={firstDate}
+                    onChange={(date: MaterialUiPickersDate) =>
+                      setFirstDate(date)
+                    }
+                    className={classes.addMarginTop}
+                  />
+                </Grid>
+                <Grid item>
+                  <Typography>Duration</Typography>
+                  <Box
+                    className={classes.boxDuration}
+                    style={{
+                      backgroundColor: `${
+                        ArrivalFirstDiff !== "" ? "#6ED0BB" : "#C4C4C4"
+                      }`,
+                    }}
+                  >
+                    {ArrivalFirstDiff !== "" ? (
+                      <Typography
+                        style={{
+                          color: `${
+                            ArrivalFirstDiff !== "" ? "#FFFFFF" : "#000000"
+                          }`,
+                        }}
+                      >
+                        {ArrivalFirstDiff.days} : {ArrivalFirstDiff.hours} :{" "}
+                        {ArrivalFirstDiff.minutes}
+                      </Typography>
+                    ) : (
+                      "dd:hh:mm"
+                    )}
+                  </Box>
+                </Grid>
               </Grid>
             </Box>
           ) : null}
