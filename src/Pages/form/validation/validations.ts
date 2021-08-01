@@ -1,7 +1,7 @@
 import React from "react";
 import * as RadioData from "../Components/Control/RadioData";
 
-const Condition = (condition: string) => {
+const condition = (condition: string) => {
   return condition === null || condition === undefined || condition === "";
 };
 
@@ -33,56 +33,56 @@ const validate = (values: ValidateProps) => {
       extinctionOrNeglect: "",
     },
   };
-  if (Condition(values.ChiefComplaint)) {
+  if (condition(values.ChiefComplaint)) {
     errors.ChiefComplaint = "Please select time course";
   }
-  if (Condition(values.EKG12Leads)) {
+  if (condition(values.EKG12Leads)) {
     errors.EKG12Leads = "Please select EKG 12 leads";
   }
 
-  if (Condition(values.NIHSS.levelOfConsciousness)) {
+  if (condition(values.NIHSS.levelOfConsciousness)) {
     errors.NIHSS.levelOfConsciousness = "Please select level of consciousness";
   }
-  if (Condition(values.NIHSS.twoQuestions)) {
+  if (condition(values.NIHSS.twoQuestions)) {
     errors.NIHSS.twoQuestions = "Please select two questions";
   }
-  if (Condition(values.NIHSS.twoCommands)) {
+  if (condition(values.NIHSS.twoCommands)) {
     errors.NIHSS.twoCommands = "Please select two commands";
   }
-  if (Condition(values.NIHSS.bestGaze)) {
+  if (condition(values.NIHSS.bestGaze)) {
     errors.NIHSS.bestGaze = "Please select best gaze";
   }
-  if (Condition(values.NIHSS.bestVisual)) {
+  if (condition(values.NIHSS.bestVisual)) {
     errors.NIHSS.bestVisual = "Please select best visual";
   }
-  if (Condition(values.NIHSS.facialPalsy)) {
+  if (condition(values.NIHSS.facialPalsy)) {
     errors.NIHSS.facialPalsy = "Please select facial palsy";
   }
-  if (Condition(values.NIHSS.bestMotorRightArm)) {
+  if (condition(values.NIHSS.bestMotorRightArm)) {
     errors.NIHSS.bestMotorRightArm = "Please select best motor right arm";
   }
-  if (Condition(values.NIHSS.bestMotorLeftArm)) {
+  if (condition(values.NIHSS.bestMotorLeftArm)) {
     errors.NIHSS.bestMotorLeftArm = "Please select best motor left arm";
   }
-  if (Condition(values.NIHSS.bestMotorRightLeg)) {
+  if (condition(values.NIHSS.bestMotorRightLeg)) {
     errors.NIHSS.bestMotorRightLeg = "Please select best motor right leg";
   }
-  if (Condition(values.NIHSS.bestMotorLeftLeg)) {
+  if (condition(values.NIHSS.bestMotorLeftLeg)) {
     errors.NIHSS.bestMotorLeftLeg = "Please select best motor left leg";
   }
-  if (Condition(values.NIHSS.limbAtaxia)) {
+  if (condition(values.NIHSS.limbAtaxia)) {
     errors.NIHSS.limbAtaxia = "Please select limb ataxia";
   }
-  if (Condition(values.NIHSS.sensory)) {
+  if (condition(values.NIHSS.sensory)) {
     errors.NIHSS.sensory = "Please select sensory";
   }
-  if (Condition(values.NIHSS.bestLanguageAphasia)) {
+  if (condition(values.NIHSS.bestLanguageAphasia)) {
     errors.NIHSS.bestLanguageAphasia = "Please select best language aphasia";
   }
-  if (Condition(values.NIHSS.dysarthria)) {
+  if (condition(values.NIHSS.dysarthria)) {
     errors.NIHSS.dysarthria = "Please select dysarthria";
   }
-  if (Condition(values.NIHSS.extinctionOrNeglect)) {
+  if (condition(values.NIHSS.extinctionOrNeglect)) {
     errors.NIHSS.extinctionOrNeglect = "Please select extinction or neglect";
   }
   return errors;
