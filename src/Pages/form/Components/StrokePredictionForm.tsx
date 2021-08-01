@@ -7,13 +7,35 @@ import EKG12LeadsSection from "../Components/EKG12LeadsSection";
 import UnderLyingDiseaseSection from "../Components/UnderLyingDiseaseSection";
 import VitalSignsSection from "../Components/VitalSignsSection";
 import { Formik, Form } from "formik";
-import validation from "../Validation/validations";
+import validations from "../Validation/validations";
+import { Button } from "@material-ui/core";
+
 const StrokePredictionForm: React.FC = () => {
   return (
     <>
       <Formik
-        initialValues={{ ChiefComplaint: "",EKG12Leads: "" }}
-        validate={validation}
+        initialValues={{
+          ChiefComplaint: "",
+          EKG12Leads: "",
+          NIHSS: {
+            levelOfConsciousness: "",
+            twoQuestions: "",
+            twoCommands: "",
+            bestGaze: "",
+            bestVisual: "",
+            facialPalsy: "",
+            bestMotorLeftArm: "",
+            bestMotorRightArm: "",
+            bestMotorLeftLeg: "",
+            bestMotorRightLeg: "",
+            limbAtaxia: "",
+            sensory: "",
+            bestLanguageAphasia: "",
+            dysarthria: "",
+            extinctionOrNeglect: "",
+          },
+        }}
+        validate={validations}
         onSubmit={(values) => {
           console.log(values);
         }}
@@ -39,7 +61,14 @@ const StrokePredictionForm: React.FC = () => {
               onChange={setFieldValue}
             />
             <SectionTitle title="NIHSS" />
-            <NIHSSSection />
+            <NIHSSSection
+              values={values.NIHSS}
+              fieldName="NIHSS"
+              onChange={setFieldValue}
+            />
+            <Button disabled={isSubmitting} type="submit">
+              Submit{""}
+            </Button>
           </Form>
         )}
       </Formik>
