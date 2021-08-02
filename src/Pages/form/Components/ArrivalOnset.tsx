@@ -98,6 +98,27 @@ const ArrivalOnset: React.FC = () => {
         })
       : "";
 
+  const showDayDigitACDiff =
+    ArrivalClearDiff !== ""
+      ? ArrivalClearDiff.days?.toLocaleString(undefined, {
+          minimumIntegerDigits: 2,
+        })
+      : "";
+
+  const showHourDigitACDiff =
+    ArrivalClearDiff !== ""
+      ? ArrivalClearDiff.hours?.toLocaleString(undefined, {
+          minimumIntegerDigits: 2,
+        })
+      : "";
+
+  const showMinuteDigitACDiff =
+    ArrivalClearDiff !== ""
+      ? ArrivalClearDiff.minutes?.toLocaleString(undefined, {
+          minimumIntegerDigits: 2,
+        })
+      : "";
+
   const ArrivalLastDiff =
     arrivalDate && lastDate !== null
       ? intervalToDuration({
@@ -105,11 +126,54 @@ const ArrivalOnset: React.FC = () => {
           end: lastDate,
         })
       : "";
+
+  const showDayDigitALDiff =
+    ArrivalLastDiff !== ""
+      ? ArrivalLastDiff.days?.toLocaleString(undefined, {
+          minimumIntegerDigits: 2,
+        })
+      : "";
+
+  const showHourDigitALDiff =
+    ArrivalLastDiff !== ""
+      ? ArrivalLastDiff.hours?.toLocaleString(undefined, {
+          minimumIntegerDigits: 2,
+        })
+      : "";
+
+  const showMinuteDigitALDiff =
+    ArrivalLastDiff !== ""
+      ? ArrivalLastDiff.minutes?.toLocaleString(undefined, {
+          minimumIntegerDigits: 2,
+        })
+      : "";
+
   const ArrivalFirstDiff =
     arrivalDate && firstDate !== null
       ? intervalToDuration({
           start: arrivalDate,
           end: firstDate,
+        })
+      : "";
+
+  const showDayDigitAFDiff =
+    ArrivalFirstDiff !== ""
+      ? ArrivalFirstDiff.days?.toLocaleString(undefined, {
+          minimumIntegerDigits: 2,
+        })
+      : "";
+
+  const showHourDigitAFDiff =
+    ArrivalFirstDiff !== ""
+      ? ArrivalFirstDiff.hours?.toLocaleString(undefined, {
+          minimumIntegerDigits: 2,
+        })
+      : "";
+
+  const showMinuteDigitAFDiff =
+    ArrivalFirstDiff !== ""
+      ? ArrivalFirstDiff.minutes?.toLocaleString(undefined, {
+          minimumIntegerDigits: 2,
         })
       : "";
 
@@ -236,8 +300,8 @@ const ArrivalOnset: React.FC = () => {
                           }`,
                         }}
                       >
-                        {ArrivalClearDiff.days} : {ArrivalClearDiff.hours} :{" "}
-                        {ArrivalClearDiff.minutes}
+                        {showDayDigitACDiff} : {showHourDigitACDiff} :{" "}
+                        {showMinuteDigitACDiff}
                       </Typography>
                     ) : (
                       "dd:hh:mm"
@@ -292,8 +356,8 @@ const ArrivalOnset: React.FC = () => {
                           }`,
                         }}
                       >
-                        {ArrivalLastDiff.days} : {ArrivalLastDiff.hours} :{" "}
-                        {ArrivalLastDiff.minutes}
+                        {showDayDigitALDiff} : {showHourDigitALDiff} :{" "}
+                        {showMinuteDigitALDiff}
                       </Typography>
                     ) : (
                       "dd:hh:mm"
@@ -344,8 +408,8 @@ const ArrivalOnset: React.FC = () => {
                           }`,
                         }}
                       >
-                        {ArrivalFirstDiff.days} : {ArrivalFirstDiff.hours} :{" "}
-                        {ArrivalFirstDiff.minutes}
+                        {showDayDigitAFDiff} : {showHourDigitAFDiff} :{" "}
+                        {showMinuteDigitAFDiff}
                       </Typography>
                     ) : (
                       "dd:hh:mm"
