@@ -37,6 +37,17 @@ const useStyle = makeStyles((theme) =>
       width: "300px",
       "&:hover": { backgroundColor: "#EF5DA8", color: "#ffffff" },
     },
+    buttonSideBar: {
+      backgroundColor: "#EF5DA8",
+      color: "#ffffff",
+      textTransform: "none",
+      borderRadius: "20px",
+      fontSize: "18px",
+      marginBottom: "10px",
+      width:"150px",
+      height: "40px",
+      "&:hover": { backgroundColor: "#EF5DA8", color: "#ffffff" },
+    },
   })
 );
 
@@ -115,7 +126,11 @@ const StrokePredictionForm: React.FC = () => {
               <Grid item>
                 <Card className={classes.sidebar}>
                   <CardContent>
-                    <Button disabled={isSubmitting} type="submit">
+                    <Button
+                      disabled={isSubmitting}
+                      type="submit"
+                      className={classes.buttonSideBar}
+                    >
                       Submit{""}
                     </Button>
                     <SideBarProgress />
