@@ -147,7 +147,7 @@ const PatientInformationSection: React.FC = () => {
                 <ToggleButton value="male" className={classes.button}>
                   <Box display="flex">
                     <IoMaleOutline
-                      color={isMaleWhite ? "white" : "#5D5FEF"}
+                      color={isMaleWhite ? "#FFFFFF" : "#5D5FEF"}
                       className={classes.maleIcon}
                     />
                   </Box>
@@ -170,7 +170,7 @@ const PatientInformationSection: React.FC = () => {
                 <ToggleButton value="female" className={classes.button}>
                   <Box display="flex">
                     <IoFemaleOutline
-                      color={isFemaleWhite ? "white" : "#FF4181"}
+                      color={isFemaleWhite ? "#FFFFFF" : "#FF4181"}
                       className={classes.femaleIcon}
                     />
                   </Box>
