@@ -8,24 +8,22 @@ import Typography from "@material-ui/core/Typography";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import intervalToDuration from "date-fns/intervalToDuration";
-import format from "date-fns/format";
 import Controls from "./Control/Control";
+import formatDuration from "date-fns/formatDuration";
+import formatRFC3339 from "date-fns/formatRFC3339";
 
 const useStyle = makeStyles(() =>
   createStyles({
     textTitle: {
       marginBottom: "16px",
     },
-    boxPicker: {
+    boxArrival: {
       marginLeft: "32px",
       marginBottom: "40px",
     },
     boxOnset: {
       marginLeft: "32px",
       marginBottom: "40px",
-    },
-    boxOnsetPicker: {
-      marginTop: "70px",
     },
     boxDuration: {
       width: "176px",
@@ -72,18 +70,11 @@ const OnsetStyledToggleButtonGroup = withStyles(() => ({
 
 const ArrivalOnset: React.FC = () => {
   const classes = useStyle();
+
   //* Arrival
   const [arrivalDate, setArrivalDate] = React.useState<Date | null>(null);
-
   //* Onset
-  // toggle button
   const [onset, setOnset] = React.useState<string | null>("");
-  const handleOnset = (
-    event: React.MouseEvent<HTMLElement>,
-    newOnset: string | null
-  ) => {
-    setOnset(newOnset);
-  };
   //+ clear onset
   const [showClearPicker, setShowPickerClear] = useState(false);
   const [clearDate, setClearDate] = React.useState<Date | null>(null);
@@ -93,6 +84,16 @@ const ArrivalOnset: React.FC = () => {
   const [lastDate, setLastDate] = React.useState<Date | null>(null);
   //- first seen
   const [firstDate, setFirstDate] = React.useState<Date | null>(null);
+
+  //* Onset
+  // toggle button
+  const handleOnset = (
+    event: React.MouseEvent<HTMLElement>,
+    newOnset: string | null
+  ) => {
+    setOnset(newOnset);
+  };
+
   // duration
   const ArrivalClearDiff =
     arrivalDate && clearDate !== null
@@ -101,10 +102,6 @@ const ArrivalOnset: React.FC = () => {
           end: clearDate,
         })
       : "";
-
-  // const formatACDiff =
-  //   arrivalDate && clearDate !== null ? format(ArrivalClearDiff, "DD") : "";
-  // console.log(formatACDiff);
 
   const ArrivalLastDiff =
     arrivalDate && lastDate !== null
@@ -120,10 +117,11 @@ const ArrivalOnset: React.FC = () => {
           end: firstDate,
         })
       : "";
+
   return (
     <Box>
       {/* Arrival Time */}
-      <Box className={classes.boxPicker}>
+      <Box className={classes.boxArrival}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Arrival Time</Typography>
         </Box>
@@ -150,7 +148,13 @@ const ArrivalOnset: React.FC = () => {
           <Typography variant="h4">Onset</Typography>
         </Box>
         <Grid container spacing={2}>
-          <Box>
+          <Box
+            style={{
+              marginBottom: `${
+                showClearPicker && showUnknownPicker !== false ? "0px" : "40px"
+              }`,
+            }}
+          >
             <OnsetStyledToggleButtonGroup
               value={onset}
               exclusive
@@ -193,14 +197,16 @@ const ArrivalOnset: React.FC = () => {
         </Grid>
         <Box>
           {showClearPicker && (
-            <Box className={classes.boxOnsetPicker}>
+            <Box>
               <Grid container spacing={7}>
                 <Grid item>
+                  <Typography className={classes.addMarginBottom}>
+                    Clear onset
+                  </Typography>
                   <Controls.DatePicker
                     label="Select date"
                     value={clearDate}
                     onChange={(date: any) => setClearDate(date)}
-                    className={classes.addMarginTop}
                   />
                 </Grid>
                 <Grid item>
@@ -245,7 +251,7 @@ const ArrivalOnset: React.FC = () => {
         </Box>
         <Box>
           {showUnknownPicker && (
-            <Box className={classes.boxOnsetPicker}>
+            <Box>
               <Grid container spacing={7}>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
