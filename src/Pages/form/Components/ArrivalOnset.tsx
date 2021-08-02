@@ -9,8 +9,6 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import intervalToDuration from "date-fns/intervalToDuration";
 import Controls from "./Control/Control";
-import formatDuration from "date-fns/formatDuration";
-import formatRFC3339 from "date-fns/formatRFC3339";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -32,9 +30,6 @@ const useStyle = makeStyles(() =>
       padding: "7px",
       textAlign: "center",
       marginTop: "18px",
-    },
-    addMarginTop: {
-      marginTop: "34px",
     },
     addMarginBottom: {
       marginBottom: "10px",
@@ -198,25 +193,29 @@ const ArrivalOnset: React.FC = () => {
         <Box>
           {showClearPicker && (
             <Box>
-              <Grid container spacing={7}>
+              <Grid container spacing={8}>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
-                    Clear onset
+                    Clear onset date
                   </Typography>
                   <Controls.DatePicker
                     label="Select date"
                     value={clearDate}
-                    onChange={(date: any) => setClearDate(date)}
+                    onChange={(date: MaterialUiPickersDate) =>
+                      setClearDate(date)
+                    }
                   />
                 </Grid>
                 <Grid item>
+                  <Typography className={classes.addMarginBottom}>
+                    Clear onset time
+                  </Typography>
                   <Controls.TimePicker
                     label="Select time"
                     value={clearDate}
                     onChange={(date: MaterialUiPickersDate) => {
                       setClearDate(date);
                     }}
-                    className={classes.addMarginTop}
                   />
                 </Grid>
                 <Grid item>
@@ -252,10 +251,10 @@ const ArrivalOnset: React.FC = () => {
         <Box>
           {showUnknownPicker && (
             <Box>
-              <Grid container spacing={7}>
+              <Grid container spacing={8}>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
-                    Last seen normal
+                    Last seen normal date
                   </Typography>
                   <Controls.DatePicker
                     label="Select date"
@@ -264,13 +263,15 @@ const ArrivalOnset: React.FC = () => {
                   />
                 </Grid>
                 <Grid item>
+                  <Typography className={classes.addMarginBottom}>
+                    Last seen normal time
+                  </Typography>
                   <Controls.TimePicker
                     label="Select time"
                     value={lastDate}
                     onChange={(date: MaterialUiPickersDate) =>
                       setLastDate(date)
                     }
-                    className={classes.addMarginTop}
                   />
                 </Grid>
                 <Grid item>
@@ -300,25 +301,29 @@ const ArrivalOnset: React.FC = () => {
                   </Box>
                 </Grid>
               </Grid>
-              <Grid container spacing={7}>
+              <Grid container spacing={8}>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
-                    First seen abnormal
+                    First seen abnormal date
                   </Typography>
                   <Controls.DatePicker
                     label="Select date"
                     value={firstDate}
-                    onChange={(date: any) => setFirstDate(date)}
+                    onChange={(date: MaterialUiPickersDate) =>
+                      setFirstDate(date)
+                    }
                   />
                 </Grid>
                 <Grid item>
+                  <Typography className={classes.addMarginBottom}>
+                    First seen abnormal time
+                  </Typography>
                   <Controls.TimePicker
                     label="Select time"
                     value={firstDate}
                     onChange={(date: MaterialUiPickersDate) =>
                       setFirstDate(date)
                     }
-                    className={classes.addMarginTop}
                   />
                 </Grid>
                 <Grid item>
