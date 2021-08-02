@@ -66,7 +66,6 @@ const useStyle = makeStyles(() =>
 const GenderStyledToggleButtonGroup = withStyles(() => ({
   grouped: {
     marginBottom: "8px",
-    marginRight: "24px",
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
     width: "150px",
     height: "95px",
@@ -84,17 +83,19 @@ const GenderStyledToggleButtonGroup = withStyles(() => ({
 const PatientInformationSection: React.FC = () => {
   const classes = useStyle();
 
+  //! useState
   //* Gender
   const [gender, setGender] = React.useState<string | null>("");
+  // icon
+  const [isMaleWhite, setIsMaleWhite] = React.useState(false);
+  const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
+
   const handleGender = (
     event: React.MouseEvent<HTMLElement>,
     newGender: string | null
   ) => {
     setGender(newGender);
   };
-  // icon
-  const [isMaleWhite, setIsMaleWhite] = React.useState(false);
-  const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
 
   return (
     <Box className={classes.root}>
@@ -131,52 +132,51 @@ const PatientInformationSection: React.FC = () => {
         <Box className={classes.textTitle}>
           <Typography variant="h4">Gender</Typography>
         </Box>
-        <Grid container spacing={2}>
+        <Grid container>
           <Box>
-            <GenderStyledToggleButtonGroup
-              value={gender}
-              exclusive
-              onChange={handleGender}
-              onClick={() => {
-                setIsMaleWhite(true);
-                setIsFemaleWhite(false);
-              }}
-            >
-              <ToggleButton value="male" className={classes.button}>
-                <Box display="flex">
-                  <IoMaleOutline
-                    color={isMaleWhite ? "white" : "#5D5FEF"}
-                    className={classes.maleIcon}
-                  />
-                </Box>
-              </ToggleButton>
-            </GenderStyledToggleButtonGroup>
-            <Box textAlign="center">
-              <Typography variant="body1" margin-bottom="64px">
-                Male
-              </Typography>
+            <Box textAlign="center" marginRight="24px">
+              <GenderStyledToggleButtonGroup
+                value={gender}
+                exclusive
+                onChange={handleGender}
+                onClick={() => {
+                  setIsMaleWhite(true);
+                  setIsFemaleWhite(false);
+                }}
+              >
+                <ToggleButton value="male" className={classes.button}>
+                  <Box display="flex">
+                    <IoMaleOutline
+                      color={isMaleWhite ? "white" : "#5D5FEF"}
+                      className={classes.maleIcon}
+                    />
+                  </Box>
+                </ToggleButton>
+              </GenderStyledToggleButtonGroup>
+              <Typography variant="body1">Male</Typography>
             </Box>
           </Box>
           <Box>
-            <GenderStyledToggleButtonGroup
-              value={gender}
-              exclusive
-              onChange={handleGender}
-              onClick={() => {
-                setIsMaleWhite(false);
-                setIsFemaleWhite(true);
-              }}
-            >
-              <ToggleButton value="female" className={classes.button}>
-                <Box display="flex">
-                  <IoFemaleOutline
-                    color={isFemaleWhite ? "white" : "#FF4181"}
-                    className={classes.femaleIcon}
-                  />
-                </Box>
-              </ToggleButton>
-            </GenderStyledToggleButtonGroup>
             <Box textAlign="center">
+              <GenderStyledToggleButtonGroup
+                value={gender}
+                exclusive
+                onChange={handleGender}
+                onClick={() => {
+                  setIsMaleWhite(false);
+                  setIsFemaleWhite(true);
+                }}
+              >
+                <ToggleButton value="female" className={classes.button}>
+                  <Box display="flex">
+                    <IoFemaleOutline
+                      color={isFemaleWhite ? "white" : "#FF4181"}
+                      className={classes.femaleIcon}
+                    />
+                  </Box>
+                </ToggleButton>
+              </GenderStyledToggleButtonGroup>
+
               <Typography variant="body1">Female</Typography>
             </Box>
           </Box>
