@@ -80,21 +80,31 @@ const GenderStyledToggleButtonGroup = withStyles(() => ({
   },
 }))(ToggleButtonGroup);
 
-const PatientInformationSection: React.FC = () => {
-  const classes = useStyle();
+interface Props {
+  value: PatientProps;
+  name: string;
+  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+}
 
-  //! useState
+interface PatientProps {
+  gender: string;
+}
+
+const PatientInformationSection = (props: Props) => {
+  const classes = useStyle();
+  const { value, name, onChange } = props;
+
   //* Gender
-  const [gender, setGender] = React.useState<string | null>("");
+  // const [gender, setGender] = React.useState<string | null>("");
   // icon
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
 
   const handleGender = (
     event: React.MouseEvent<HTMLElement>,
-    newGender: string | null
+    newGender: string
   ) => {
-    setGender(newGender);
+    onChange(name, newGender);
   };
 
   return (
@@ -136,7 +146,7 @@ const PatientInformationSection: React.FC = () => {
           <Box>
             <Box textAlign="center" marginRight="24px">
               <GenderStyledToggleButtonGroup
-                value={gender}
+                value={value}
                 exclusive
                 onChange={handleGender}
                 onClick={() => {
@@ -159,7 +169,7 @@ const PatientInformationSection: React.FC = () => {
           <Box>
             <Box textAlign="center">
               <GenderStyledToggleButtonGroup
-                value={gender}
+                value={value}
                 exclusive
                 onChange={handleGender}
                 onClick={() => {
