@@ -5,7 +5,12 @@ const condition = (condition: string) => {
   return condition === null || condition === undefined || condition === "";
 };
 
+interface PatientProps {
+  gender: string;
+}
+
 interface ValidateProps {
+  PatientInformation: PatientProps;
   NIHSS: RadioData.NIHSSProps;
   ChiefComplaint: string;
   EKG12Leads: string;
@@ -13,6 +18,9 @@ interface ValidateProps {
 
 const validate = (values: ValidateProps) => {
   const errors = {
+    PatientInformation: {
+      gender: "",
+    },
     ChiefComplaint: "",
     EKG12Leads: "",
     NIHSS: {
@@ -33,6 +41,10 @@ const validate = (values: ValidateProps) => {
       extinctionOrNeglect: "",
     },
   };
+  if (condition(values.PatientInformation.gender)) {
+    errors.PatientInformation.gender = "Please select gender";
+    console.log(errors);
+  }
   if (condition(values.ChiefComplaint)) {
     errors.ChiefComplaint = "Please select time course";
   }

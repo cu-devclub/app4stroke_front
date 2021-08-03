@@ -11,6 +11,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { IoMaleOutline } from "react-icons/io5";
 import { IoFemaleOutline } from "react-icons/io5";
 import ArrivalOnset from "./ArrivalOnset";
+import { ErrorMessage } from "formik";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -60,6 +61,10 @@ const useStyle = makeStyles(() =>
     patientTextField: {
       width: "100%",
     },
+    errorMessage: {
+      color: "#FF0000",
+      fontSize: "16px",
+    },
   })
 );
 
@@ -95,7 +100,6 @@ const PatientInformationSection = (props: Props) => {
   const { value, name, onChange } = props;
 
   //* Gender
-  // const [gender, setGender] = React.useState<string | null>("");
   // icon
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
@@ -104,7 +108,7 @@ const PatientInformationSection = (props: Props) => {
     event: React.MouseEvent<HTMLElement>,
     newGender: string
   ) => {
-    onChange(name, newGender);
+    onChange(name, { ...value, gender: newGender });
   };
 
   return (
@@ -141,12 +145,16 @@ const PatientInformationSection = (props: Props) => {
       <Box className={classes.boxGender}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Gender</Typography>
+          <ErrorMessage name={`${name}.gender`}>
+            {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+          </ErrorMessage>
         </Box>
+
         <Grid container>
           <Box>
             <Box textAlign="center" marginRight="24px">
               <GenderStyledToggleButtonGroup
-                value={value}
+                value={value.gender}
                 exclusive
                 onChange={handleGender}
                 onClick={() => {
@@ -169,7 +177,7 @@ const PatientInformationSection = (props: Props) => {
           <Box>
             <Box textAlign="center">
               <GenderStyledToggleButtonGroup
-                value={value}
+                value={value.gender}
                 exclusive
                 onChange={handleGender}
                 onClick={() => {
