@@ -41,7 +41,7 @@ const GoToTopButton: React.FC = () => {
         className={classes.scrollToTop}
         title="GoToTop"
       >
-        <ExpandLessIcon/>
+        <ExpandLessIcon fontSize="large"/>
       </Button>
     </>
   );
