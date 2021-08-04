@@ -83,11 +83,10 @@ const ArrivalOnset = (props: Props) => {
   const classes = useStyle();
   const { value, name, onChange } = props;
 
-  console.log(value);
   //* Arrival
   const [arrivalDate, setArrivalDate] = React.useState<Date | null>(null);
+
   //* Onset
-  // const [onset, setOnset] = React.useState<string | null>("");
   //+ clear onset
   const [showClearPicker, setShowPickerClear] = useState(false);
   const [clearDate, setClearDate] = React.useState<Date | null>(null);

@@ -6,6 +6,10 @@ const condition = (condition: string) => {
 };
 
 interface PatientProps {
+  patientID: string;
+  age: string;
+  firstName: string;
+  lastName: string;
   gender: string;
   onset: string;
 }
@@ -20,6 +24,10 @@ interface ValidateProps {
 const validate = (values: ValidateProps) => {
   const errors = {
     PatientInformation: {
+      patientID: "",
+      age: "",
+      firstName: "",
+      lastName: "",
       gender: "",
       onset: "",
     },
@@ -43,6 +51,18 @@ const validate = (values: ValidateProps) => {
       extinctionOrNeglect: "",
     },
   };
+  if (condition(values.PatientInformation.patientID)) {
+    errors.PatientInformation.patientID = "Please enter patient ID";
+  }
+  if (condition(values.PatientInformation.age)) {
+    errors.PatientInformation.age = "Please enter age";
+  }
+  if (condition(values.PatientInformation.firstName)) {
+    errors.PatientInformation.firstName = "Please enter first name";
+  }
+  if (condition(values.PatientInformation.lastName)) {
+    errors.PatientInformation.lastName = "Please enter last name";
+  }
   if (condition(values.PatientInformation.gender)) {
     errors.PatientInformation.gender = "Please select gender";
   }

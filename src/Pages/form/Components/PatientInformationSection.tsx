@@ -60,6 +60,10 @@ const useStyle = makeStyles(() =>
     },
     patientTextField: {
       width: "100%",
+      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+        {
+          display: "none",
+        },
     },
     errorMessage: {
       color: "#FF0000",
@@ -87,33 +91,44 @@ const GenderStyledToggleButtonGroup = withStyles(() => ({
 }))(ToggleButtonGroup);
 
 interface PatientProps {
+  patientID: string;
+  age: string;
+  firstName: string;
+  lastName: string;
   gender: string;
   onset: string;
 }
 
 interface Props {
-  value: PatientProps;
-  name: string;
+  values: PatientProps;
+  fieldName: string;
   onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+  errors: any;
 }
 
 const PatientInformationSection = (props: Props) => {
   const classes = useStyle();
-  const { value, name, onChange } = props;
+  const { values, fieldName, onChange, errors } = props;
+
+  console.log(errors);
 
   //* Gender
   // icon
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
 
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    onChange(fieldName, { ...values, [name]: value });
+    errors;
+  };
+
   const handleGender = (
     event: React.MouseEvent<HTMLElement>,
     newGender: string
   ) => {
-    onChange(name, { ...value, gender: newGender });
+    onChange(fieldName, { ...values, gender: newGender });
   };
-
-  console.log(value);
 
   return (
     <Box className={classes.root}>
@@ -123,25 +138,59 @@ const PatientInformationSection = (props: Props) => {
           <Grid item xs={3}>
             <TextField
               label="Enter patient ID"
+              name="patientID"
+              type="number"
+              value={values.patientID}
+              onChange={handleInputChange}
               className={classes.patientTextField}
+              error={
+                errors !== null && errors !== undefined && errors.patientID
+                  ? true
+                  : false
+              }
             />
+            <ErrorMessage name={`${fieldName}.patientID`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
           <Grid item xs={3}>
-            <TextField label="Enter age" className={classes.patientTextField} />
+            <TextField
+              label="Enter age"
+              name="age"
+              type="number"
+              value={values.age}
+              onChange={handleInputChange}
+              className={classes.patientTextField}
+            />
+            <ErrorMessage name={`${fieldName}.age`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
         </Grid>
         <Grid container spacing={6}>
           <Grid item xs={3}>
             <TextField
               label="Enter first name"
+              name="firstName"
+              value={values.firstName}
+              onChange={handleInputChange}
               className={classes.patientTextField}
             />
+            <ErrorMessage name={`${fieldName}.firstName`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
           <Grid item xs={3}>
             <TextField
               label="Enter last name"
+              name="lastName"
+              value={values.lastName}
+              onChange={handleInputChange}
               className={classes.patientTextField}
             />
+            <ErrorMessage name={`${fieldName}.lastName`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
         </Grid>
       </Box>
@@ -149,16 +198,15 @@ const PatientInformationSection = (props: Props) => {
       <Box className={classes.boxGender}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Gender</Typography>
-          <ErrorMessage name={`${name}.gender`}>
+          <ErrorMessage name={`${fieldName}.gender`}>
             {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
           </ErrorMessage>
         </Box>
-
         <Grid container>
           <Box>
             <Box textAlign="center" marginRight="24px">
               <GenderStyledToggleButtonGroup
-                value={value.gender}
+                value={values.gender}
                 exclusive
                 onChange={handleGender}
                 onClick={() => {
@@ -181,7 +229,7 @@ const PatientInformationSection = (props: Props) => {
           <Box>
             <Box textAlign="center">
               <GenderStyledToggleButtonGroup
-                value={value.gender}
+                value={values.gender}
                 exclusive
                 onChange={handleGender}
                 onClick={() => {
@@ -198,7 +246,6 @@ const PatientInformationSection = (props: Props) => {
                   </Box>
                 </ToggleButton>
               </GenderStyledToggleButtonGroup>
-
               <Typography variant="body1">Female</Typography>
             </Box>
           </Box>
@@ -206,7 +253,7 @@ const PatientInformationSection = (props: Props) => {
       </Box>
       {/* Arrival Time & Onset */}
       <ArrivalOnset
-        value={value}
+        value={values}
         name="PatientInformation"
         onChange={onChange}
       />

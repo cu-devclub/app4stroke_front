@@ -16,6 +16,10 @@ const StrokePredictionForm: React.FC = () => {
       <Formik
         initialValues={{
           PatientInformation: {
+            patientID: "",
+            age: "",
+            firstName: "",
+            lastName: "",
             gender: "",
             onset: "",
           },
@@ -51,9 +55,10 @@ const StrokePredictionForm: React.FC = () => {
             </Button>
             <SectionTitle title="Patient Information" />
             <PatientInformationSection
-              value={values.PatientInformation}
-              name="PatientInformation"
+              values={values.PatientInformation}
+              fieldName="PatientInformation"
               onChange={setFieldValue}
+              errors={errors.PatientInformation}
             />
             <SectionTitle title="Chief Complaint" />
             <ChiefComplaintSection
