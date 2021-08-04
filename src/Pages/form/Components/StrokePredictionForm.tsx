@@ -17,6 +17,7 @@ const StrokePredictionForm: React.FC = () => {
         initialValues={{
           PatientInformation: {
             gender: "",
+            onset: "",
           },
           ChiefComplaint: "",
           EKG12Leads: "",
@@ -45,6 +46,9 @@ const StrokePredictionForm: React.FC = () => {
       >
         {({ values, setFieldValue, isSubmitting, errors }) => (
           <Form>
+            <Button disabled={isSubmitting} type="submit">
+              Submit{""}
+            </Button>
             <SectionTitle title="Patient Information" />
             <PatientInformationSection
               value={values.PatientInformation}
@@ -73,9 +77,9 @@ const StrokePredictionForm: React.FC = () => {
               fieldName="NIHSS"
               onChange={setFieldValue}
             />
-            <Button disabled={isSubmitting} type="submit">
+            {/*fix <Button disabled={isSubmitting} type="submit">
               Submit{""}
-            </Button>
+            </Button> */}
           </Form>
         )}
       </Formik>

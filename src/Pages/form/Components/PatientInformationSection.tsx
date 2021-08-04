@@ -64,6 +64,7 @@ const useStyle = makeStyles(() =>
     errorMessage: {
       color: "#FF0000",
       fontSize: "16px",
+      marginBottom: "16px",
     },
   })
 );
@@ -85,14 +86,15 @@ const GenderStyledToggleButtonGroup = withStyles(() => ({
   },
 }))(ToggleButtonGroup);
 
+interface PatientProps {
+  gender: string;
+  onset: string;
+}
+
 interface Props {
   value: PatientProps;
   name: string;
   onChange: (field: string, value: any, shouldValidate?: boolean) => void;
-}
-
-interface PatientProps {
-  gender: string;
 }
 
 const PatientInformationSection = (props: Props) => {
@@ -110,6 +112,8 @@ const PatientInformationSection = (props: Props) => {
   ) => {
     onChange(name, { ...value, gender: newGender });
   };
+
+  console.log(value);
 
   return (
     <Box className={classes.root}>
@@ -201,7 +205,11 @@ const PatientInformationSection = (props: Props) => {
         </Grid>
       </Box>
       {/* Arrival Time & Onset */}
-      <ArrivalOnset />
+      <ArrivalOnset
+        value={value}
+        name="PatientInformation"
+        onChange={onChange}
+      />
       {/* Upload CT Scan */}
       <Box className={classes.boxUpload}>
         <Box className={classes.textTitle}>

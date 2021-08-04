@@ -7,6 +7,7 @@ const condition = (condition: string) => {
 
 interface PatientProps {
   gender: string;
+  onset: string;
 }
 
 interface ValidateProps {
@@ -20,6 +21,7 @@ const validate = (values: ValidateProps) => {
   const errors = {
     PatientInformation: {
       gender: "",
+      onset: "",
     },
     ChiefComplaint: "",
     EKG12Leads: "",
@@ -43,7 +45,9 @@ const validate = (values: ValidateProps) => {
   };
   if (condition(values.PatientInformation.gender)) {
     errors.PatientInformation.gender = "Please select gender";
-    console.log(errors);
+  }
+  if (condition(values.PatientInformation.onset)) {
+    errors.PatientInformation.onset = "Please select onset";
   }
   if (condition(values.ChiefComplaint)) {
     errors.ChiefComplaint = "Please select time course";

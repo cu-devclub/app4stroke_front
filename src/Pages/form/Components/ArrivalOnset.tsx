@@ -9,6 +9,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import intervalToDuration from "date-fns/intervalToDuration";
 import Controls from "./Control/Control";
+import { ErrorMessage } from "formik";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -41,6 +42,11 @@ const useStyle = makeStyles(() =>
         pointerEvents: "none",
       },
     },
+    errorMessage: {
+      color: "#FF0000",
+      fontSize: "16px",
+      marginBottom: "20px",
+    },
   })
 );
 
@@ -63,13 +69,25 @@ const OnsetStyledToggleButtonGroup = withStyles(() => ({
   },
 }))(ToggleButtonGroup);
 
-const ArrivalOnset: React.FC = () => {
-  const classes = useStyle();
+interface PatientProps {
+  onset: string;
+}
 
+interface Props {
+  value: PatientProps;
+  name: string;
+  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+}
+
+const ArrivalOnset = (props: Props) => {
+  const classes = useStyle();
+  const { value, name, onChange } = props;
+
+  console.log(value);
   //* Arrival
   const [arrivalDate, setArrivalDate] = React.useState<Date | null>(null);
   //* Onset
-  const [onset, setOnset] = React.useState<string | null>("");
+  // const [onset, setOnset] = React.useState<string | null>("");
   //+ clear onset
   const [showClearPicker, setShowPickerClear] = useState(false);
   const [clearDate, setClearDate] = React.useState<Date | null>(null);
@@ -84,9 +102,9 @@ const ArrivalOnset: React.FC = () => {
   // toggle button
   const handleOnset = (
     event: React.MouseEvent<HTMLElement>,
-    newOnset: string | null
+    newOnset: string
   ) => {
-    setOnset(newOnset);
+    onChange(name, { ...value, onset: newOnset });
   };
 
   // duration
@@ -97,21 +115,18 @@ const ArrivalOnset: React.FC = () => {
           end: clearDate,
         })
       : "";
-
   const showDayDigitACDiff =
     ArrivalClearDiff !== ""
       ? ArrivalClearDiff.days?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showHourDigitACDiff =
     ArrivalClearDiff !== ""
       ? ArrivalClearDiff.hours?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showMinuteDigitACDiff =
     ArrivalClearDiff !== ""
       ? ArrivalClearDiff.minutes?.toLocaleString(undefined, {
@@ -126,21 +141,18 @@ const ArrivalOnset: React.FC = () => {
           end: lastDate,
         })
       : "";
-
   const showDayDigitALDiff =
     ArrivalLastDiff !== ""
       ? ArrivalLastDiff.days?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showHourDigitALDiff =
     ArrivalLastDiff !== ""
       ? ArrivalLastDiff.hours?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showMinuteDigitALDiff =
     ArrivalLastDiff !== ""
       ? ArrivalLastDiff.minutes?.toLocaleString(undefined, {
@@ -155,21 +167,18 @@ const ArrivalOnset: React.FC = () => {
           end: firstDate,
         })
       : "";
-
   const showDayDigitAFDiff =
     ArrivalFirstDiff !== ""
       ? ArrivalFirstDiff.days?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showHourDigitAFDiff =
     ArrivalFirstDiff !== ""
       ? ArrivalFirstDiff.hours?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showMinuteDigitAFDiff =
     ArrivalFirstDiff !== ""
       ? ArrivalFirstDiff.minutes?.toLocaleString(undefined, {
@@ -205,6 +214,9 @@ const ArrivalOnset: React.FC = () => {
       <Box className={classes.boxOnset}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Onset</Typography>
+          <ErrorMessage name={`${name}.onset`}>
+            {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+          </ErrorMessage>
         </Box>
         <Grid container spacing={2}>
           <Box
@@ -215,7 +227,7 @@ const ArrivalOnset: React.FC = () => {
             }}
           >
             <OnsetStyledToggleButtonGroup
-              value={onset}
+              value={value.onset}
               exclusive
               onChange={handleOnset}
             >
@@ -235,7 +247,7 @@ const ArrivalOnset: React.FC = () => {
           </Box>
           <Box>
             <OnsetStyledToggleButtonGroup
-              value={onset}
+              value={value.onset}
               exclusive
               onChange={handleOnset}
             >
