@@ -5,7 +5,14 @@ const condition = (condition: string) => {
   return condition === null || condition === undefined || condition === "";
 };
 
+interface VitalSignsProps {
+  systolicBP: number;
+  diastolicBP: number;
+  heartRate: number;
+  buttonHeartRate: string;
+}
 interface ValidateProps {
+  VitalSigns: VitalSignsProps;
   NIHSS: RadioData.NIHSSProps;
   ChiefComplaint: string;
   EKG12Leads: string;
@@ -14,6 +21,12 @@ interface ValidateProps {
 const validate = (values: ValidateProps) => {
   const errors = {
     ChiefComplaint: "",
+    VitalSigns: {
+      systolicBP: "",
+      diastolicBP: "",
+      heartRate: "",
+      buttonHeartRate: "",
+    },
     EKG12Leads: "",
     NIHSS: {
       levelOfConsciousness: "",
@@ -39,7 +52,21 @@ const validate = (values: ValidateProps) => {
   if (condition(values.EKG12Leads)) {
     errors.EKG12Leads = "Please select EKG 12 leads";
   }
-
+  if (values.VitalSigns.systolicBP < 10 || values.VitalSigns.systolicBP > 400) {
+    errors.VitalSigns.systolicBP = "Please enter Systolic BP (mmHg)";
+  }
+  if (
+    values.VitalSigns.diastolicBP < 10 ||
+    values.VitalSigns.diastolicBP > 400
+  ) {
+    errors.VitalSigns.diastolicBP = "Please enter Diastolic BP (mmHg)";
+  }
+  if (values.VitalSigns.heartRate < 10 || values.VitalSigns.heartRate > 999) {
+    errors.VitalSigns.heartRate = "Please select heart Rate";
+  }
+  if (condition(values.VitalSigns.buttonHeartRate)) {
+    errors.VitalSigns.buttonHeartRate = "Please select heart rate type";
+  }
   if (condition(values.NIHSS.levelOfConsciousness)) {
     errors.NIHSS.levelOfConsciousness = "Please select level of consciousness";
   }
