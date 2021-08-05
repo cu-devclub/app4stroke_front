@@ -16,6 +16,12 @@ const StrokePredictionForm: React.FC = () => {
       <Formik
         initialValues={{
           ChiefComplaint: "",
+          VitalSigns: {
+            systolicBP: 0,
+            diastolicBP: 0,
+            heartRate: 0,
+            buttonHeartRate: "",
+          },
           EKG12Leads: "",
           NIHSS: {
             levelOfConsciousness: "",
@@ -53,7 +59,12 @@ const StrokePredictionForm: React.FC = () => {
             <SectionTitle title="Underlying Disease" />
             <UnderLyingDiseaseSection />
             <SectionTitle title="Vital Signs" />
-            <VitalSignsSection />
+            <VitalSignsSection
+              values={values.VitalSigns}
+              fieldName="VitalSigns"
+              onChange={setFieldValue}
+              error={errors.VitalSigns}
+            />
             <SectionTitle title="EKG 12 Leads" />
             <EKG12LeadsSection
               value={values.EKG12Leads}
@@ -75,5 +86,4 @@ const StrokePredictionForm: React.FC = () => {
     </>
   );
 };
-
 export default StrokePredictionForm;

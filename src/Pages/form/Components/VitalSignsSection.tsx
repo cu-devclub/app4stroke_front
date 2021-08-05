@@ -5,6 +5,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import { ErrorMessage } from "formik";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -21,6 +22,12 @@ const useStyle = makeStyles((theme) =>
         pointerEvents: "none",
       },
     },
+    error: {
+      color: "#FF0000",
+      letterSpacing: "0.4px",
+      lineHeight: "20px",
+      fontSize: "16px",
+    },
   })
 );
 
@@ -29,11 +36,12 @@ const VitalSignsToggleButtonGroup = withStyles((theme) => ({
     margin: theme.spacing(3),
     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
     marginLeft: "5px",
-    marginTop: "-5px",
     width: "180px",
     height: "81px",
     backgroundColor: "#FFFFFF",
     color: "#3A3A3D",
+    border: "none",
+    textTransform: "none",
     "&:not(:first-child)": {
       borderRadius: "20px",
     },
@@ -45,42 +53,113 @@ const VitalSignsToggleButtonGroup = withStyles((theme) => ({
 
 const VitalSignsTextField = withStyles(() => ({
   root: {
-    width: "15%",
-    marginBottom: "40px",
+    minWidth: "300px",
+    marginTop: "40px",
+    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+      {
+        display: "none",
+      },
   },
 }))(TextField);
 
-const VitalSignsSection: React.FC = () => {
+interface VitalSignsProps {
+  systolicBP: number;
+  diastolicBP: number;
+  heartRate: number;
+  buttonHeartRate: string;
+}
+
+interface Props {
+  values: VitalSignsProps;
+  fieldName: string;
+  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+  error: any;
+}
+
+const VitalSignsSection = (props: Props) => {
   const classes = useStyle();
-  const [vitalSigns, setVitalSigns] = React.useState("");
-  const handleVitalSigns = (
+  const { values, fieldName, onChange, error } = props;
+  const handleVitalSignsButton = (
     event: React.MouseEvent<HTMLElement>,
-    newVitalSigns: string
+    newValueVitalSigns: string | null
   ) => {
-    setVitalSigns(newVitalSigns);
+    onChange(fieldName, { ...values, buttonHeartRate: newValueVitalSigns });
   };
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    onChange(fieldName, { ...values, [name]: value });
+  };
+
   return (
     <Box className={classes.root}>
       <Box>
-        <VitalSignsTextField id="systolicBP" label="Enter Systolic BP (mmHg)" />
+        <VitalSignsTextField
+          name="systolicBP"
+          label="Enter Systolic BP (mmHg)"
+          value={values.systolicBP}
+          onChange={handleInputChange}
+          type="number"
+          style={{ marginTop: "-10px" }}
+          error={
+            error !== null && error !== undefined && error.systolicBP
+              ? true
+              : false
+          }
+        />
+        <ErrorMessage name={`${fieldName}.systolicBP`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
       </Box>
       <Box>
         <VitalSignsTextField
-          id="diastolicBP"
+          name="diastolicBP"
           label="Enter Diastolic BP (mmHg)"
+          value={values.diastolicBP}
+          onChange={handleInputChange}
+          type="number"
+          error={
+            error !== null && error !== undefined && error.diastolicBP
+              ? true
+              : false
+          }
         />
+        <ErrorMessage name={`${fieldName}.diastolicBP`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
       </Box>
-      <Typography variant="h4" style={{ marginBottom: "20px" }}>
+      <Typography variant="h4" style={{ marginTop: "30px" }}>
         Heart rate
       </Typography>
-      <VitalSignsTextField id="heartRate" label="Enter heart rate (bpm)" />
+      <VitalSignsTextField
+        name="heartRate"
+        label="Enter heart rate (bpm)"
+        value={values.heartRate}
+        onChange={handleInputChange}
+        type="number"
+        error={
+          error !== null && error !== undefined && error.heartRate
+            ? true
+            : false
+        }
+      />
+      <ErrorMessage name={`${fieldName}.heartRate`}>
+        {(msg) => <div className={classes.error}>{msg}</div>}
+      </ErrorMessage>
+      <ErrorMessage name={`${fieldName}.buttonHeartRate`}>
+        {(msg) => (
+          <div className={classes.error} style={{ marginTop: "35px" }}>
+            {msg}
+          </div>
+        )}
+      </ErrorMessage>
       <Box>
         <VitalSignsToggleButtonGroup
           size="large"
-          value={vitalSigns}
+          value={values.buttonHeartRate}
           exclusive
-          onChange={handleVitalSigns}
-          aria-label="Vital Signs"
+          onChange={handleVitalSignsButton}
+          aria-label="buttonHeartRate"
         >
           <ToggleButton
             value="Normal"
@@ -97,8 +176,8 @@ const VitalSignsSection: React.FC = () => {
             <Typography>AF</Typography>
           </ToggleButton>
           <ToggleButton
-            value="Abnormal"
-            aria-label="Abnormal"
+            value="Irregular"
+            aria-label="Irregular"
             className={classes.buttonColor}
           >
             <Typography>Irregular</Typography>
@@ -115,4 +194,5 @@ const VitalSignsSection: React.FC = () => {
     </Box>
   );
 };
+
 export default VitalSignsSection;
