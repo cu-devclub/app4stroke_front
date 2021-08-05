@@ -5,21 +5,15 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 const useStyle = makeStyles((theme) =>
   createStyles({
-    scrollToTop: {
+    GoToTop: {
       display: "block",
       marginLeft: "auto",
-      fontSize: "25px",
-      border: "none",
-      outline: "none",
       backgroundColor: "#EF5DA8",
       color: "white",
-      cursor: "pointer",
       padding: "15px",
       borderRadius: "50%",
       height: "60px",
       width: "50px",
-      justifyContent: "center",
-      alignItems: "center",
       "&:hover": {
         backgroundColor: "#EF5DA8",
       },
@@ -37,8 +31,8 @@ const GoToTopButton: React.FC = () => {
     <>
       <Button
         onClick={topFunction}
-        id="myBtn"
-        className={classes.scrollToTop}
+        id="GoToTopButton"
+        className={classes.GoToTop}
         title="GoToTop"
       >
         <ExpandLessIcon fontSize="large"/>
