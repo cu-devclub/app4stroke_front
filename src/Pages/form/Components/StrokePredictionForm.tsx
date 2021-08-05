@@ -9,7 +9,7 @@ import VitalSignsSection from "../Components/VitalSignsSection";
 import SideBarProgress from "../Components/SideBarProgress";
 import { Formik, Form } from "formik";
 import validations from "../Validation/validations";
-import { Button, Grid } from "@material-ui/core";
+import { Box, Button, Grid } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -26,26 +26,12 @@ const useStyle = makeStyles((theme) =>
       boxShadow: "none",
       backgroundColor: "transparent",
     },
-    buttonButtom: {
+    submitButton: {
       backgroundColor: "#EF5DA8",
       color: "#ffffff",
       textTransform: "none",
       borderRadius: "20px",
       fontSize: "18px",
-      marginTop: "30px",
-      height: "40px",
-      width: "300px",
-      "&:hover": { backgroundColor: "#EF5DA8", color: "#ffffff" },
-    },
-    buttonSideBar: {
-      backgroundColor: "#EF5DA8",
-      color: "#ffffff",
-      textTransform: "none",
-      borderRadius: "20px",
-      fontSize: "18px",
-      marginBottom: "20px",
-      width: "150px",
-      height: "40px",
       "&:hover": { backgroundColor: "#EF5DA8", color: "#ffffff" },
     },
   })
@@ -134,15 +120,21 @@ const StrokePredictionForm: React.FC = () => {
                       <Button
                         disabled={isSubmitting}
                         type="submit"
-                        className={classes.buttonButtom}
+                        style={{
+                          height: "40px",
+                          width: "300px",
+                          marginTop: "30px",
+                          marginLeft: "40%",
+                        }}
+                        className={classes.submitButton}
                       >
-                        Submit{""}
+                        Submit
                       </Button>
                     </Grid>
                   </Grid>
                 </Grid>
                 {/* Sidebar */}
-                <Grid item>
+                <Box>
                   <Card className={classes.sidebar}>
                     <CardContent
                       style={{
@@ -155,14 +147,19 @@ const StrokePredictionForm: React.FC = () => {
                       <Button
                         disabled={isSubmitting}
                         type="submit"
-                        className={classes.buttonSideBar}
+                        style={{
+                          width: "150px",
+                          height: "40px",
+                          marginBottom: "20px",
+                        }}
+                        className={classes.submitButton}
                       >
-                        Submit{""}
+                        Submit
                       </Button>
                       <SideBarProgress />
                     </CardContent>
                   </Card>
-                </Grid>
+                </Box>
               </Grid>
             </ScrollingProvider>
           </Form>
