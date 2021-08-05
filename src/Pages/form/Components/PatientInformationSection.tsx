@@ -161,6 +161,11 @@ const PatientInformationSection = (props: Props) => {
               value={values.age}
               onChange={handleInputChange}
               className={classes.patientTextField}
+              error={
+                errors !== null && errors !== undefined && errors.age
+                  ? true
+                  : false
+              }
             />
             <ErrorMessage name={`${fieldName}.age`}>
               {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
@@ -175,6 +180,11 @@ const PatientInformationSection = (props: Props) => {
               value={values.firstName}
               onChange={handleInputChange}
               className={classes.patientTextField}
+              error={
+                errors !== null && errors !== undefined && errors.firstName
+                  ? true
+                  : false
+              }
             />
             <ErrorMessage name={`${fieldName}.firstName`}>
               {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
@@ -187,6 +197,11 @@ const PatientInformationSection = (props: Props) => {
               value={values.lastName}
               onChange={handleInputChange}
               className={classes.patientTextField}
+              error={
+                errors !== null && errors !== undefined && errors.lastName
+                  ? true
+                  : false
+              }
             />
             <ErrorMessage name={`${fieldName}.lastName`}>
               {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
