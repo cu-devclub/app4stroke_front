@@ -14,6 +14,10 @@ interface PatientProps {
   arrivalTime: Date | null;
   clearDate: Date | null;
   clearTime: Date | null;
+  lastDate: Date | null;
+  lastTime: Date | null;
+  firstDate: Date | null;
+  firstTime: Date | null;
   gender: string;
   onset: string;
 }
@@ -36,6 +40,10 @@ const validate = (values: ValidateProps) => {
       arrivalTime: "",
       clearDate: "",
       clearTime: "",
+      lastDate: "",
+      lastTime: "",
+      firstDate: "",
+      firstTime: "",
       gender: "",
       onset: "",
     },
@@ -74,6 +82,7 @@ const validate = (values: ValidateProps) => {
   if (condition(values.PatientInformation.gender)) {
     errors.PatientInformation.gender = "Please select gender";
   }
+  //! arrival
   if (
     values.PatientInformation.arrivalDate === null ||
     values.PatientInformation.arrivalDate === undefined
@@ -99,8 +108,37 @@ const validate = (values: ValidateProps) => {
   ) {
     errors.PatientInformation.clearTime = "Please enter clear time";
   }
+  //! onset
   if (condition(values.PatientInformation.onset)) {
     errors.PatientInformation.onset = "Please select onset";
+  }
+  //last seen
+  if (
+    values.PatientInformation.lastDate === null ||
+    values.PatientInformation.lastDate === undefined
+  ) {
+    errors.PatientInformation.lastDate = "Please enter last seen normal date";
+  }
+  if (
+    values.PatientInformation.lastDate === null ||
+    values.PatientInformation.lastDate === undefined
+  ) {
+    errors.PatientInformation.lastTime = "Please enter last seen normal time";
+  }
+  //first seen
+  if (
+    values.PatientInformation.firstDate === null ||
+    values.PatientInformation.firstDate === undefined
+  ) {
+    errors.PatientInformation.firstDate =
+      "Please enter first seen abnormal date";
+  }
+  if (
+    values.PatientInformation.firstDate === null ||
+    values.PatientInformation.firstDate === undefined
+  ) {
+    errors.PatientInformation.firstTime =
+      "Please enter first seen abnormal time";
   }
   if (condition(values.ChiefComplaint)) {
     errors.ChiefComplaint = "Please select time course";

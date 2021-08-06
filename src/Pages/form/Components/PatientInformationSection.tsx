@@ -100,6 +100,10 @@ interface PatientProps {
   arrivalTime: Date | null;
   clearDate: Date | null;
   clearTime: Date | null;
+  lastDate: Date | null;
+  lastTime: Date | null;
+  firstDate: Date | null;
+  firstTime: Date | null;
   onset: string;
 }
 

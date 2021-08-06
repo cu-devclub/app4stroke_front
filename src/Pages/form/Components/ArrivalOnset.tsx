@@ -74,6 +74,10 @@ interface PatientProps {
   arrivalTime: Date | null;
   clearDate: Date | null;
   clearTime: Date | null;
+  lastDate: Date | null;
+  lastTime: Date | null;
+  firstDate: Date | null;
+  firstTime: Date | null;
   onset: string;
 }
 
@@ -354,9 +358,13 @@ const ArrivalOnset = (props: Props) => {
                   </Typography>
                   <Controls.DatePicker
                     label="Select date"
-                    value={lastDate}
-                    onChange={(date: any) => setLastDate(date)}
+                    value={values.lastDate}
+                    name="lastDate"
+                    onChange={handlePickerChange("lastDate")}
                   />
+                  <ErrorMessage name={`${fieldName}.lastDate`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
                 </Grid>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
@@ -364,11 +372,13 @@ const ArrivalOnset = (props: Props) => {
                   </Typography>
                   <Controls.TimePicker
                     label="Select time"
-                    value={lastDate}
-                    onChange={(date: MaterialUiPickersDate) =>
-                      setLastDate(date)
-                    }
+                    value={values.lastDate}
+                    name="lastDate"
+                    onChange={handlePickerChange("lastDate")}
                   />
+                  <ErrorMessage name={`${fieldName}.lastTime`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
                 </Grid>
                 <Grid item>
                   <Typography>Duration</Typography>
@@ -404,11 +414,13 @@ const ArrivalOnset = (props: Props) => {
                   </Typography>
                   <Controls.DatePicker
                     label="Select date"
-                    value={firstDate}
-                    onChange={(date: MaterialUiPickersDate) =>
-                      setFirstDate(date)
-                    }
+                    value={values.firstDate}
+                    name="firstDate"
+                    onChange={handlePickerChange("firstDate")}
                   />
+                  <ErrorMessage name={`${fieldName}.firstDate`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
                 </Grid>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
@@ -416,11 +428,13 @@ const ArrivalOnset = (props: Props) => {
                   </Typography>
                   <Controls.TimePicker
                     label="Select time"
-                    value={firstDate}
-                    onChange={(date: MaterialUiPickersDate) =>
-                      setFirstDate(date)
-                    }
+                    value={values.firstDate}
+                    name="firstDate"
+                    onChange={handlePickerChange("firstDate")}
                   />
+                  <ErrorMessage name={`${fieldName}.firstTime`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
                 </Grid>
                 <Grid item>
                   <Typography>Duration</Typography>
