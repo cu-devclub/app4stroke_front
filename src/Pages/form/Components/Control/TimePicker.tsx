@@ -20,6 +20,7 @@ export default function TimePicker(props: any) {
           "aria-label": "change time",
         }}
         className={className}
+        ampm={false}
       />
     </MuiPickersUtilsProvider>
   );
