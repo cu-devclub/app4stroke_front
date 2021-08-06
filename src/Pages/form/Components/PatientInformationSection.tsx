@@ -92,7 +92,7 @@ const GenderStyledToggleButtonGroup = withStyles(() => ({
 
 interface PatientProps {
   patientID: string;
-  age: string;
+  age: string | number;
   firstName: string;
   lastName: string;
   gender: string;

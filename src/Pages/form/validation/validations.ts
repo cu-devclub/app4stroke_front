@@ -7,7 +7,7 @@ const condition = (condition: string) => {
 
 interface PatientProps {
   patientID: string;
-  age: string;
+  age: string | number;
   firstName: string;
   lastName: string;
   arrivalDate: Date | null;
@@ -70,7 +70,11 @@ const validate = (values: ValidateProps) => {
   if (condition(values.PatientInformation.patientID)) {
     errors.PatientInformation.patientID = "Please enter patient ID";
   }
-  if (condition(values.PatientInformation.age)) {
+  if (
+    typeof values.PatientInformation.age !== typeof "" ||
+    values.PatientInformation.age < 1 ||
+    values.PatientInformation.age > 150
+  ) {
     errors.PatientInformation.age = "Please enter age";
   }
   if (condition(values.PatientInformation.firstName)) {
