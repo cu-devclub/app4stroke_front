@@ -6,7 +6,7 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 
 export default function DatePicker(props: any) {
-  const { label, onChange, value, className, error, minDate } = props;
+  const { label, onChange, value, className, error, minDate, maxDate } = props;
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -23,6 +23,7 @@ export default function DatePicker(props: any) {
         className={className}
         error={error}
         minDate={minDate}
+        maxDate={maxDate}
       />
     </MuiPickersUtilsProvider>
   );

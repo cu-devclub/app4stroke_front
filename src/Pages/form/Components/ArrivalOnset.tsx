@@ -207,6 +207,7 @@ const ArrivalOnset = (props: Props) => {
         <Grid container spacing={7}>
           <Grid item>
             <Controls.DatePicker
+              maxDate={new Date()}
               label="Arrival Date"
               name="arrivalDate"
               value={values.arrivalDate}
@@ -294,6 +295,7 @@ const ArrivalOnset = (props: Props) => {
                     Clear onset date
                   </Typography>
                   <Controls.DatePicker
+                    maxDate={values.arrivalDate}
                     label="Select date"
                     value={values.clearDate}
                     name="clearDate"
@@ -353,67 +355,10 @@ const ArrivalOnset = (props: Props) => {
               <Grid container spacing={8}>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
-                    Last seen normal date
-                  </Typography>
-                  <Controls.DatePicker
-                    minDate={values.lastDate}
-                    label="Select date"
-                    value={values.lastDate}
-                    name="lastDate"
-                    onChange={handlePickerChange("lastDate")}
-                  />
-                  <ErrorMessage name={`${fieldName}.lastDate`}>
-                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
-                  </ErrorMessage>
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.addMarginBottom}>
-                    Last seen normal time
-                  </Typography>
-                  <Controls.TimePicker
-                    label="Select time"
-                    value={values.lastDate}
-                    name="lastDate"
-                    onChange={handlePickerChange("lastDate")}
-                  />
-                  <ErrorMessage name={`${fieldName}.lastTime`}>
-                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
-                  </ErrorMessage>
-                </Grid>
-                <Grid item>
-                  <Typography>Duration</Typography>
-                  <Box
-                    className={classes.boxDuration}
-                    style={{
-                      backgroundColor: `${
-                        ArrivalLastDiff !== "" ? "#6ED0BB" : "#C4C4C4"
-                      }`,
-                    }}
-                  >
-                    {ArrivalLastDiff !== "" ? (
-                      <Typography
-                        style={{
-                          color: `${
-                            ArrivalLastDiff !== "" ? "#FFFFFF" : "#000000"
-                          }`,
-                        }}
-                      >
-                        {showDayDigitALDiff} : {showHourDigitALDiff} :{" "}
-                        {showMinuteDigitALDiff}
-                      </Typography>
-                    ) : (
-                      "dd:hh:mm"
-                    )}
-                  </Box>
-                </Grid>
-              </Grid>
-              <Grid container spacing={8}>
-                <Grid item>
-                  <Typography className={classes.addMarginBottom}>
                     First seen abnormal date
                   </Typography>
                   <Controls.DatePicker
-                    minDate={values.lastDate}
+                    maxDate={values.arrivalDate}
                     label="Select date"
                     value={values.firstDate}
                     name="firstDate"
@@ -457,6 +402,63 @@ const ArrivalOnset = (props: Props) => {
                       >
                         {showDayDigitAFDiff} : {showHourDigitAFDiff} :{" "}
                         {showMinuteDigitAFDiff}
+                      </Typography>
+                    ) : (
+                      "dd:hh:mm"
+                    )}
+                  </Box>
+                </Grid>
+              </Grid>
+              <Grid container spacing={8}>
+                <Grid item>
+                  <Typography className={classes.addMarginBottom}>
+                    Last seen normal date
+                  </Typography>
+                  <Controls.DatePicker
+                    maxDate={values.firstDate}
+                    label="Select date"
+                    value={values.lastDate}
+                    name="lastDate"
+                    onChange={handlePickerChange("lastDate")}
+                  />
+                  <ErrorMessage name={`${fieldName}.lastDate`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.addMarginBottom}>
+                    Last seen normal time
+                  </Typography>
+                  <Controls.TimePicker
+                    label="Select time"
+                    value={values.lastDate}
+                    name="lastDate"
+                    onChange={handlePickerChange("lastDate")}
+                  />
+                  <ErrorMessage name={`${fieldName}.lastTime`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
+                </Grid>
+                <Grid item>
+                  <Typography>Duration</Typography>
+                  <Box
+                    className={classes.boxDuration}
+                    style={{
+                      backgroundColor: `${
+                        ArrivalLastDiff !== "" ? "#6ED0BB" : "#C4C4C4"
+                      }`,
+                    }}
+                  >
+                    {ArrivalLastDiff !== "" ? (
+                      <Typography
+                        style={{
+                          color: `${
+                            ArrivalLastDiff !== "" ? "#FFFFFF" : "#000000"
+                          }`,
+                        }}
+                      >
+                        {showDayDigitALDiff} : {showHourDigitALDiff} :{" "}
+                        {showMinuteDigitALDiff}
                       </Typography>
                     ) : (
                       "dd:hh:mm"
