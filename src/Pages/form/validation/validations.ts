@@ -12,6 +12,8 @@ interface PatientProps {
   lastName: string;
   arrivalDate: Date | null;
   arrivalTime: Date | null;
+  clearDate: Date | null;
+  clearTime: Date | null;
   gender: string;
   onset: string;
 }
@@ -32,6 +34,8 @@ const validate = (values: ValidateProps) => {
       lastName: "",
       arrivalDate: "",
       arrivalTime: "",
+      clearDate: "",
+      clearTime: "",
       gender: "",
       onset: "",
     },
@@ -81,6 +85,19 @@ const validate = (values: ValidateProps) => {
     values.PatientInformation.arrivalDate === undefined
   ) {
     errors.PatientInformation.arrivalTime = "Please enter arrival time";
+  }
+  //! clear onset
+  if (
+    values.PatientInformation.clearDate === null ||
+    values.PatientInformation.clearDate === undefined
+  ) {
+    errors.PatientInformation.clearDate = "Please enter clear date";
+  }
+  if (
+    values.PatientInformation.clearDate === null ||
+    values.PatientInformation.clearDate === undefined
+  ) {
+    errors.PatientInformation.clearTime = "Please enter clear time";
   }
   if (condition(values.PatientInformation.onset)) {
     errors.PatientInformation.onset = "Please select onset";

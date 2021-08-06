@@ -72,6 +72,8 @@ const OnsetStyledToggleButtonGroup = withStyles(() => ({
 interface PatientProps {
   arrivalDate: Date | null;
   arrivalTime: Date | null;
+  clearDate: Date | null;
+  clearTime: Date | null;
   onset: string;
 }
 
@@ -290,11 +292,13 @@ const ArrivalOnset = (props: Props) => {
                   </Typography>
                   <Controls.DatePicker
                     label="Select date"
-                    value={clearDate}
-                    onChange={(date: MaterialUiPickersDate) =>
-                      setClearDate(date)
-                    }
+                    value={values.clearDate}
+                    name="clearDate"
+                    onChange={handlePickerChange("clearDate")}
                   />
+                  <ErrorMessage name={`${fieldName}.clearDate`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
                 </Grid>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
@@ -302,11 +306,13 @@ const ArrivalOnset = (props: Props) => {
                   </Typography>
                   <Controls.TimePicker
                     label="Select time"
-                    value={clearDate}
-                    onChange={(date: MaterialUiPickersDate) => {
-                      setClearDate(date);
-                    }}
+                    value={values.clearDate}
+                    name="clearTime"
+                    onChange={handlePickerChange("clearTime")}
                   />
+                  <ErrorMessage name={`${fieldName}.clearTime`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
                 </Grid>
                 <Grid item>
                   <Typography>Duration</Typography>

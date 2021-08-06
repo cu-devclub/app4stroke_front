@@ -23,6 +23,8 @@ const StrokePredictionForm: React.FC = () => {
             gender: "",
             arrivalDate: null,
             arrivalTime: null,
+            clearDate: null,
+            clearTime: null,
             onset: "",
           },
           ChiefComplaint: "",

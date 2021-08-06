@@ -98,6 +98,8 @@ interface PatientProps {
   gender: string;
   arrivalDate: Date | null;
   arrivalTime: Date | null;
+  clearDate: Date | null;
+  clearTime: Date | null;
   onset: string;
 }
 
