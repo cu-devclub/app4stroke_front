@@ -6,9 +6,9 @@ const condition = (condition: string) => {
 };
 
 interface VitalSignsProps {
-  systolicBP: number;
-  diastolicBP: number;
-  heartRate: number;
+  systolicBP: number | string;
+  diastolicBP: number | string;
+  heartRate: number | string;
   buttonHeartRate: string;
 }
 interface ValidateProps {
@@ -52,16 +52,25 @@ const validate = (values: ValidateProps) => {
   if (condition(values.EKG12Leads)) {
     errors.EKG12Leads = "Please select EKG 12 leads";
   }
-  if (values.VitalSigns.systolicBP < 10 || values.VitalSigns.systolicBP > 400) {
+  if (
+    typeof values.VitalSigns.systolicBP !== typeof "" ||
+    values.VitalSigns.systolicBP < 10 ||
+    values.VitalSigns.systolicBP > 400
+  ) {
     errors.VitalSigns.systolicBP = "Please enter Systolic BP (mmHg)";
   }
   if (
+    typeof values.VitalSigns.diastolicBP !== typeof "" ||
     values.VitalSigns.diastolicBP < 10 ||
     values.VitalSigns.diastolicBP > 400
   ) {
     errors.VitalSigns.diastolicBP = "Please enter Diastolic BP (mmHg)";
   }
-  if (values.VitalSigns.heartRate < 10 || values.VitalSigns.heartRate > 999) {
+  if (
+    typeof values.VitalSigns.heartRate !== typeof "" ||
+    values.VitalSigns.heartRate < 10 ||
+    values.VitalSigns.heartRate > 999
+  ) {
     errors.VitalSigns.heartRate = "Please select heart Rate";
   }
   if (condition(values.VitalSigns.buttonHeartRate)) {

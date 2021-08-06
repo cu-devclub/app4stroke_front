@@ -17,9 +17,9 @@ const StrokePredictionForm: React.FC = () => {
         initialValues={{
           ChiefComplaint: "",
           VitalSigns: {
-            systolicBP: 0,
-            diastolicBP: 0,
-            heartRate: 0,
+            systolicBP: "",
+            diastolicBP: "",
+            heartRate: "",
             buttonHeartRate: "",
           },
           EKG12Leads: "",
@@ -63,7 +63,6 @@ const StrokePredictionForm: React.FC = () => {
               values={values.VitalSigns}
               fieldName="VitalSigns"
               onChange={setFieldValue}
-              error={errors.VitalSigns}
             />
             <SectionTitle title="EKG 12 Leads" />
             <EKG12LeadsSection

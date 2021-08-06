@@ -53,8 +53,7 @@ const VitalSignsToggleButtonGroup = withStyles((theme) => ({
 
 const VitalSignsTextField = withStyles(() => ({
   root: {
-    minWidth: "300px",
-    marginTop: "40px",
+    minWidth: "100%",
     "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
       {
         display: "none",
@@ -62,10 +61,17 @@ const VitalSignsTextField = withStyles(() => ({
   },
 }))(TextField);
 
+const VitalSignsBox = withStyles(() => ({
+  root: {
+    maxWidth: "300px",
+    marginBottom: "40px",
+  },
+}))(Box);
+
 interface VitalSignsProps {
-  systolicBP: number;
-  diastolicBP: number;
-  heartRate: number;
+  systolicBP: number | string;
+  diastolicBP: number | string;
+  heartRate: number | string;
   buttonHeartRate: string;
 }
 
@@ -73,79 +79,61 @@ interface Props {
   values: VitalSignsProps;
   fieldName: string;
   onChange: (field: string, value: any, shouldValidate?: boolean) => void;
-  error: any;
 }
 
 const VitalSignsSection = (props: Props) => {
   const classes = useStyle();
-  const { values, fieldName, onChange, error } = props;
+  const { values, fieldName, onChange } = props;
   const handleVitalSignsButton = (
     event: React.MouseEvent<HTMLElement>,
     newValueVitalSigns: string | null
   ) => {
     onChange(fieldName, { ...values, buttonHeartRate: newValueVitalSigns });
   };
-
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     onChange(fieldName, { ...values, [name]: value });
   };
-
   return (
     <Box className={classes.root}>
-      <Box>
+      <VitalSignsBox>
         <VitalSignsTextField
           name="systolicBP"
           label="Enter Systolic BP (mmHg)"
           value={values.systolicBP}
           onChange={handleInputChange}
           type="number"
-          style={{ marginTop: "-10px" }}
-          error={
-            error !== null && error !== undefined && error.systolicBP
-              ? true
-              : false
-          }
         />
         <ErrorMessage name={`${fieldName}.systolicBP`}>
           {(msg) => <div className={classes.error}>{msg}</div>}
         </ErrorMessage>
-      </Box>
-      <Box>
+      </VitalSignsBox>
+      <VitalSignsBox>
         <VitalSignsTextField
           name="diastolicBP"
           label="Enter Diastolic BP (mmHg)"
           value={values.diastolicBP}
           onChange={handleInputChange}
           type="number"
-          error={
-            error !== null && error !== undefined && error.diastolicBP
-              ? true
-              : false
-          }
         />
         <ErrorMessage name={`${fieldName}.diastolicBP`}>
           {(msg) => <div className={classes.error}>{msg}</div>}
         </ErrorMessage>
-      </Box>
-      <Typography variant="h4" style={{ marginTop: "30px" }}>
-        Heart rate
-      </Typography>
-      <VitalSignsTextField
-        name="heartRate"
-        label="Enter heart rate (bpm)"
-        value={values.heartRate}
-        onChange={handleInputChange}
-        type="number"
-        error={
-          error !== null && error !== undefined && error.heartRate
-            ? true
-            : false
-        }
-      />
-      <ErrorMessage name={`${fieldName}.heartRate`}>
-        {(msg) => <div className={classes.error}>{msg}</div>}
-      </ErrorMessage>
+      </VitalSignsBox>
+      <Typography variant="h4">Heart rate</Typography>
+      <VitalSignsBox>
+        <VitalSignsTextField
+          name="heartRate"
+          label="Enter heart rate (bpm)"
+          value={values.heartRate}
+          onChange={handleInputChange}
+          type="number"
+        />
+
+        <ErrorMessage name={`${fieldName}.heartRate`}>
+          {(msg) => <div className={classes.error}>{msg}</div>}
+        </ErrorMessage>
+      </VitalSignsBox>
       <ErrorMessage name={`${fieldName}.buttonHeartRate`}>
         {(msg) => (
           <div className={classes.error} style={{ marginTop: "35px" }}>
