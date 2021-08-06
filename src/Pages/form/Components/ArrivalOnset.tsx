@@ -96,7 +96,6 @@ const ArrivalOnset = (props: Props) => {
 
   const handlePickerChange = (name: string) => (value: Date) => {
     onChange(fieldName, { ...values, [name]: value });
-    console.log("name", name, "value", value);
   };
 
   //* Onset
@@ -121,10 +120,10 @@ const ArrivalOnset = (props: Props) => {
 
   // duration
   const ArrivalClearDiff =
-    arrivalDate && clearDate !== null
+    values.arrivalDate && values.clearDate !== null
       ? intervalToDuration({
-          start: arrivalDate,
-          end: clearDate,
+          start: values.arrivalDate,
+          end: values.clearDate,
         })
       : "";
   const showDayDigitACDiff =
@@ -147,10 +146,10 @@ const ArrivalOnset = (props: Props) => {
       : "";
 
   const ArrivalLastDiff =
-    arrivalDate && lastDate !== null
+    values.arrivalDate && values.lastDate !== null
       ? intervalToDuration({
-          start: arrivalDate,
-          end: lastDate,
+          start: values.arrivalDate,
+          end: values.lastDate,
         })
       : "";
   const showDayDigitALDiff =
@@ -173,10 +172,10 @@ const ArrivalOnset = (props: Props) => {
       : "";
 
   const ArrivalFirstDiff =
-    arrivalDate && firstDate !== null
+    values.arrivalDate && values.firstDate !== null
       ? intervalToDuration({
-          start: arrivalDate,
-          end: firstDate,
+          start: values.arrivalDate,
+          end: values.firstDate,
         })
       : "";
   const showDayDigitAFDiff =
@@ -357,6 +356,7 @@ const ArrivalOnset = (props: Props) => {
                     Last seen normal date
                   </Typography>
                   <Controls.DatePicker
+                    minDate={values.lastDate}
                     label="Select date"
                     value={values.lastDate}
                     name="lastDate"
@@ -413,6 +413,7 @@ const ArrivalOnset = (props: Props) => {
                     First seen abnormal date
                   </Typography>
                   <Controls.DatePicker
+                    minDate={values.lastDate}
                     label="Select date"
                     value={values.firstDate}
                     name="firstDate"
