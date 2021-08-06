@@ -96,6 +96,8 @@ interface PatientProps {
   firstName: string;
   lastName: string;
   gender: string;
+  arrivalDate: Date | null;
+  arrivalTime: Date | null;
   onset: string;
 }
 
@@ -103,14 +105,11 @@ interface Props {
   values: PatientProps;
   fieldName: string;
   onChange: (field: string, value: any, shouldValidate?: boolean) => void;
-  errors: any;
 }
 
 const PatientInformationSection = (props: Props) => {
   const classes = useStyle();
-  const { values, fieldName, onChange, errors } = props;
-
-  console.log(errors);
+  const { values, fieldName, onChange } = props;
 
   //* Gender
   // icon
@@ -120,7 +119,6 @@ const PatientInformationSection = (props: Props) => {
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     onChange(fieldName, { ...values, [name]: value });
-    errors;
   };
 
   const handleGender = (
@@ -143,11 +141,6 @@ const PatientInformationSection = (props: Props) => {
               value={values.patientID}
               onChange={handleInputChange}
               className={classes.patientTextField}
-              error={
-                errors !== null && errors !== undefined && errors.patientID
-                  ? true
-                  : false
-              }
             />
             <ErrorMessage name={`${fieldName}.patientID`}>
               {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
@@ -161,11 +154,6 @@ const PatientInformationSection = (props: Props) => {
               value={values.age}
               onChange={handleInputChange}
               className={classes.patientTextField}
-              error={
-                errors !== null && errors !== undefined && errors.age
-                  ? true
-                  : false
-              }
             />
             <ErrorMessage name={`${fieldName}.age`}>
               {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
@@ -180,11 +168,6 @@ const PatientInformationSection = (props: Props) => {
               value={values.firstName}
               onChange={handleInputChange}
               className={classes.patientTextField}
-              error={
-                errors !== null && errors !== undefined && errors.firstName
-                  ? true
-                  : false
-              }
             />
             <ErrorMessage name={`${fieldName}.firstName`}>
               {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
@@ -197,11 +180,6 @@ const PatientInformationSection = (props: Props) => {
               value={values.lastName}
               onChange={handleInputChange}
               className={classes.patientTextField}
-              error={
-                errors !== null && errors !== undefined && errors.lastName
-                  ? true
-                  : false
-              }
             />
             <ErrorMessage name={`${fieldName}.lastName`}>
               {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
@@ -268,8 +246,8 @@ const PatientInformationSection = (props: Props) => {
       </Box>
       {/* Arrival Time & Onset */}
       <ArrivalOnset
-        value={values}
-        name="PatientInformation"
+        values={values}
+        fieldName="PatientInformation"
         onChange={onChange}
       />
       {/* Upload CT Scan */}

@@ -21,6 +21,8 @@ const StrokePredictionForm: React.FC = () => {
             firstName: "",
             lastName: "",
             gender: "",
+            arrivalDate: null,
+            arrivalTime: null,
             onset: "",
           },
           ChiefComplaint: "",
@@ -58,7 +60,6 @@ const StrokePredictionForm: React.FC = () => {
               values={values.PatientInformation}
               fieldName="PatientInformation"
               onChange={setFieldValue}
-              errors={errors.PatientInformation}
             />
             <SectionTitle title="Chief Complaint" />
             <ChiefComplaintSection

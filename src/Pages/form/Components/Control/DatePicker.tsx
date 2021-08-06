@@ -6,7 +6,7 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 
 export default function DatePicker(props: any) {
-  const { label, onChange, value, className } = props;
+  const { label, onChange, value, className, error } = props;
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -21,6 +21,7 @@ export default function DatePicker(props: any) {
           "aria-label": "change date",
         }}
         className={className}
+        error={error}
       />
     </MuiPickersUtilsProvider>
   );

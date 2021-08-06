@@ -10,6 +10,8 @@ interface PatientProps {
   age: string;
   firstName: string;
   lastName: string;
+  arrivalDate: Date | null;
+  arrivalTime: Date | null;
   gender: string;
   onset: string;
 }
@@ -28,6 +30,8 @@ const validate = (values: ValidateProps) => {
       age: "",
       firstName: "",
       lastName: "",
+      arrivalDate: "",
+      arrivalTime: "",
       gender: "",
       onset: "",
     },
@@ -65,6 +69,18 @@ const validate = (values: ValidateProps) => {
   }
   if (condition(values.PatientInformation.gender)) {
     errors.PatientInformation.gender = "Please select gender";
+  }
+  if (
+    values.PatientInformation.arrivalDate === null ||
+    values.PatientInformation.arrivalDate === undefined
+  ) {
+    errors.PatientInformation.arrivalDate = "Please enter arrival date";
+  }
+  if (
+    values.PatientInformation.arrivalDate === null ||
+    values.PatientInformation.arrivalDate === undefined
+  ) {
+    errors.PatientInformation.arrivalTime = "Please enter arrival time";
   }
   if (condition(values.PatientInformation.onset)) {
     errors.PatientInformation.onset = "Please select onset";

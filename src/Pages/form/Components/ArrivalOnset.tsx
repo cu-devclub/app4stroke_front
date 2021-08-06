@@ -70,21 +70,28 @@ const OnsetStyledToggleButtonGroup = withStyles(() => ({
 }))(ToggleButtonGroup);
 
 interface PatientProps {
+  arrivalDate: Date | null;
+  arrivalTime: Date | null;
   onset: string;
 }
 
 interface Props {
-  value: PatientProps;
-  name: string;
+  values: PatientProps;
+  fieldName: string;
   onChange: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 
 const ArrivalOnset = (props: Props) => {
   const classes = useStyle();
-  const { value, name, onChange } = props;
+  const { values, fieldName, onChange } = props;
 
   //* Arrival
   const [arrivalDate, setArrivalDate] = React.useState<Date | null>(null);
+
+  const handlePickerChange = (name: string) => (value: Date) => {
+    onChange(fieldName, { ...values, [name]: value });
+    console.log("name", name, "value", value);
+  };
 
   //* Onset
   //+ clear onset
@@ -103,7 +110,7 @@ const ArrivalOnset = (props: Props) => {
     event: React.MouseEvent<HTMLElement>,
     newOnset: string
   ) => {
-    onChange(name, { ...value, onset: newOnset });
+    onChange(fieldName, { ...values, onset: newOnset });
   };
 
   // duration
@@ -196,16 +203,24 @@ const ArrivalOnset = (props: Props) => {
           <Grid item>
             <Controls.DatePicker
               label="Arrival Date"
-              value={arrivalDate}
-              onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
+              name="arrivalDate"
+              value={values.arrivalDate}
+              onChange={handlePickerChange("arrivalDate")}
             />
+            <ErrorMessage name={`${fieldName}.arrivalDate`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
           <Grid item>
             <Controls.TimePicker
               label="Arrival Time"
-              value={arrivalDate}
-              onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
+              name="arrivalDate"
+              value={values.arrivalDate}
+              onChange={handlePickerChange("arrivalDate")}
             />
+            <ErrorMessage name={`${fieldName}.arrivalTime`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
         </Grid>
       </Box>
@@ -213,7 +228,7 @@ const ArrivalOnset = (props: Props) => {
       <Box className={classes.boxOnset}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Onset</Typography>
-          <ErrorMessage name={`${name}.onset`}>
+          <ErrorMessage name={`${fieldName}.onset`}>
             {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
           </ErrorMessage>
         </Box>
@@ -226,7 +241,7 @@ const ArrivalOnset = (props: Props) => {
             }}
           >
             <OnsetStyledToggleButtonGroup
-              value={value.onset}
+              value={values.onset}
               exclusive
               onChange={handleOnset}
             >
@@ -246,7 +261,7 @@ const ArrivalOnset = (props: Props) => {
           </Box>
           <Box>
             <OnsetStyledToggleButtonGroup
-              value={value.onset}
+              value={values.onset}
               exclusive
               onChange={handleOnset}
             >
