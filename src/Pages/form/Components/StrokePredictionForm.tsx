@@ -21,7 +21,7 @@ const useStyle = makeStyles((theme) =>
       position: "fixed",
       top: "1rem",
       width: "300px",
-      right:"50px",
+      right: "50px",
       border: "none",
       boxShadow: "none",
       backgroundColor: "transparent",
@@ -44,6 +44,12 @@ const StrokePredictionForm: React.FC = () => {
       <Formik
         initialValues={{
           ChiefComplaint: "",
+          VitalSigns: {
+            systolicBP: "",
+            diastolicBP: "",
+            heartRate: "",
+            buttonHeartRate: "",
+          },
           EKG12Leads: "",
           NIHSS: {
             levelOfConsciousness: "",
@@ -93,7 +99,11 @@ const StrokePredictionForm: React.FC = () => {
               {/* Vital Signs */}
               <Section id="VitalSigns">
                 <SectionTitle title="Vital Signs" />
-                <VitalSignsSection />
+                <VitalSignsSection
+                  values={values.VitalSigns}
+                  fieldName="VitalSigns"
+                  onChange={setFieldValue}
+                />
               </Section>
               {/* EKG 12 Leads */}
               <Section id="EKG12Leads">
@@ -158,5 +168,4 @@ const StrokePredictionForm: React.FC = () => {
     </>
   );
 };
-
 export default StrokePredictionForm;
