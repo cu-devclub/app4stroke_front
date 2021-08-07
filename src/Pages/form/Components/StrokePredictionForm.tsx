@@ -30,6 +30,7 @@ const StrokePredictionForm: React.FC = () => {
             firstDate: null,
             firstTime: null,
             onset: "",
+            file: null,
           },
           ChiefComplaint: "",
           EKG12Leads: "",

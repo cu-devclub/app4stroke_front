@@ -20,6 +20,7 @@ interface PatientProps {
   firstTime: Date | null;
   gender: string;
   onset: string;
+  file: [] | null;
 }
 
 interface ValidateProps {
@@ -46,6 +47,7 @@ const validate = (values: ValidateProps) => {
       firstTime: "",
       gender: "",
       onset: "",
+      file: "",
     },
     ChiefComplaint: "",
     EKG12Leads: "",
@@ -143,6 +145,13 @@ const validate = (values: ValidateProps) => {
   ) {
     errors.PatientInformation.firstTime =
       "Please enter first seen abnormal time";
+  }
+  //file
+  if (
+    values.PatientInformation.file === null ||
+    values.PatientInformation.file === undefined
+  ) {
+    errors.PatientInformation.file = "Please upload CT Scan file";
   }
   if (condition(values.ChiefComplaint)) {
     errors.ChiefComplaint = "Please select time course";

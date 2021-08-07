@@ -105,6 +105,7 @@ interface PatientProps {
   firstDate: Date | null;
   firstTime: Date | null;
   onset: string;
+  file: [] | null;
 }
 
 interface Props {
@@ -133,6 +134,14 @@ const PatientInformationSection = (props: Props) => {
   ) => {
     onChange(fieldName, { ...values, gender: newGender });
   };
+
+  const handleFileChange = (e: any) => {
+    console.log(e);
+    const { name, value } = e.target;
+    onChange(fieldName, { ...values, [name]: e.currentTarget.files });
+  };
+
+  console.log("-----event.currentTarget.----", values);
 
   return (
     <Box className={classes.root}>
@@ -260,6 +269,9 @@ const PatientInformationSection = (props: Props) => {
       <Box className={classes.boxUpload}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Upload CT Scan</Typography>
+          <ErrorMessage name={`${fieldName}.file`}>
+            {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+          </ErrorMessage>
         </Box>
         <Button
           variant="contained"
@@ -267,7 +279,13 @@ const PatientInformationSection = (props: Props) => {
           className={classes.buttonUpload}
         >
           Upload
-          <input type="file" hidden />
+          <input
+            hidden
+            multiple
+            name="file"
+            type="file"
+            onChange={handleFileChange}
+          />
         </Button>
       </Box>
     </Box>
