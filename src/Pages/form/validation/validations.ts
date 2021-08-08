@@ -23,8 +23,16 @@ interface PatientProps {
   file: [] | null;
 }
 
+interface VitalSignsProps {
+  systolicBP: number | string;
+  diastolicBP: number | string;
+  heartRate: number | string;
+  buttonHeartRate: string;
+}
+
 interface ValidateProps {
   PatientInformation: PatientProps;
+  VitalSigns: VitalSignsProps;
   NIHSS: RadioData.NIHSSProps;
   ChiefComplaint: string;
   EKG12Leads: string;
@@ -50,6 +58,12 @@ const validate = (values: ValidateProps) => {
       file: "",
     },
     ChiefComplaint: "",
+    VitalSigns: {
+      systolicBP: "",
+      diastolicBP: "",
+      heartRate: "",
+      buttonHeartRate: "",
+    },
     EKG12Leads: "",
     NIHSS: {
       levelOfConsciousness: "",
@@ -159,7 +173,30 @@ const validate = (values: ValidateProps) => {
   if (condition(values.EKG12Leads)) {
     errors.EKG12Leads = "Please select EKG 12 leads";
   }
-
+  if (
+    typeof values.VitalSigns.systolicBP !== typeof "" ||
+    values.VitalSigns.systolicBP < 10 ||
+    values.VitalSigns.systolicBP > 400
+  ) {
+    errors.VitalSigns.systolicBP = "Please enter Systolic BP (mmHg)";
+  }
+  if (
+    typeof values.VitalSigns.diastolicBP !== typeof "" ||
+    values.VitalSigns.diastolicBP < 10 ||
+    values.VitalSigns.diastolicBP > 400
+  ) {
+    errors.VitalSigns.diastolicBP = "Please enter Diastolic BP (mmHg)";
+  }
+  if (
+    typeof values.VitalSigns.heartRate !== typeof "" ||
+    values.VitalSigns.heartRate < 10 ||
+    values.VitalSigns.heartRate > 999
+  ) {
+    errors.VitalSigns.heartRate = "Please select heart Rate";
+  }
+  if (condition(values.VitalSigns.buttonHeartRate)) {
+    errors.VitalSigns.buttonHeartRate = "Please select heart rate type";
+  }
   if (condition(values.NIHSS.levelOfConsciousness)) {
     errors.NIHSS.levelOfConsciousness = "Please select level of consciousness";
   }
