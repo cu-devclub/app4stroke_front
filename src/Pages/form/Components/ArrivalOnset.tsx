@@ -1,7 +1,6 @@
 import "date-fns";
 import React, { useState } from "react";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -91,26 +90,21 @@ const ArrivalOnset = (props: Props) => {
   const classes = useStyle();
   const { values, fieldName, onChange } = props;
 
-  //* Arrival
-  const [arrivalDate, setArrivalDate] = React.useState<Date | null>(null);
-
+  const [showClearPicker, setShowPickerClear] = useState(false);
+  const [showUnknownPicker, setShowPickerUnknown] = useState(false);
   const handlePickerChange = (name: string) => (value: Date) => {
+    if (name === "arrivalDate") {
+      values.clearDate = null;
+      values.firstDate = null;
+      values.lastDate = null;
+    } else if (name === "clearDate") {
+      values.firstDate = null;
+      values.lastDate = null;
+    } else if (name === "firstDate" || name === "lastDate") {
+      values.clearDate = null;
+    }
     onChange(fieldName, { ...values, [name]: value });
   };
-
-  //* Onset
-  //+ clear onset
-  const [showClearPicker, setShowPickerClear] = useState(false);
-  const [clearDate, setClearDate] = React.useState<Date | null>(null);
-  //+ unknown onset
-  const [showUnknownPicker, setShowPickerUnknown] = useState(false);
-  //- last seen
-  const [lastDate, setLastDate] = React.useState<Date | null>(null);
-  //- first seen
-  const [firstDate, setFirstDate] = React.useState<Date | null>(null);
-
-  //* Onset
-  // toggle button
   const handleOnset = (
     event: React.MouseEvent<HTMLElement>,
     newOnset: string

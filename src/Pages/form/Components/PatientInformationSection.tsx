@@ -136,12 +136,11 @@ const PatientInformationSection = (props: Props) => {
   };
 
   const handleFileChange = (e: any) => {
-    console.log(e);
     const { name, value } = e.target;
     onChange(fieldName, { ...values, [name]: e.currentTarget.files });
   };
 
-  console.log("-----event.currentTarget.----", values);
+  console.log("-----values----", values);
 
   return (
     <Box className={classes.root}>
