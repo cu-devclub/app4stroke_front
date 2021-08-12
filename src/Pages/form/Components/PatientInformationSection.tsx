@@ -105,7 +105,7 @@ interface PatientProps {
   firstDate: Date | null;
   firstTime: Date | null;
   onset: string;
-  file: [] | null;
+  file: any[] | null;
 }
 
 interface Props {
@@ -137,10 +137,33 @@ const PatientInformationSection = (props: Props) => {
 
   const handleFileChange = (e: any) => {
     const { name, value } = e.target;
-    onChange(fieldName, { ...values, [name]: e.currentTarget.files });
+    onChange(fieldName, { ...values, [name]: [...e.currentTarget.files] });
   };
 
-  console.log("-----values----", values);
+  // const getFileName = (e: any) => {
+  //   const fl = [...e.currentTarget.files].length;
+  //   let i = 0;
+  //   while (i < fl) {
+  //     const fName = [...e.currentTarget.files][i].name;
+  //     return fName;
+  //     i++;
+  //   }
+  // };
+  const getFileName = (props: any) => {
+    const fl = props?.length;
+    let i = 0;
+    const fn = [];
+    while (fl !== undefined ? i < fl : i < 1) {
+      const fName = props !== null ? props[i].name : "fName";
+      fn[i] = fName;
+      i++;
+    }
+    return fn;
+  };
+
+  console.log(getFileName(values.file));
+
+  // console.log("=======", values.file);
 
   return (
     <Box className={classes.root}>
@@ -286,6 +309,7 @@ const PatientInformationSection = (props: Props) => {
             onChange={handleFileChange}
           />
         </Button>
+        <Box></Box>
       </Box>
     </Box>
   );

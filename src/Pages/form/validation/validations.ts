@@ -20,7 +20,7 @@ interface PatientProps {
   firstTime: Date | null;
   gender: string;
   onset: string;
-  file: [] | null;
+  file: any[] | null;
 }
 
 interface VitalSignsProps {
