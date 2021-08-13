@@ -28,6 +28,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignContent: "center",
     display: "flex",
+    overflow: "scroll",
+    height: "350px",
   },
   image: {
     width: "296px",
@@ -43,7 +45,7 @@ const SharePrintDownloadButton = withStyles({
     color: "#757373",
     width: "96px",
     "&:hover": { backgroundColor: "#ffffff", color: "#757373" },
-  }, 
+  },
 })(Button);
 
 const PinkCheckbox = withStyles({
@@ -56,12 +58,14 @@ const PinkCheckbox = withStyles({
   checked: {},
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />);
 
+const SlideImages = [{ url: HeatMap1 }, { url: HeatMap2 }];
+
 const Result = () => {
   const classes = useStyles();
-
+  const [index, setIndex] = React.useState(0);
   //checkbox
   const [showHeatMapCheckbox, setshowHeatMapCheckbox] = React.useState({
-    showHeatMap: false,
+    showHeatMap: true,
   });
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setshowHeatMapCheckbox({
@@ -114,11 +118,12 @@ const Result = () => {
           <Box
             flexGrow={1}
             style={{
-              transform:"translateX(52%)"
+              transform: "translateX(52%)",
             }}
           >
             <FormControlLabel
               control={<PinkCheckbox onChange={handleChange} />}
+              checked={showHeatMapCheckbox.showHeatMap}
               label="Show Heat Map"
               name="showHeatMap"
             />
@@ -127,10 +132,30 @@ const Result = () => {
             View max probability slice
           </Typography>
         </Toolbar>
-        {showHeatMapCheckbox.showHeatMap && (
+        {showHeatMapCheckbox.showHeatMap ? (
+          <Paper
+            
+            elevation={3}
+            className={classes.imageContainer}
+          >
+            <Box
+              height="500px"
+              width="100%"
+              onScroll={() => console.log("x")}
+              overflow="scroll"
+              position="relative"
+            >
+              <img
+                src={SlideImages[index].url}
+                alt="HeatMap1"
+                className={classes.image}
+                style={{ position: "absolute", top: "0", left: "0" }}
+              />
+            </Box>
+          </Paper>
+        ) : (
           <Paper elevation={3} className={classes.imageContainer}>
             <img src={HeatMap1} alt="HeatMap1" className={classes.image} />
-            <img src={HeatMap2} alt="HeatMap2" className={classes.image} />
           </Paper>
         )}
       </Paper>
