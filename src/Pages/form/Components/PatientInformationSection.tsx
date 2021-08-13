@@ -12,6 +12,7 @@ import { IoMaleOutline } from "react-icons/io5";
 import { IoFemaleOutline } from "react-icons/io5";
 import ArrivalOnset from "./ArrivalOnset";
 import { ErrorMessage } from "formik";
+import FileItem from "./FileItem";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -73,6 +74,15 @@ const useStyle = makeStyles(() =>
   })
 );
 
+//todo defaultProps
+const defaultProps = {
+  bgcolor: "background.paper",
+  borderColor: "text.primary",
+  m: 1,
+  border: 1,
+  style: {},
+};
+
 const GenderStyledToggleButtonGroup = withStyles(() => ({
   grouped: {
     marginBottom: "8px",
@@ -116,10 +126,9 @@ interface Props {
 
 const PatientInformationSection = (props: Props) => {
   const classes = useStyle();
+
   const { values, fieldName, onChange } = props;
 
-  //* Gender
-  // icon
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
 
@@ -137,33 +146,18 @@ const PatientInformationSection = (props: Props) => {
 
   const handleFileChange = (e: any) => {
     const { name, value } = e.target;
-    onChange(fieldName, { ...values, [name]: [...e.currentTarget.files] });
-  };
-
-  // const getFileName = (e: any) => {
-  //   const fl = [...e.currentTarget.files].length;
-  //   let i = 0;
-  //   while (i < fl) {
-  //     const fName = [...e.currentTarget.files][i].name;
-  //     return fName;
-  //     i++;
-  //   }
-  // };
-  const getFileName = (props: any) => {
-    const fl = props?.length;
-    let i = 0;
-    const fn = [];
-    while (fl !== undefined ? i < fl : i < 1) {
-      const fName = props !== null ? props[i].name : "fName";
-      fn[i] = fName;
-      i++;
+    if (values.file !== null) {
+      onChange(fieldName, {
+        ...values,
+        [name]: [...values.file, ...e.currentTarget.files],
+      });
+    } else {
+      onChange(fieldName, {
+        ...values,
+        [name]: [...e.currentTarget.files],
+      });
     }
-    return fn;
   };
-
-  console.log(getFileName(values.file));
-
-  // console.log("=======", values.file);
 
   return (
     <Box className={classes.root}>
@@ -287,7 +281,7 @@ const PatientInformationSection = (props: Props) => {
         fieldName="PatientInformation"
         onChange={onChange}
       />
-      {/* Upload CT Scan */}
+      {/*todo Upload CT Scan */}
       <Box className={classes.boxUpload}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Upload CT Scan</Typography>
@@ -309,7 +303,11 @@ const PatientInformationSection = (props: Props) => {
             onChange={handleFileChange}
           />
         </Button>
-        <Box></Box>
+        <Box height="150px" overflow="auto" borderRadius={20} {...defaultProps}>
+          {values.file?.map((a) => (
+            <FileItem name={a.name} />
+          ))}
+        </Box>
       </Box>
     </Box>
   );
