@@ -12,6 +12,7 @@ import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
 import HeatMap1 from "../../../Assets/HeatMap1.jpg";
 import HeatMap2 from "../../../Assets/HeatMap2.jpg";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
+import ReactScrollWheelHandler from "react-scroll-wheel-handler";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -133,23 +134,20 @@ const Result = () => {
           </Typography>
         </Toolbar>
         {showHeatMapCheckbox.showHeatMap ? (
-          <Paper
-            
+          <Paper 
             elevation={3}
             className={classes.imageContainer}
           >
             <Box
               height="500px"
-              width="100%"
-              onScroll={() => console.log("x")}
+              onWheel={() => console.log("x")}
               overflow="scroll"
               position="relative"
             >
               <img
                 src={SlideImages[index].url}
                 alt="HeatMap1"
-                className={classes.image}
-                style={{ position: "absolute", top: "0", left: "0" }}
+                className={classes.image}  
               />
             </Box>
           </Paper>
