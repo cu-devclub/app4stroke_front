@@ -122,7 +122,7 @@ const TextBlack = withStyles(() => ({
   },
 }))(Typography);
 
-interface Props {
+interface DataProps {
   name: string;
   patientID: string;
   gender: string;
@@ -142,8 +142,13 @@ interface Props {
   NIHSS: number;
 }
 
+interface Props {
+  data: DataProps;
+}
+
 const Data = (props: Props) => {
   const classes = useStyles();
+  const { data } = props;
   const {
     name,
     patientID,
@@ -162,7 +167,7 @@ const Data = (props: Props) => {
     heartRateText,
     EKG12Leads,
     NIHSS,
-  } = props;
+  } = data;
 
   return (
     <Paper elevation={0} className={classes.root}>
