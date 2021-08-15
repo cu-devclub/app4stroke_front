@@ -35,6 +35,10 @@ const useStyle = makeStyles(() =>
       marginLeft: "32px",
       marginBottom: "65px",
     },
+    boxFileName: {
+      marginTop: "16px",
+      padding: "16px",
+    },
     button: {
       "&.Mui-selected": {
         backgroundColor: "#EF5DA8",
@@ -77,10 +81,9 @@ const useStyle = makeStyles(() =>
 //todo defaultProps
 const defaultProps = {
   bgcolor: "background.paper",
-  borderColor: "text.primary",
-  m: 1,
+  borderColor: "#979797",
   border: 1,
-  style: {},
+  style: { width: "40%" },
 };
 
 const GenderStyledToggleButtonGroup = withStyles(() => ({
@@ -128,9 +131,11 @@ const PatientInformationSection = (props: Props) => {
   const classes = useStyle();
 
   const { values, fieldName, onChange } = props;
+  console.log("values.file PATIENTINFORMATION", values.file);
 
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
+  const [showFileName, setShowFileName] = React.useState(false);
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -144,6 +149,7 @@ const PatientInformationSection = (props: Props) => {
     onChange(fieldName, { ...values, gender: newGender });
   };
 
+  //todo handleFileChange
   const handleFileChange = (e: any) => {
     const { name, value } = e.target;
     if (values.file !== null) {
@@ -151,11 +157,13 @@ const PatientInformationSection = (props: Props) => {
         ...values,
         [name]: [...values.file, ...e.currentTarget.files],
       });
+      setShowFileName(true);
     } else {
       onChange(fieldName, {
         ...values,
         [name]: [...e.currentTarget.files],
       });
+      setShowFileName(true);
     }
   };
 
@@ -281,7 +289,7 @@ const PatientInformationSection = (props: Props) => {
         fieldName="PatientInformation"
         onChange={onChange}
       />
-      {/*todo Upload CT Scan */}
+      {/* Upload CT Scan */}
       <Box className={classes.boxUpload}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Upload CT Scan</Typography>
@@ -303,11 +311,18 @@ const PatientInformationSection = (props: Props) => {
             onChange={handleFileChange}
           />
         </Button>
-        <Box height="150px" overflow="auto" borderRadius={20} {...defaultProps}>
-          {values.file?.map((a) => (
-            <FileItem name={a.name} />
-          ))}
-        </Box>
+        {/*todo File Name */}
+        {showFileName && (
+          <Box
+            height="150px"
+            overflow="auto"
+            borderRadius={20}
+            {...defaultProps}
+            className={classes.boxFileName}
+          >
+            <FileItem values={values} />
+          </Box>
+        )}
       </Box>
     </Box>
   );
