@@ -188,7 +188,9 @@ const Data = (props: Props) => {
           </TextBox>
           <TextBox>
             <TextPinkBox variant="subtitle1">Age</TextPinkBox>
-            <TextBlackBox variant="h6">{age}years</TextBlackBox>
+            <TextBlackBox style={{ fontSize: "19px" }}>
+              {age} years
+            </TextBlackBox>
           </TextBox>
         </Toolbar>
       </Box>
