@@ -167,6 +167,22 @@ const PatientInformationSection = (props: Props) => {
     }
   };
 
+  //fix handleDeleteFile
+  const handleDeleteFile = (e: any) => {
+    const { name } = e.target;
+    const currentFiles = values.file?.filter((i) => i.name !== e.target.id);
+    // values.file = fileName !== undefined ? fileName : values.file;
+    if (currentFiles !== undefined) {
+      onChange(fieldName, {
+        ...values,
+        file: [...currentFiles],
+      });
+      if (currentFiles.length === 0) {
+        setShowFileName(false);
+      }
+    }
+  };
+
   return (
     <Box className={classes.root}>
       {/* Patient Information */}
@@ -320,7 +336,9 @@ const PatientInformationSection = (props: Props) => {
             {...defaultProps}
             className={classes.boxFileName}
           >
-            <FileItem values={values} />
+            {values.file?.map((a, index) => (
+              <FileItem name={a.name} key={index} onClick={handleDeleteFile} />
+            ))}
           </Box>
         )}
       </Box>
