@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { TiDeleteOutline } from "react-icons/ti";
 import Button from "@material-ui/core/Button";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
 
 interface Props {
   name: string;
@@ -25,21 +26,19 @@ const FileItem = (props: Props) => {
   const { name, onClick } = props;
 
   return (
-    <Box>
-      <Box display="inline">
+    <Grid container spacing={1}>
+      <Grid item style={{ cursor: "pointer" }}>
         <TiDeleteOutline
-          name="file"
           id={name}
           onClick={onClick}
           color="#FF4181"
           size="24px"
-          style={{ cursor: "pointer" }}
         />
-      </Box>
-      <Box display="inline">
+      </Grid>
+      <Grid item>
         <Typography display="inline">{name}</Typography>
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 

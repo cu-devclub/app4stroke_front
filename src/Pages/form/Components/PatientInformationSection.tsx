@@ -36,7 +36,6 @@ const useStyle = makeStyles(() =>
       marginBottom: "65px",
     },
     boxFileName: {
-      marginTop: "16px",
       padding: "16px",
     },
     button: {
@@ -78,7 +77,7 @@ const useStyle = makeStyles(() =>
   })
 );
 
-//todo defaultProps
+//todo defaultProps of file upload box
 const defaultProps = {
   bgcolor: "background.paper",
   borderColor: "#979797",
@@ -131,7 +130,6 @@ const PatientInformationSection = (props: Props) => {
   const classes = useStyle();
 
   const { values, fieldName, onChange } = props;
-  console.log("values.file PATIENTINFORMATION", values.file);
 
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
@@ -149,9 +147,10 @@ const PatientInformationSection = (props: Props) => {
     onChange(fieldName, { ...values, gender: newGender });
   };
 
-  //todo handleFileChange
+  //fix handleFileChange
+  //- duplicate upload file = false
   const handleFileChange = (e: any) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
     if (values.file !== null) {
       onChange(fieldName, {
         ...values,
@@ -166,12 +165,11 @@ const PatientInformationSection = (props: Props) => {
       setShowFileName(true);
     }
   };
+  console.log(values.file);
 
-  //fix handleDeleteFile
+  //todo handleDeleteFile
   const handleDeleteFile = (e: any) => {
-    const { name } = e.target;
     const currentFiles = values.file?.filter((i) => i.name !== e.target.id);
-    // values.file = fileName !== undefined ? fileName : values.file;
     if (currentFiles !== undefined) {
       onChange(fieldName, {
         ...values,
@@ -181,6 +179,14 @@ const PatientInformationSection = (props: Props) => {
         setShowFileName(false);
       }
     }
+  };
+
+  const removeAll = () => {
+    onChange(fieldName, {
+      ...values,
+      file: [],
+    });
+    setShowFileName(false);
   };
 
   return (
@@ -329,16 +335,32 @@ const PatientInformationSection = (props: Props) => {
         </Button>
         {/*todo File Name */}
         {showFileName && (
-          <Box
-            height="150px"
-            overflow="auto"
-            borderRadius={20}
-            {...defaultProps}
-            className={classes.boxFileName}
-          >
-            {values.file?.map((a, index) => (
-              <FileItem name={a.name} key={index} onClick={handleDeleteFile} />
-            ))}
+          <Box>
+            <Grid container item style={{ margin: "8px" }} spacing={3}>
+              <Grid item>
+                <Typography>{values.file?.length} files</Typography>
+              </Grid>
+              <Grid item style={{ cursor: "pointer" }} onClick={removeAll}>
+                <Typography style={{ color: "#FF4181", textTransform: "none" }}>
+                  Remove all
+                </Typography>
+              </Grid>
+            </Grid>
+            <Box
+              height="150px"
+              overflow="auto"
+              borderRadius={20}
+              {...defaultProps}
+              className={classes.boxFileName}
+            >
+              {values.file?.map((a, index) => (
+                <FileItem
+                  name={a.name}
+                  key={index}
+                  onClick={handleDeleteFile}
+                />
+              ))}
+            </Box>
           </Box>
         )}
       </Box>
