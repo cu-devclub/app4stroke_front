@@ -8,7 +8,7 @@ import {
 import React from "react";
 import SearchTables from "../Components/SearchTable";
 import Tables, { createData } from "../Components/Tables";
-import Header from "../Components/Header";
+import Header from "../../HeaderFooter/Header";
 import Title from "../Components/Title";
 
 const useStyles = makeStyles((theme) => ({
