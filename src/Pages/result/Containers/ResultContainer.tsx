@@ -1,12 +1,9 @@
-<<<<<<< HEAD
-import React from "react";
-import Result from "../Components/Result";
-=======
 import Grid from "@material-ui/core/Grid";
 import React from "react";
 import Header from "../../HeaderFooter/Header";
 import Data from "../Components/Data";
 import Footer from "../../HeaderFooter/Footer";
+import Result from "../Components/Result";
 
 const data = {
   name: "Nattasuk Chaithana",
@@ -31,28 +28,18 @@ const data = {
   EKG12Leads: "Normal",
   NIHSS: 6,
 };
->>>>>>> 6d79865bfe29427e0b703ae544618248beefea1c
-
 const ResultContainer: React.FC = () => {
   return (
     <>
-<<<<<<< HEAD
-      <Result />
-    </>
-  );
-};
-
-=======
       <Header />
-      <Grid container alignItems="stretch">
-        <Grid item xs={3}>
-          <Data data={data} />
+        <Grid container alignItems="stretch">
+          <Grid item xs={3}>
+            <Data data={data} />
+          </Grid>
+          <Grid item xs={9}> <Result/> </Grid>
         </Grid>
-        <Grid item xs={9}></Grid>
-      </Grid>
       <Footer />
     </>
   );
 };
->>>>>>> 6d79865bfe29427e0b703ae544618248beefea1c
 export default ResultContainer;
