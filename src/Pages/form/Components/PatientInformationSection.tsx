@@ -11,6 +11,8 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { IoMaleOutline } from "react-icons/io5";
 import { IoFemaleOutline } from "react-icons/io5";
 import ArrivalOnset from "./ArrivalOnset";
+import { ErrorMessage } from "formik";
+import FileItem from "./FileItem";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -32,6 +34,9 @@ const useStyle = makeStyles(() =>
     boxUpload: {
       marginLeft: "32px",
       marginBottom: "65px",
+    },
+    boxFileName: {
+      padding: "16px",
     },
     button: {
       "&.Mui-selected": {
@@ -59,9 +64,26 @@ const useStyle = makeStyles(() =>
     },
     patientTextField: {
       width: "100%",
+      "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+        {
+          display: "none",
+        },
+    },
+    errorMessage: {
+      color: "#FF0000",
+      fontSize: "16px",
+      marginBottom: "16px",
     },
   })
 );
+
+//todo defaultProps of file upload box
+const defaultProps = {
+  bgcolor: "background.paper",
+  borderColor: "#979797",
+  border: 1,
+  style: { width: "40%" },
+};
 
 const GenderStyledToggleButtonGroup = withStyles(() => ({
   grouped: {
@@ -80,21 +102,91 @@ const GenderStyledToggleButtonGroup = withStyles(() => ({
   },
 }))(ToggleButtonGroup);
 
-const PatientInformationSection: React.FC = () => {
+interface PatientProps {
+  patientID: string;
+  age: string | number;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  arrivalDate: Date | null;
+  arrivalTime: Date | null;
+  clearDate: Date | null;
+  clearTime: Date | null;
+  lastDate: Date | null;
+  lastTime: Date | null;
+  firstDate: Date | null;
+  firstTime: Date | null;
+  onset: string;
+  file: any[] | null;
+}
+
+interface Props {
+  values: PatientProps;
+  fieldName: string;
+  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+}
+
+const PatientInformationSection = (props: Props) => {
   const classes = useStyle();
 
-  //! useState
-  //* Gender
-  const [gender, setGender] = React.useState<string | null>("");
-  // icon
+  const { values, fieldName, onChange } = props;
+
   const [isMaleWhite, setIsMaleWhite] = React.useState(false);
   const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
+  const [showFileName, setShowFileName] = React.useState(false);
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    onChange(fieldName, { ...values, [name]: value });
+  };
 
   const handleGender = (
     event: React.MouseEvent<HTMLElement>,
-    newGender: string | null
+    newGender: string
   ) => {
-    setGender(newGender);
+    onChange(fieldName, { ...values, gender: newGender });
+  };
+
+  //fix handleFileChange
+  //- duplicate upload file = false
+  const handleFileChange = (e: any) => {
+    const { name } = e.target;
+    if (values.file !== null) {
+      onChange(fieldName, {
+        ...values,
+        [name]: [...values.file, ...e.currentTarget.files],
+      });
+      setShowFileName(true);
+    } else {
+      onChange(fieldName, {
+        ...values,
+        [name]: [...e.currentTarget.files],
+      });
+      setShowFileName(true);
+    }
+  };
+  console.log(values.file);
+
+  //todo handleDeleteFile
+  const handleDeleteFile = (e: any) => {
+    const currentFiles = values.file?.filter((i) => i.name !== e.target.id);
+    if (currentFiles !== undefined) {
+      onChange(fieldName, {
+        ...values,
+        file: [...currentFiles],
+      });
+      if (currentFiles.length === 0) {
+        setShowFileName(false);
+      }
+    }
+  };
+
+  const removeAll = () => {
+    onChange(fieldName, {
+      ...values,
+      file: [],
+    });
+    setShowFileName(false);
   };
 
   return (
@@ -105,25 +197,54 @@ const PatientInformationSection: React.FC = () => {
           <Grid item xs={3}>
             <TextField
               label="Enter patient ID"
+              name="patientID"
+              type="number"
+              value={values.patientID}
+              onChange={handleInputChange}
               className={classes.patientTextField}
             />
+            <ErrorMessage name={`${fieldName}.patientID`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
           <Grid item xs={3}>
-            <TextField label="Enter age" className={classes.patientTextField} />
+            <TextField
+              label="Enter age"
+              name="age"
+              type="number"
+              value={values.age}
+              onChange={handleInputChange}
+              className={classes.patientTextField}
+            />
+            <ErrorMessage name={`${fieldName}.age`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
         </Grid>
         <Grid container spacing={6}>
           <Grid item xs={3}>
             <TextField
               label="Enter first name"
+              name="firstName"
+              value={values.firstName}
+              onChange={handleInputChange}
               className={classes.patientTextField}
             />
+            <ErrorMessage name={`${fieldName}.firstName`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
           <Grid item xs={3}>
             <TextField
               label="Enter last name"
+              name="lastName"
+              value={values.lastName}
+              onChange={handleInputChange}
               className={classes.patientTextField}
             />
+            <ErrorMessage name={`${fieldName}.lastName`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
         </Grid>
       </Box>
@@ -131,12 +252,15 @@ const PatientInformationSection: React.FC = () => {
       <Box className={classes.boxGender}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Gender</Typography>
+          <ErrorMessage name={`${fieldName}.gender`}>
+            {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+          </ErrorMessage>
         </Box>
         <Grid container>
           <Box>
             <Box textAlign="center" marginRight="24px">
               <GenderStyledToggleButtonGroup
-                value={gender}
+                value={values.gender}
                 exclusive
                 onChange={handleGender}
                 onClick={() => {
@@ -159,7 +283,7 @@ const PatientInformationSection: React.FC = () => {
           <Box>
             <Box textAlign="center">
               <GenderStyledToggleButtonGroup
-                value={gender}
+                value={values.gender}
                 exclusive
                 onChange={handleGender}
                 onClick={() => {
@@ -176,18 +300,24 @@ const PatientInformationSection: React.FC = () => {
                   </Box>
                 </ToggleButton>
               </GenderStyledToggleButtonGroup>
-
               <Typography variant="body1">Female</Typography>
             </Box>
           </Box>
         </Grid>
       </Box>
       {/* Arrival Time & Onset */}
-      <ArrivalOnset />
+      <ArrivalOnset
+        values={values}
+        fieldName="PatientInformation"
+        onChange={onChange}
+      />
       {/* Upload CT Scan */}
       <Box className={classes.boxUpload}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Upload CT Scan</Typography>
+          <ErrorMessage name={`${fieldName}.file`}>
+            {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+          </ErrorMessage>
         </Box>
         <Button
           variant="contained"
@@ -195,8 +325,44 @@ const PatientInformationSection: React.FC = () => {
           className={classes.buttonUpload}
         >
           Upload
-          <input type="file" hidden />
+          <input
+            hidden
+            multiple
+            name="file"
+            type="file"
+            onChange={handleFileChange}
+          />
         </Button>
+        {/*todo File Name */}
+        {showFileName && (
+          <Box>
+            <Grid container item style={{ margin: "8px" }} spacing={3}>
+              <Grid item>
+                <Typography>{values.file?.length} files</Typography>
+              </Grid>
+              <Grid item style={{ cursor: "pointer" }} onClick={removeAll}>
+                <Typography style={{ color: "#FF4181", textTransform: "none" }}>
+                  Remove all
+                </Typography>
+              </Grid>
+            </Grid>
+            <Box
+              height="150px"
+              overflow="auto"
+              borderRadius={20}
+              {...defaultProps}
+              className={classes.boxFileName}
+            >
+              {values.file?.map((a, index) => (
+                <FileItem
+                  name={a.name}
+                  key={index}
+                  onClick={handleDeleteFile}
+                />
+              ))}
+            </Box>
+          </Box>
+        )}
       </Box>
     </Box>
   );

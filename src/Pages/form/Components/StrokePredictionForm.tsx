@@ -43,6 +43,23 @@ const StrokePredictionForm: React.FC = () => {
     <>
       <Formik
         initialValues={{
+          PatientInformation: {
+            patientID: "",
+            age: "",
+            firstName: "",
+            lastName: "",
+            gender: "",
+            arrivalDate: null,
+            arrivalTime: null,
+            clearDate: null,
+            clearTime: null,
+            lastDate: null,
+            lastTime: null,
+            firstDate: null,
+            firstTime: null,
+            onset: "",
+            file: null,
+          },
           ChiefComplaint: "",
           VitalSigns: {
             systolicBP: "",
@@ -80,7 +97,11 @@ const StrokePredictionForm: React.FC = () => {
               {/* PatientInformation */}
               <Section id="PatientInformation">
                 <SectionTitle title="Patient Information" />
-                <PatientInformationSection />
+                <PatientInformationSection
+                  values={values.PatientInformation}
+                  fieldName="PatientInformation"
+                  onChange={setFieldValue}
+                />
               </Section>
               {/* ChiefComplaint */}
               <Section id="ChiefComplaint">
