@@ -26,47 +26,88 @@ const PinkCheckbox = withStyles({
   checked: {},
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />);
 
-const checkboxLabel = [
-  "Deny underlying disease",
-  "Hx TIA (same site, within 2 weeks)",
-  "Previous TIA",
-  "Previous stroke",
-  "HT",
-  "DM",
-  "DLP",
-  "Valvular heart disease",
-  "AF",
-  "Coronary heart disease",
-  "CKD",
-  "Peripheral arterial disease",
-  "Obesity",
-  "Smoking",
+const checkboxUnderlying = [
+  { name: "deny", label: "Deny underlying disease" },
+  { name: "hx", label: "Hx TIA (same site, within 2 weeks)" },
+  { name: "previousTia", label: "Previous TIA" },
+  { name: "previousStroke", label: "Previous stroke" },
+  { name: "ht", label: "HT" },
+  { name: "dm", label: "DM" },
+  { name: "dlp", label: "DLP" },
+  { name: "valvularHeartDisease", label: "Valvular heart disease" },
+  { name: "af", label: "AF" },
+  { name: "coronaryHeartDisease", label: "Coronary heart disease" },
+  { name: "ckd", label: "CKD" },
+  { name: "peripheralArterialDisease", label: "Peripheral arterial disease" },
+  { name: "obesity", label: "Obesity" },
+  { name: "smoking", label: "Smoking" },
 ];
 
-const UnderLyingDiseaseSection: React.FC = () => {
+interface UnderlyingProps {
+  deny: boolean;
+  hx: boolean;
+  previousTia: boolean;
+  previousStroke: boolean;
+  ht: boolean;
+  dm: boolean;
+  dlp: boolean;
+  valvularHeartDisease: boolean;
+  af: boolean;
+  coronaryHeartDisease: boolean;
+  ckd: boolean;
+  peripheralArterialDisease: boolean;
+  obesity: boolean;
+  smoking: boolean;
+  other: boolean;
+  otherText: string;
+}
+
+interface Props {
+  values: UnderlyingProps;
+  fieldName: string;
+  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+}
+
+const UnderLyingDiseaseSection = (props: Props) => {
   const classes = useStyles();
-  const [underLyingDiseaseCheckbox, setUnderLyingDiseaseCheckbox] = useState(
-    {}
-  );
+  const { values, fieldName, onChange } = props;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUnderLyingDiseaseCheckbox({
-      ...underLyingDiseaseCheckbox,
-      [event.target.name]: event.target.checked,
+    const { name } = event.target;
+    onChange(fieldName, {
+      ...values,
+      [name]: event.target.checked,
     });
   };
 
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    onChange(fieldName, { ...values, [name]: value });
+  };
+  console.log("ทำไมมมมมม", values);
+
   return (
     <FormGroup className={classes.checkbox}>
-      {checkboxLabel.map((checkboxLabel) => (
+      {checkboxUnderlying.map((checkboxUnderlying) => (
         <FormControlLabel
-          control={<PinkCheckbox onChange={handleChange} />}
-          label={checkboxLabel}
+          control={
+            <PinkCheckbox
+              onChange={handleChange}
+              name={checkboxUnderlying.name}
+            />
+          }
+          label={checkboxUnderlying.label}
         />
       ))}
       <FormControlLabel
-        control={<PinkCheckbox onChange={handleChange} />}
-        label={<TextField label="Others" />}
+        control={<PinkCheckbox name="other" onChange={handleChange} />}
+        label={
+          <TextField
+            label="Others"
+            name="otherText"
+            onChange={handleInputChange}
+          />
+        }
       />
     </FormGroup>
   );
