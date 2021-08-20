@@ -70,62 +70,90 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
+interface ChiefComplaintProps {
+  timeCourse: string;
+  alterationOfConsciousness: boolean;
+  facialWeakness: boolean;
+  facialWeaknessLeft: boolean;
+  facialWeaknessRight: boolean;
+  hemiparesis: boolean;
+  hemiparesisLeft: boolean;
+  hemiparesisRight: boolean;
+  hemiparesthesia: boolean;
+  hemiparesthesiaLeft: boolean;
+  hemiparesthesiaRight: boolean;
+  dysarthria: boolean;
+  aphasia: boolean;
+  ataxia: boolean;
+  vertigo: boolean;
+  visualProblem: boolean;
+  other: boolean;
+  otherText: string;
+}
+
 interface Props {
-  value: string;
-  name: string;
+  values: ChiefComplaintProps;
+  fieldName: string;
   onChange: (field: string, value: any, shouldValidate?: boolean) => void;
 }
 
-const checkBoxLabel = [
-  "Dysarthria",
-  "Dysphasia/aphasia",
-  "Ataxia",
-  "Vertigo",
-  "Visual problem",
+const checkBox = [
+  { name: "dysarthria", label: "Dysarthria" },
+  {
+    name: "aphasia",
+    label: "Dysphasia/aphasia",
+  },
+  { name: "ataxia", label: "Ataxia" },
+  { name: "vertigo", label: "Vertigo" },
+  { name: "visualProblem", label: "Visual problem" },
 ];
-const subCheckBoxLabel = ["Left", "Right"];
+const facialWeaknessSubCheckBox = [
+  { name: "facialWeaknessLeft", label: "Left" },
+  { name: "facialWeaknessRight", label: "Right" },
+];
+const hemiparesisSubCheckBox = [
+  { name: "hemiparesisLeft", label: "Left" },
+  { name: "hemiparesisRight", label: "Right" },
+];
+const hemiparesthesiaSubCheckBox = [
+  { name: "hemiparesthesiaLeft", label: "Left" },
+  {
+    name: "hemiparesthesiaRight",
+    label: "Right",
+  },
+];
 
 const ChiefComplaintSection = (props: Props) => {
   const classes = useStyle();
-  const { value, name, onChange } = props;
+  const { values, fieldName, onChange } = props;
   //Time Course Button
   const handleTimeCourse = (
     event: React.MouseEvent<HTMLElement>,
-    newTimeCourse: string
+    newTimeCourse: string | null
   ) => {
-    onChange(name,newTimeCourse);
+    onChange(fieldName, { ...values, timeCourse: newTimeCourse });
   };
-
   //checkbox
-  const [symptomsCheckbox, setSymptomsCheckbox] = React.useState({
-    AlterationOfConsciousness: false,
-    FacialWeakness: false,
-    Hemiparesis: false,
-    Hemiparesthesia: false,
-    Dysarthria: false,
-    DysphasiaAphasia: false,
-    Ataxia: false,
-    Vertigo: false,
-    VisualProblem: false,
-  });
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSymptomsCheckbox({
-      ...symptomsCheckbox,
-      [event.target.name]: event.target.checked,
+    const { name } = event.target;
+    onChange(fieldName, {
+      ...values,
+      [name]: event.target.checked,
     });
   };
+  console.log(values);
   return (
     <Box className={classes.root}>
       {/* Time Course */}
       <Box>
         <Typography variant="h4">Time Course</Typography>
-        <ErrorMessage name={name}>
-        {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
-      </ErrorMessage>
+        <ErrorMessage name={`${fieldName}.timeCourse`}>
+          {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+        </ErrorMessage>
         <Box>
           <StyledToggleButtonGroup
             size="large"
-            value={value}
+            value={values.timeCourse}
             exclusive
             onChange={handleTimeCourse}
             aria-label="Time course"
@@ -161,71 +189,92 @@ const ChiefComplaintSection = (props: Props) => {
           </StyledToggleButtonGroup>
         </Box>
       </Box>
-
       {/* Symptoms */}
       <Box>
         <Typography variant="h4">Symptoms</Typography>
         <FormGroup>
           <FormControlLabel
-            control={<PinkCheckbox onChange={handleChange} />}
+            control={
+              <PinkCheckbox
+                onChange={handleChange}
+                name="alterationOfConsciousness"
+              />
+            }
             label="Alteration of consciousness"
           />
           <FormControlLabel
             control={
-              <PinkCheckbox onChange={handleChange} name="FacialWeakness" />
+              <PinkCheckbox onChange={handleChange} name="facialWeakness" />
             }
             label="Facial weakness"
           />
-          {symptomsCheckbox.FacialWeakness && (
+          {values.facialWeakness && (
             <FormGroup row className={classes.checkbox}>
-              {subCheckBoxLabel.map((subCheckBoxLabel) => (
+              {facialWeaknessSubCheckBox.map((facialWeaknessSubCheckBox) => (
                 <FormControlLabel
-                  control={<PinkCheckbox onChange={handleChange} />}
-                  label={subCheckBoxLabel}
+                  control={
+                    <PinkCheckbox
+                      onChange={handleChange}
+                      name={facialWeaknessSubCheckBox.name}
+                    />
+                  }
+                  label={facialWeaknessSubCheckBox.label}
                 />
               ))}
             </FormGroup>
           )}
           <FormControlLabel
             control={
-              <PinkCheckbox onChange={handleChange} name="Hemiparesis" />
+              <PinkCheckbox onChange={handleChange} name="hemiparesis" />
             }
             label="Hemiparesis"
           />
-          {symptomsCheckbox.Hemiparesis && (
+          {values.hemiparesis && (
             <FormGroup row className={classes.checkbox}>
-              {subCheckBoxLabel.map((subCheckBoxLabel) => (
+              {hemiparesisSubCheckBox.map((hemiparesisSubCheckBox) => (
                 <FormControlLabel
-                  control={<PinkCheckbox onChange={handleChange} />}
-                  label={subCheckBoxLabel}
+                  control={
+                    <PinkCheckbox
+                      onChange={handleChange}
+                      name={hemiparesisSubCheckBox.name}
+                    />
+                  }
+                  label={hemiparesisSubCheckBox.label}
                 />
               ))}
             </FormGroup>
           )}
           <FormControlLabel
             control={
-              <PinkCheckbox onChange={handleChange} name="Hemiparesthesia" />
+              <PinkCheckbox onChange={handleChange} name="hemiparesthesia" />
             }
             label="Hemiparesthesia"
           />
-          {symptomsCheckbox.Hemiparesthesia && (
+          {values.hemiparesthesia && (
             <FormGroup row className={classes.checkbox}>
-              {subCheckBoxLabel.map((subCheckBoxLabel) => (
+              {hemiparesthesiaSubCheckBox.map((hemiparesthesiaSubCheckBox) => (
                 <FormControlLabel
-                  control={<PinkCheckbox onChange={handleChange} />}
-                  label={subCheckBoxLabel}
+                  control={
+                    <PinkCheckbox
+                      onChange={handleChange}
+                      name={hemiparesthesiaSubCheckBox.name}
+                    />
+                  }
+                  label={hemiparesthesiaSubCheckBox.label}
                 />
               ))}
             </FormGroup>
           )}
-          {checkBoxLabel.map((checkBoxLabel) => (
+          {checkBox.map((checkBox) => (
             <FormControlLabel
-              control={<PinkCheckbox onChange={handleChange} />}
-              label={checkBoxLabel}
+              control={
+                <PinkCheckbox onChange={handleChange} name={checkBox.name} />
+              }
+              label={checkBox.label}
             />
           ))}
           <FormControlLabel
-            control={<PinkCheckbox onChange={handleChange} name="Others" />}
+            control={<PinkCheckbox onChange={handleChange} name="other" />}
             label={<TextField label="Others" />}
           />
         </FormGroup>
@@ -233,5 +282,4 @@ const ChiefComplaintSection = (props: Props) => {
     </Box>
   );
 };
-
 export default ChiefComplaintSection;
