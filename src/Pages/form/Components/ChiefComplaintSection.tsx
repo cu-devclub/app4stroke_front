@@ -141,7 +141,11 @@ const ChiefComplaintSection = (props: Props) => {
       [name]: event.target.checked,
     });
   };
-  console.log(values);
+  //otherCheckbox
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    onChange(fieldName, { ...values, [name]: value });
+  };
   return (
     <Box className={classes.root}>
       {/* Time Course */}
@@ -275,7 +279,17 @@ const ChiefComplaintSection = (props: Props) => {
           ))}
           <FormControlLabel
             control={<PinkCheckbox onChange={handleChange} name="other" />}
-            label={<TextField label="Others" />}
+            label={
+              <TextField
+                label="Others"
+                name="otherText"
+                onChange={handleInputChange}
+                disabled={values.other ? false : true}
+                value={
+                  values.other ? values.otherText : (values.otherText = "")
+                }
+              />
+            }
           />
         </FormGroup>
       </Box>
