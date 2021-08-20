@@ -106,6 +106,8 @@ const UnderLyingDiseaseSection = (props: Props) => {
             label="Others"
             name="otherText"
             onChange={handleInputChange}
+            value={values.other ? values.otherText : (values.otherText = "")}
+            disabled={values.other ? false : true}
           />
         }
       />
