@@ -146,10 +146,8 @@ const PatientInformationSection = (props: Props) => {
     onChange(fieldName, { ...values, gender: newGender });
   };
 
-  //fix handleFileChange
   const handleFileChange = (e: any) => {
     const { name } = e.target;
-
     const targetFiles = [...e.currentTarget.files];
     const currentTargetFiles = [...e.currentTarget.files];
     const fileNames = values.file?.map((n) => n.name);
@@ -350,7 +348,6 @@ const PatientInformationSection = (props: Props) => {
             onChange={handleFileChange}
           />
         </Button>
-        {/*todo File Name */}
         {showFileName && (
           <Box>
             <Grid container item style={{ margin: "8px" }} spacing={3}>
