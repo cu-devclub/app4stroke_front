@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
   },
   content: {
-    fontSize: "24px",
+    fontSize: "32px",
     display: "flex",
     justifyContent: "center",
     alignContent: "center",
@@ -33,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
     alignContent: "center",
     display: "flex",
     overflow: "scroll",
-    height: "350px",
+    height: "400px",
   },
   image: {
-    width: "296px",
-    height: "296px",
+    width: "344px",
+    height: "344px",
     margin: theme.spacing(3),
     padding: theme.spacing(1),
   },
@@ -84,20 +84,30 @@ const SlideImages = [
 
 const Result = () => {
   const classes = useStyles();
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = React.useState<number>(1);
+  const [currentIndex, setCurrentIndex] = React.useState<number>(0);
+
   const nextImage = () => {
-    if (index == SlideImages.length - 1) {
-      return SlideImages[SlideImages.length - 1];
+    // if (index == SlideImages.length - 1) {
+    //   return SlideImages[SlideImages.length - 1];
+    // }
+    if (currentIndex < SlideImages.length - 1) {
+      setIndex(index + 1);
+      setCurrentIndex(currentIndex + 1);
     }
-    setIndex(index + 1);
   };
   const prevImage = () => {
-    if (index == 0) {
-      return SlideImages[0];
+    // if (index == 0) {
+    //   return SlideImages[0];
+    // }
+    if (currentIndex > 0) {
+      setIndex(index - 1);
+      setCurrentIndex(currentIndex - 1);
     }
-    setIndex(index - 1);
   };
   const currentImage = index + 1;
+  console.log("🚀 ~ index", index);
+  console.log("🚀 ~ currentIndex", currentIndex);
   //checkbox
   const [showHeatMapCheckbox, setshowHeatMapCheckbox] = React.useState({
     showHeatMap: true,
@@ -154,7 +164,21 @@ const Result = () => {
             className={classes.slicesTextField}
             variant="outlined"
             size="small"
-            value={currentImage}
+            value={index}
+            type="number"
+            onChange={(e) => {
+              if (
+                e.target.value !== "" &&
+                parseInt(e.target.value) >= 1 &&
+                parseInt(e.target.value) <= SlideImages.length
+              ) {
+                setCurrentIndex(parseInt(e.target.value) - 1);
+              }
+              setIndex(parseInt(e.target.value));
+              console.log("🚀 ~ e.target.value", e.target.value);
+              console.log("🚀 ~ e", e);
+              console.log("🚀 ~ e.target", e.target);
+            }}
           ></TextField>
           / {SlideImages.length}
         </Typography>
@@ -192,7 +216,7 @@ const Result = () => {
               upHandler={prevImage}
             >
               <img
-                src={SlideImages[index].url}
+                src={SlideImages[currentIndex].url}
                 alt="noHeatMap"
                 className={classes.image}
               />

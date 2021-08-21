@@ -36,7 +36,7 @@ const ResultContainer: React.FC = () => {
           <Grid item xs={3}>
             <Data data={data} />
           </Grid>
-          <Grid item xs={9}> <Result/> </Grid>
+          <Grid item xs={9} style={{marginTop:"72px"}}> <Result/> </Grid>
         </Grid>
       <Footer />
     </>
