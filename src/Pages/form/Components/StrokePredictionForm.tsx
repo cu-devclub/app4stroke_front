@@ -8,7 +8,7 @@ import UnderLyingDiseaseSection from "../Components/UnderLyingDiseaseSection";
 import VitalSignsSection from "../Components/VitalSignsSection";
 import SideBarProgress from "../Components/SideBarProgress";
 import { Formik, Form } from "formik";
-import validations from "../Validation/validations";
+import validations from "../validation/validations";
 import { Button } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
