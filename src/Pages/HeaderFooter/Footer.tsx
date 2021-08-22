@@ -6,7 +6,6 @@ import footer from "../../Assets/footer.png";
 const useStyles = makeStyles(() => ({
   root: {
     width: "100%",
-    // backgroundColor: "transparent",
     background: "rgb(236 236 236 / 74%)",
     boxShadow: "none",
   },
