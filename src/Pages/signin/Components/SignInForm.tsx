@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Background from "../../../Assets/StrokeBackground.png";
 import LoginLogo from "../../../Assets/LoginLogo.png";
 //React router
-import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
+import { login } from "../../../Services/AuthService";
+import { useHistory } from "react-router-dom";
 
 //color
 const colors = {
@@ -40,7 +41,7 @@ const StyledFormArea = styled.div`
 `;
 
 //loginbutton
-const StyledFormButton = styled(Link)`
+const StyledFormButton = styled(Button)`
   background: ${colors.pink};
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   font-size: 18px;
@@ -53,7 +54,7 @@ const StyledFormButton = styled(Link)`
   padding: 16px 32px;
   width: 250px;
   height: 2px;
-  margin:auto;
+  margin: auto;
   margin-top: 30px;
 
   &:hover {
@@ -65,19 +66,25 @@ const StyledFormButton = styled(Link)`
 const useStyles = makeStyles(() => ({
   form: {
     width: "80%",
-    margin:"auto",
-    marginTop:"0.1%"
+    margin: "auto",
+    marginTop: "0.1%",
   },
   logo: {
     width: "250px",
     height: "110px",
     margin: "auto",
-    
   },
 }));
 
 const SignInForm: React.FC = () => {
   const classes = useStyles();
+  const [data, setData] = useState({ email: "", password: "" });
+  const history = useHistory();
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
+  };
+
   return (
     <>
       <StyledContainer>
@@ -92,6 +99,8 @@ const SignInForm: React.FC = () => {
               fullWidth
               id="email"
               name="email"
+              value={data.email}
+              onChange={handleInputChange}
               label="Email"
               placeholder="Enter Your Email Address"
               autoComplete="email"
@@ -105,12 +114,24 @@ const SignInForm: React.FC = () => {
               fullWidth
               id="password"
               name="password"
+              value={data.password}
+              onChange={handleInputChange}
               label="Password"
               placeholder="Enter Your Password"
               type="password"
               autoComplete="current-password"
             />
-            <StyledFormButton to="/home">Login</StyledFormButton>
+            <StyledFormButton
+              onClick={() => {
+                login(data).then((data) => {
+                  localStorage.setItem("token", data.token);
+                  history.push("/home");
+                  window.location.reload();
+                });
+              }}
+            >
+              Login
+            </StyledFormButton>
           </form>
         </StyledFormArea>
       </StyledContainer>
