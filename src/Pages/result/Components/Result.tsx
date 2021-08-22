@@ -5,6 +5,9 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Toolbar from "@material-ui/core/Toolbar";
 import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import MuiDialogContent from "@material-ui/core/DialogContent";
+import Link from "@material-ui/core/Link";
 import { FaShare } from "react-icons/fa";
 import { AiFillPrinter } from "react-icons/ai";
 import { FiDownload } from "react-icons/fi";
@@ -15,7 +18,6 @@ import Brain2 from "../../../Assets/Brain2.jpg";
 import Brain3 from "../../../Assets/Brain3.jpg";
 import Brain4 from "../../../Assets/Brain4.jpg";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
-import ReactScrollWheelHandler from "react-scroll-wheel-handler";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -33,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     alignContent: "center",
     display: "flex",
     overflow: "scroll",
-    height: "400px",
+    height: "424px",
   },
   image: {
     width: "344px",
@@ -53,6 +55,21 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiOutlinedInput-inputMarginDense": {
       textAlign: "center",
     },
+    "& input::-webkit-clear-button, & input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+      {
+        display: "none",
+      },
+  },
+  boxImage: {
+    background: "#222224",
+    color: "#FFFFFF",
+    fontSize: "20px",
+    borderRadius: "8px",
+    width: " 312px",
+    height: "24px",
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
   },
 }));
 
@@ -86,28 +103,25 @@ const Result = () => {
   const classes = useStyles();
   const [index, setIndex] = React.useState<number>(1);
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
+  const [open, setOpen] = React.useState(false);
 
-  const nextImage = () => {
-    // if (index == SlideImages.length - 1) {
-    //   return SlideImages[SlideImages.length - 1];
-    // }
-    if (currentIndex < SlideImages.length - 1) {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleScroll = (event: any) => {
+    const { deltaY } = event;
+    if (deltaY < 0 && currentIndex > 0) {
+      setIndex(index - 1);
+      setCurrentIndex(currentIndex - 1);
+    } else if (deltaY >= 0 && currentIndex < SlideImages.length - 1) {
       setIndex(index + 1);
       setCurrentIndex(currentIndex + 1);
     }
   };
-  const prevImage = () => {
-    // if (index == 0) {
-    //   return SlideImages[0];
-    // }
-    if (currentIndex > 0) {
-      setIndex(index - 1);
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
-  const currentImage = index + 1;
-  console.log("🚀 ~ index", index);
-  console.log("🚀 ~ currentIndex", currentIndex);
   //checkbox
   const [showHeatMapCheckbox, setshowHeatMapCheckbox] = React.useState({
     showHeatMap: true,
@@ -175,9 +189,6 @@ const Result = () => {
                 setCurrentIndex(parseInt(e.target.value) - 1);
               }
               setIndex(parseInt(e.target.value));
-              console.log("🚀 ~ e.target.value", e.target.value);
-              console.log("🚀 ~ e", e);
-              console.log("🚀 ~ e.target", e.target);
             }}
           ></TextField>
           / {SlideImages.length}
@@ -196,31 +207,65 @@ const Result = () => {
               name="showHeatMap"
             />
           </Box>
-          <Typography
+          <Link
+            component="button"
+            variant="subtitle1"
             style={{
               color: "#EF5DA8",
             }}
+            onClick={handleClickOpen}
           >
             View max probability slice
-          </Typography>
+          </Link>
+          <Dialog onClose={handleClose} aria-labelledby="MaxProb" open={open}>
+            <MuiDialogContent>
+              <Box>
+                <img
+                  src={Brain2}
+                  alt="Brain2"
+                  style={{ height: "550px", width: "550px" }}
+                />
+              </Box>
+            </MuiDialogContent>
+          </Dialog>
         </Toolbar>
         {showHeatMapCheckbox.showHeatMap ? (
           <Paper elevation={3} className={classes.imageContainer}>
-            <img src={Brain1} alt="Brain1" className={classes.image} />
-            <img src={Brain2} alt="Brain2" className={classes.image} />
+            <Box>
+              <Box
+                className={classes.boxImage}
+                style={{ transform: "translate(440px,32px)" }}
+              >
+                <Typography>Cardioembolic-Sign Probability: 0.23</Typography>
+              </Box>
+              <Box>
+                <img src={Brain1} alt="Brain1" className={classes.image} />
+                <img src={Brain2} alt="Brain2" className={classes.image} />
+              </Box>
+            </Box>
           </Paper>
         ) : (
-          <Paper elevation={3} className={classes.imageContainer}>
-            <ReactScrollWheelHandler
-              downHandler={nextImage}
-              upHandler={prevImage}
-            >
-              <img
-                src={SlideImages[currentIndex].url}
-                alt="noHeatMap"
-                className={classes.image}
-              />
-            </ReactScrollWheelHandler>
+          <Paper
+            elevation={3}
+            className={classes.imageContainer}
+            style={{ position: "relative" }}
+          >
+            <Box>
+              <Box
+                className={classes.boxImage}
+                style={{ transform: "translate(48px,32px)" }}
+              >
+                <Typography>Cardioembolic-Sign Probability: 0.23</Typography>
+              </Box>
+              <Box>
+                <img
+                  src={SlideImages[currentIndex].url}
+                  alt="noHeatMap"
+                  className={classes.image}
+                  onWheel={(e) => handleScroll(e)}
+                />
+              </Box>
+            </Box>
           </Paper>
         )}
       </Paper>
