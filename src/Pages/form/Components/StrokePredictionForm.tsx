@@ -22,7 +22,7 @@ const useStyle = makeStyles(() =>
   createStyles({
     form: {
       transform: "translateY(64px)",
-      marginBottom: "176px",
+      marginBottom: "320px",
     },
     paper: {
       padding: "32px",
@@ -97,15 +97,12 @@ const StrokePredictionForm: React.FC = () => {
                 <Grid container spacing={0}>
                   <Grid item xs={2}>
                     <Breadcrumbs separator=">" style={{ margin: "24px" }}>
-                      <Link color="inherit" href="/">
-                        Home
+                      <Link color="inherit" href="/home">
+                        <Typography>Home</Typography>
                       </Link>
-                      <Link
-                        color="inherit"
-                        href="/getting-started/installation/"
-                      >
+                      <Typography style={{ color: "#CF658D" }}>
                         New Test
-                      </Link>
+                      </Typography>
                     </Breadcrumbs>
                   </Grid>
                   <Grid item xs={8} className={classes.form}>
