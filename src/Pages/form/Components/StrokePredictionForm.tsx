@@ -20,9 +20,11 @@ import Grid from "@material-ui/core/Grid";
 
 const useStyle = makeStyles(() =>
   createStyles({
-    root: {
+    form: {
       transform: "translateY(70px)",
-      marginBottom: "160px",
+      marginBottom: "176px",
+    },
+    paper: {
       padding: "32px",
       borderRadius: "20px",
     },
@@ -34,6 +36,10 @@ const useStyle = makeStyles(() =>
       border: "none",
       boxShadow: "none",
       backgroundColor: "transparent",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
     },
     submitButton: {
       backgroundColor: "#EF5DA8",
@@ -88,103 +94,91 @@ const StrokePredictionForm: React.FC = () => {
             <ScrollingProvider>
               {/* Form */}
               <Box style={{ background: "rgb(236 236 236 / 74%)" }}>
-                <Box
-                  width="80%"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignContent: "center",
-                    transform: "translateX(4%)",
-                  }}
-                >
-                  <Paper className={classes.root}>
-                    {/* PatientInformation */}
-                    <Section id="PatientInformation">
-                      <SectionTitle title="Patient Information" />
-                      <PatientInformationSection />
-                    </Section>
-                    {/* ChiefComplaint */}
-                    <Section id="ChiefComplaint">
-                      <SectionTitle title="Chief Complaint" />
-                      <ChiefComplaintSection
-                        value={values.ChiefComplaint}
-                        name="ChiefComplaint"
-                        onChange={setFieldValue}
-                      />
-                    </Section>
-                    {/* UnderLyingDisease */}
-                    <Section id="UnderLyingDisease">
-                      <SectionTitle title="Underlying Disease" />
-                      <UnderLyingDiseaseSection />
-                    </Section>
-                    {/* Vital Signs */}
-                    <Section id="VitalSigns">
-                      <SectionTitle title="Vital Signs" />
-                      <VitalSignsSection
-                        values={values.VitalSigns}
-                        fieldName="VitalSigns"
-                        onChange={setFieldValue}
-                      />
-                    </Section>
-                    {/* EKG 12 Leads */}
-                    <Section id="EKG12Leads">
-                      <SectionTitle title="EKG 12 Leads" />
-                      <EKG12LeadsSection
-                        value={values.EKG12Leads}
-                        name="EKG12Leads"
-                        onChange={setFieldValue}
-                      />
-                    </Section>
-                    {/* NIHSS */}
-                    <Section id="NIHSS">
-                      <SectionTitle title="NIHSS" />
-                      <NIHSSSection
-                        values={values.NIHSS}
-                        fieldName="NIHSS"
-                        onChange={setFieldValue}
-                      />
-                    </Section>
+                <Grid container spacing={0}>
+                  <Grid item xs={2} />
+                  <Grid item xs={8} className={classes.form}>
+                    <Paper className={classes.paper}>
+                      {/* PatientInformation */}
+                      <Section id="PatientInformation">
+                        <SectionTitle title="Patient Information" />
+                        <PatientInformationSection />
+                      </Section>
+                      {/* ChiefComplaint */}
+                      <Section id="ChiefComplaint">
+                        <SectionTitle title="Chief Complaint" />
+                        <ChiefComplaintSection
+                          value={values.ChiefComplaint}
+                          name="ChiefComplaint"
+                          onChange={setFieldValue}
+                        />
+                      </Section>
+                      {/* UnderLyingDisease */}
+                      <Section id="UnderLyingDisease">
+                        <SectionTitle title="Underlying Disease" />
+                        <UnderLyingDiseaseSection />
+                      </Section>
+                      {/* Vital Signs */}
+                      <Section id="VitalSigns">
+                        <SectionTitle title="Vital Signs" />
+                        <VitalSignsSection
+                          values={values.VitalSigns}
+                          fieldName="VitalSigns"
+                          onChange={setFieldValue}
+                        />
+                      </Section>
+                      {/* EKG 12 Leads */}
+                      <Section id="EKG12Leads">
+                        <SectionTitle title="EKG 12 Leads" />
+                        <EKG12LeadsSection
+                          value={values.EKG12Leads}
+                          name="EKG12Leads"
+                          onChange={setFieldValue}
+                        />
+                      </Section>
+                      {/* NIHSS */}
+                      <Section id="NIHSS">
+                        <SectionTitle title="NIHSS" />
+                        <NIHSSSection
+                          values={values.NIHSS}
+                          fieldName="NIHSS"
+                          onChange={setFieldValue}
+                        />
+                      </Section>
+                      <Button
+                        disabled={isSubmitting}
+                        type="submit"
+                        style={{
+                          height: "40px",
+                          width: "300px",
+                          marginTop: "30px",
+                          marginLeft: "40%",
+                        }}
+                        className={classes.submitButton}
+                      >
+                        <Typography>Submit</Typography>
+                      </Button>
+                    </Paper>
+                  </Grid>
+                  {/* Form */}
+                  {/* Sidebar */}
+                  <Grid item xs={2} className={classes.sidebar}>
                     <Button
                       disabled={isSubmitting}
                       type="submit"
                       style={{
+                        width: "150px",
                         height: "40px",
-                        width: "300px",
-                        marginTop: "30px",
-                        marginLeft: "40%",
+                        marginBottom: "20px",
                       }}
                       className={classes.submitButton}
                     >
                       <Typography>Submit</Typography>
                     </Button>
-                  </Paper>
-                </Box>
+                    <SideBarProgress />
+                  </Grid>
+                  {/* Sidebar */}
+                </Grid>
               </Box>
-              {/* Sidebar */}
-              <Card className={classes.sidebar}>
-                <CardContent
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    style={{
-                      width: "150px",
-                      height: "40px",
-                      marginBottom: "20px",
-                    }}
-                    className={classes.submitButton}
-                  >
-                    <Typography>Submit</Typography>
-                  </Button>
-                  <SideBarProgress />
-                </CardContent>
-              </Card>
             </ScrollingProvider>
           </Form>
         )}
