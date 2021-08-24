@@ -11,17 +11,17 @@ import { Formik, Form } from "formik";
 import validations from "../Validation/validations";
 import { Button, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import { Section, ScrollingProvider } from "react-scroll-section";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Link from "@material-ui/core/Link";
 
 const useStyle = makeStyles(() =>
   createStyles({
     form: {
-      transform: "translateY(70px)",
+      transform: "translateY(64px)",
       marginBottom: "176px",
     },
     paper: {
@@ -95,7 +95,19 @@ const StrokePredictionForm: React.FC = () => {
               {/* Form */}
               <Box style={{ background: "rgb(236 236 236 / 74%)" }}>
                 <Grid container spacing={0}>
-                  <Grid item xs={2} />
+                  <Grid item xs={2}>
+                    <Breadcrumbs separator=">" style={{ margin: "24px" }}>
+                      <Link color="inherit" href="/">
+                        Home
+                      </Link>
+                      <Link
+                        color="inherit"
+                        href="/getting-started/installation/"
+                      >
+                        New Test
+                      </Link>
+                    </Breadcrumbs>
+                  </Grid>
                   <Grid item xs={8} className={classes.form}>
                     <Paper className={classes.paper}>
                       {/* PatientInformation */}
