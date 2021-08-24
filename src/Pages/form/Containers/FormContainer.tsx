@@ -6,7 +6,7 @@ import Footer from "../../HeaderFooter/Footer";
 const FormContainer: React.FC = () => {
   return (
     <>
-      <Header />
+      <Header doctorName="Dr. John Doe" />
       <StrokePredictionForm />
       <Footer />
     </>

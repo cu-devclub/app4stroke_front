@@ -9,7 +9,7 @@ import VitalSignsSection from "../Components/VitalSignsSection";
 import SideBarProgress from "../Components/SideBarProgress";
 import { Formik, Form } from "formik";
 import validations from "../Validation/validations";
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -18,7 +18,7 @@ import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 
-const useStyle = makeStyles((theme) =>
+const useStyle = makeStyles(() =>
   createStyles({
     root: {
       transform: "translateY(70px)",
@@ -86,6 +86,7 @@ const StrokePredictionForm: React.FC = () => {
         {({ values, setFieldValue, isSubmitting, errors }) => (
           <Form>
             <ScrollingProvider>
+              {/* Form */}
               <Box style={{ background: "rgb(236 236 236 / 74%)" }}>
                 <Box
                   width="80%"
@@ -154,14 +155,12 @@ const StrokePredictionForm: React.FC = () => {
                       }}
                       className={classes.submitButton}
                     >
-                      Submit
+                      <Typography>Submit</Typography>
                     </Button>
                   </Paper>
                 </Box>
               </Box>
-
               {/* Sidebar */}
-
               <Card className={classes.sidebar}>
                 <CardContent
                   style={{
@@ -181,7 +180,7 @@ const StrokePredictionForm: React.FC = () => {
                     }}
                     className={classes.submitButton}
                   >
-                    Submit
+                    <Typography>Submit</Typography>
                   </Button>
                   <SideBarProgress />
                 </CardContent>
