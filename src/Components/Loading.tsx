@@ -29,9 +29,6 @@ export default function Loading({ open, setOpen }: LoadingProps): JSX.Element {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleToggle}>
-        Show backdrop
-      </Button>
       <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
         <CircularProgress color="inherit" />
       </Backdrop>
