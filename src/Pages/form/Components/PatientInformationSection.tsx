@@ -77,7 +77,6 @@ const useStyle = makeStyles(() =>
   })
 );
 
-//todo defaultProps of file upload box
 const defaultProps = {
   bgcolor: "background.paper",
   borderColor: "#979797",
@@ -147,14 +146,32 @@ const PatientInformationSection = (props: Props) => {
     onChange(fieldName, { ...values, gender: newGender });
   };
 
-  //fix handleFileChange
-  //- duplicate upload file = false
   const handleFileChange = (e: any) => {
     const { name } = e.target;
+    const targetFiles = [...e.currentTarget.files];
+    const currentTargetFiles = [...e.currentTarget.files];
+    const fileNames = values.file?.map((n) => n.name);
+    const targetFilesName = targetFiles?.map((n) => n.name);
+    const currentTargetFilesName = currentTargetFiles?.map((n) => n.name);
+
     if (values.file !== null) {
+      let i = 0;
+      while (i < targetFilesName.length) {
+        if (fileNames?.includes(targetFilesName[i]) === true) {
+          currentTargetFiles.splice(
+            currentTargetFilesName.indexOf(targetFilesName[i]),
+            1
+          );
+          currentTargetFilesName.splice(
+            currentTargetFilesName.indexOf(targetFilesName[i]),
+            1
+          );
+        }
+        i++;
+      }
       onChange(fieldName, {
         ...values,
-        [name]: [...values.file, ...e.currentTarget.files],
+        [name]: [...values.file, ...currentTargetFiles],
       });
       setShowFileName(true);
     } else {
@@ -165,9 +182,7 @@ const PatientInformationSection = (props: Props) => {
       setShowFileName(true);
     }
   };
-  console.log(values.file);
 
-  //todo handleDeleteFile
   const handleDeleteFile = (e: any) => {
     const currentFiles = values.file?.filter((i) => i.name !== e.target.id);
     if (currentFiles !== undefined) {
@@ -333,7 +348,6 @@ const PatientInformationSection = (props: Props) => {
             onChange={handleFileChange}
           />
         </Button>
-        {/*todo File Name */}
         {showFileName && (
           <Box>
             <Grid container item style={{ margin: "8px" }} spacing={3}>

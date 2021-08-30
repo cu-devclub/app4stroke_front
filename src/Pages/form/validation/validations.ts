@@ -22,7 +22,9 @@ interface PatientProps {
   onset: string;
   file: any[] | null;
 }
-
+interface ChiefComplaintProps {
+  timeCourse: string;
+}
 interface VitalSignsProps {
   systolicBP: number | string;
   diastolicBP: number | string;
@@ -34,7 +36,7 @@ interface ValidateProps {
   PatientInformation: PatientProps;
   VitalSigns: VitalSignsProps;
   NIHSS: RadioData.NIHSSProps;
-  ChiefComplaint: string;
+  ChiefComplaint: ChiefComplaintProps;
   EKG12Leads: string;
 }
 
@@ -57,7 +59,9 @@ const validate = (values: ValidateProps) => {
       onset: "",
       file: "",
     },
-    ChiefComplaint: "",
+    ChiefComplaint: {
+      timeCourse: "",
+    },
     VitalSigns: {
       systolicBP: "",
       diastolicBP: "",
@@ -102,7 +106,6 @@ const validate = (values: ValidateProps) => {
   if (condition(values.PatientInformation.gender)) {
     errors.PatientInformation.gender = "Please select gender";
   }
-  //! arrival
   if (
     values.PatientInformation.arrivalDate === null ||
     values.PatientInformation.arrivalDate === undefined
@@ -115,7 +118,6 @@ const validate = (values: ValidateProps) => {
   ) {
     errors.PatientInformation.arrivalTime = "Please enter arrival time";
   }
-  //! clear onset
   if (
     values.PatientInformation.clearDate === null ||
     values.PatientInformation.clearDate === undefined
@@ -128,11 +130,9 @@ const validate = (values: ValidateProps) => {
   ) {
     errors.PatientInformation.clearTime = "Please enter clear time";
   }
-  //! onset
   if (condition(values.PatientInformation.onset)) {
     errors.PatientInformation.onset = "Please select onset";
   }
-  //last seen
   if (
     values.PatientInformation.lastDate === null ||
     values.PatientInformation.lastDate === undefined
@@ -145,7 +145,6 @@ const validate = (values: ValidateProps) => {
   ) {
     errors.PatientInformation.lastTime = "Please enter last seen normal time";
   }
-  //first seen
   if (
     values.PatientInformation.firstDate === null ||
     values.PatientInformation.firstDate === undefined
@@ -160,7 +159,6 @@ const validate = (values: ValidateProps) => {
     errors.PatientInformation.firstTime =
       "Please enter first seen abnormal time";
   }
-  //file
   if (
     values.PatientInformation.file === null ||
     values.PatientInformation.file === undefined
@@ -169,6 +167,9 @@ const validate = (values: ValidateProps) => {
   }
   if (condition(values.ChiefComplaint)) {
     errors.ChiefComplaint = "Please select time course";
+=======
+  if (condition(values.ChiefComplaint.timeCourse)) {
+    errors.ChiefComplaint.timeCourse = "Please select time course";
   }
   if (condition(values.EKG12Leads)) {
     errors.EKG12Leads = "Please select EKG 12 leads";
