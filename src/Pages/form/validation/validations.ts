@@ -4,7 +4,9 @@ import * as RadioData from "../Components/Control/RadioData";
 const condition = (condition: string) => {
   return condition === null || condition === undefined || condition === "";
 };
-
+interface ChiefComplaintProps {
+  timeCourse: string;
+}
 interface VitalSignsProps {
   systolicBP: number | string;
   diastolicBP: number | string;
@@ -14,13 +16,15 @@ interface VitalSignsProps {
 interface ValidateProps {
   VitalSigns: VitalSignsProps;
   NIHSS: RadioData.NIHSSProps;
-  ChiefComplaint: string;
+  ChiefComplaint: ChiefComplaintProps;
   EKG12Leads: string;
 }
 
 const validate = (values: ValidateProps) => {
   const errors = {
-    ChiefComplaint: "",
+    ChiefComplaint: {
+      timeCourse: "",
+    },
     VitalSigns: {
       systolicBP: "",
       diastolicBP: "",
@@ -46,8 +50,8 @@ const validate = (values: ValidateProps) => {
       extinctionOrNeglect: "",
     },
   };
-  if (condition(values.ChiefComplaint)) {
-    errors.ChiefComplaint = "Please select time course";
+  if (condition(values.ChiefComplaint.timeCourse)) {
+    errors.ChiefComplaint.timeCourse = "Please select time course";
   }
   if (condition(values.EKG12Leads)) {
     errors.EKG12Leads = "Please select EKG 12 leads";
