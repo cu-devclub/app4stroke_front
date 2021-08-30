@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useRef, WheelEvent } from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
@@ -13,19 +13,21 @@ import { AiFillPrinter } from "react-icons/ai";
 import { FiDownload } from "react-icons/fi";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
-import Brain1 from "../../../Assets/Brain1.jpg";
-import Brain2 from "../../../Assets/Brain2.jpg";
-import Brain3 from "../../../Assets/Brain3.jpg";
-import Brain4 from "../../../Assets/Brain4.jpg";
-import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
+
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { ResultProps } from "../../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(5),
-    padding: theme.spacing(3),
+    height: "80%",
+    marginTop: "32px",
+    padding: "32px",
   },
-  content: {
-    fontSize: "32px",
+  title: {
+    fontSize: "36px",
+    fontWeight: "bold",
+  },
+  textLayoutContent: {
     display: "flex",
     justifyContent: "center",
     alignContent: "center",
@@ -34,20 +36,20 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignContent: "center",
     display: "flex",
-    overflow: "scroll",
-    height: "424px",
+    borderRadius: "16px",
+    border: "1px solid #D3D3D3",
+    padding: "16px 0 16px 0px",
   },
   image: {
-    width: "344px",
-    height: "344px",
-    margin: theme.spacing(3),
-    padding: theme.spacing(1),
+    width: "480px",
+    height: "480px",
   },
   slicesTextField: {
     "& .MuiOutlinedInput-root": {
       borderRadius: "100px",
       width: "72px",
       margin: "2px 8px 2px 8px",
+      fontSize: "16px",
     },
     "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
       borderColor: "#EF5DA8",
@@ -70,6 +72,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignContent: "center",
+    position: "absolute",
+    top: "8px",
+    right: "16px",
+  },
+  dialog: {
+    "&& .MuiDialog-paperWidthSm": {
+      maxWidth: "1000px",
+    },
   },
 }));
 
@@ -92,20 +102,13 @@ const PinkCheckbox = withStyles({
   checked: {},
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />);
 
-const SlideImages = [
-  { url: Brain1 },
-  { url: Brain2 },
-  { url: Brain3 },
-  { url: Brain4 },
-];
-
-const Result = () => {
+const Result = (props: ResultProps): JSX.Element => {
+  const { testId, prob, heatmapImageList, ctScanImageList } = props;
   const classes = useStyles();
   const [index, setIndex] = React.useState<number>(1);
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
   const [open, setOpen] = React.useState(false);
-  // const [slideImages,setSlideImages] = useState(CTimageList)
-
+  const wheelTimeout = useRef();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -113,12 +116,13 @@ const Result = () => {
     setOpen(false);
   };
 
-  const handleScroll = (event: any) => {
+  const handleScroll = (event: WheelEvent<HTMLImageElement>) => {
     const { deltaY } = event;
+
     if (deltaY < 0 && currentIndex > 0) {
       setIndex(index - 1);
       setCurrentIndex(currentIndex - 1);
-    } else if (deltaY >= 0 && currentIndex < SlideImages.length - 1) {
+    } else if (deltaY >= 0 && currentIndex < ctScanImageList.length - 1) {
       setIndex(index + 1);
       setCurrentIndex(currentIndex + 1);
     }
@@ -135,45 +139,95 @@ const Result = () => {
   };
 
   return (
-    <>
-      <Toolbar>
-        <Box flexGrow={1}>
+    <Box height="100%">
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby="MaxProb"
+        open={open}
+        maxWidth={"lg"}
+      >
+        <MuiDialogContent>
+          <Box display="flex">
+            {!showHeatMapCheckbox.showHeatMap ? (
+              <img
+                src={ctScanImageList[currentIndex].url}
+                alt="Brain2"
+                style={{ height: "550px", width: "550px" }}
+              />
+            ) : (
+              <>
+                <img
+                  alt="Brain1"
+                  className={classes.image}
+                  src={heatmapImageList[currentIndex].url1}
+                  style={{ marginRight: "8px" }}
+                />
+                <img
+                  alt="Brain2"
+                  className={classes.image}
+                  src={heatmapImageList[currentIndex].url2}
+                  style={{ marginLeft: "8px" }}
+                />
+              </>
+            )}
+          </Box>
+        </MuiDialogContent>
+      </Dialog>
+      <Box
+        height="20%"
+        display="flex"
+        justifyContent="space-between"
+        marginTop={8}
+      >
+        <Box>
           <Typography variant="h4">Results</Typography>
           <Typography variant="h6">Test ID:</Typography>
         </Box>
-        <SharePrintDownloadButton>
-          <Box>
+        <Box>
+          <SharePrintDownloadButton>
             <Box>
-              <FaShare style={{ fontSize: "24px" }} />
+              <Box>
+                <FaShare style={{ fontSize: "24px" }} />
+              </Box>
+              <Typography variant="button">Share</Typography>
             </Box>
-            <Typography variant="button">Share</Typography>
-          </Box>
-        </SharePrintDownloadButton>
-        <SharePrintDownloadButton>
-          <Box>
+          </SharePrintDownloadButton>
+          <SharePrintDownloadButton>
             <Box>
-              <AiFillPrinter style={{ fontSize: "24px" }} />
+              <Box>
+                <AiFillPrinter style={{ fontSize: "24px" }} />
+              </Box>
+              <Typography variant="button">Print</Typography>
             </Box>
-            <Typography variant="button">Print</Typography>
-          </Box>
-        </SharePrintDownloadButton>
-        <SharePrintDownloadButton>
-          <Box>
+          </SharePrintDownloadButton>
+          <SharePrintDownloadButton>
             <Box>
-              <FiDownload style={{ fontSize: "24px" }} />
+              <Box>
+                <FiDownload style={{ fontSize: "24px" }} />
+              </Box>
+              <Typography variant="button">Download</Typography>
             </Box>
-            <Typography variant="button">Download</Typography>
-          </Box>
-        </SharePrintDownloadButton>
-      </Toolbar>
+          </SharePrintDownloadButton>
+        </Box>
+      </Box>
       <Paper className={classes.pageContent}>
-        <Typography className={classes.content}>
+        <Typography className={`${classes.textLayoutContent} ${classes.title}`}>
           Cardioembolic Probability
         </Typography>
-        <Typography className={classes.content} style={{ color: "#EF5DA8" }}>
+        <Typography
+          className={`${classes.textLayoutContent} ${classes.title}`}
+          style={{ color: "#EF5DA8" }}
+        >
           23%
         </Typography>
-        <Typography className={classes.content}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          fontSize="24px"
+          marginTop="16px"
+          fontWeight="bold"
+        >
           Slice
           <TextField
             className={classes.slicesTextField}
@@ -185,22 +239,17 @@ const Result = () => {
               if (
                 e.target.value !== "" &&
                 parseInt(e.target.value) >= 1 &&
-                parseInt(e.target.value) <= SlideImages.length
+                parseInt(e.target.value) <= ctScanImageList.length
               ) {
                 setCurrentIndex(parseInt(e.target.value) - 1);
               }
               setIndex(parseInt(e.target.value));
             }}
           ></TextField>
-          / {SlideImages.length}
-        </Typography>
+          / {ctScanImageList.length}
+        </Box>
         <Toolbar>
-          <Box
-            flexGrow={1}
-            style={{
-              transform: "translateX(52%)",
-            }}
-          >
+          <Box flexGrow={1}>
             <FormControlLabel
               control={<PinkCheckbox onChange={handleChange} />}
               checked={showHeatMapCheckbox.showHeatMap}
@@ -218,59 +267,54 @@ const Result = () => {
           >
             View max probability slice
           </Link>
-          <Dialog onClose={handleClose} aria-labelledby="MaxProb" open={open}>
-            <MuiDialogContent>
-              <Box>
-                <img
-                  src={Brain2}
-                  alt="Brain2"
-                  style={{ height: "550px", width: "550px" }}
-                />
-              </Box>
-            </MuiDialogContent>
-          </Dialog>
         </Toolbar>
-        {showHeatMapCheckbox.showHeatMap ? (
-          <Paper elevation={3} className={classes.imageContainer}>
-            <Box>
-              <Box
-                className={classes.boxImage}
-                style={{ transform: "translate(440px,32px)" }}
-              >
-                <Typography>Cardioembolic-Sign Probability: 0.23</Typography>
-              </Box>
-              <Box>
-                <img src={Brain1} alt="Brain1" className={classes.image} />
-                <img src={Brain2} alt="Brain2" className={classes.image} />
-              </Box>
-            </Box>
-          </Paper>
-        ) : (
-          <Paper
-            elevation={3}
-            className={classes.imageContainer}
-            style={{ position: "relative" }}
-          >
-            <Box>
-              <Box
-                className={classes.boxImage}
-                style={{ transform: "translate(48px,32px)" }}
-              >
-                <Typography>Cardioembolic-Sign Probability: 0.23</Typography>
-              </Box>
-              <Box>
+        <Box className={classes.imageContainer}>
+          <Box>
+            {!showHeatMapCheckbox.showHeatMap ? (
+              <Box position="relative">
                 <img
-                  src={SlideImages[currentIndex].url}
+                  src={ctScanImageList[currentIndex].url}
                   alt="noHeatMap"
                   className={classes.image}
-                  onWheel={(e) => handleScroll(e)}
+                  onWheel={(e: WheelEvent<HTMLImageElement>) => handleScroll(e)}
                 />
+                <Box className={classes.boxImage}>
+                  <Typography>Cardioembolic-Sign Probability: 0.23</Typography>
+                </Box>
               </Box>
-            </Box>
-          </Paper>
-        )}
+            ) : (
+              <>
+                <Box position="relative">
+                  <img
+                    alt="Brain1"
+                    className={classes.image}
+                    src={heatmapImageList[currentIndex].url1}
+                    onWheel={(e: WheelEvent<HTMLImageElement>) =>
+                      handleScroll(e)
+                    }
+                    style={{ marginRight: "8px" }}
+                  />
+                  <img
+                    alt="Brain2"
+                    className={classes.image}
+                    src={heatmapImageList[currentIndex].url2}
+                    onWheel={(e: WheelEvent<HTMLImageElement>) =>
+                      handleScroll(e)
+                    }
+                    style={{ marginLeft: "8px" }}
+                  />
+                  <Box className={classes.boxImage}>
+                    <Typography>
+                      Cardioembolic-Sign Probability: 0.23
+                    </Typography>
+                  </Box>
+                </Box>
+              </>
+            )}
+          </Box>
+        </Box>
       </Paper>
-    </>
+    </Box>
   );
 };
 export default Result;

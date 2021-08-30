@@ -148,7 +148,7 @@ interface Props {
   data: DataProps;
 }
 
-const Data = (props: Props) => {
+const PatientFormDetail = (props: Props) => {
   const classes = useStyles();
   const { data } = props;
   const {
@@ -258,4 +258,4 @@ const Data = (props: Props) => {
   );
 };
 
-export default Data;
+export default PatientFormDetail;

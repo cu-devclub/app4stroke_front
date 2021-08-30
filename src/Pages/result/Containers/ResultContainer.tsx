@@ -1,11 +1,17 @@
 import Grid from "@material-ui/core/Grid";
 import React, { useState } from "react";
 import Header from "../../HeaderFooter/Header";
-import Data from "../Components/Data";
+import PatientFormDetail from "../Components/PatientFormDetail";
 import Footer from "../../HeaderFooter/Footer";
 import Result from "../Components/Result";
 import { useEffect } from "react";
 import Loading from "../../../Components/Loading";
+import { Box } from "@material-ui/core";
+import { useParams } from "react-router-dom";
+import Brain1 from "../../../Assets/Brain1.jpg";
+import Brain2 from "../../../Assets/Brain2.jpg";
+import Brain3 from "../../../Assets/Brain3.jpg";
+import Brain4 from "../../../Assets/Brain4.jpg";
 
 const data = {
   name: "Nattasuk Chaithana",
@@ -30,21 +36,36 @@ const data = {
   EKG12Leads: "Normal",
   NIHSS: 6,
 };
+const SlideImages = [
+  { url: Brain1 },
+  { url: Brain2 },
+  { url: Brain3 },
+  { url: Brain4 },
+];
+
+const mockData = {
+  prob: 0.26,
+  heatmapImageList: SlideImages.map((item: any) => {
+    return { url1: item.url, url2: item.url };
+  }),
+  ctScanImageList: SlideImages,
+};
+
 const ResultContainer: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const { testId } = useParams<{ testId: string }>();
+
   return (
     <>
       {isLoading && <Loading open={isLoading} setOpen={setIsLoading} />}
-      <Header doctorName={"test"} />
-      <Grid container alignItems="stretch">
-        <Grid item xs={3}>
-          <Data data={data} />
-        </Grid>
-        <Grid item xs={9} style={{ marginTop: "72px" }}>
-          <Result />
-        </Grid>
-      </Grid>
-      <Footer />
+      <Box display="flex">
+        <Box width="20%">
+          <PatientFormDetail data={data} />
+        </Box>
+        <Box width="80%" paddingX={4} height="100%">
+          <Result testId={testId} {...mockData} />
+        </Box>
+      </Box>
     </>
   );
 };
