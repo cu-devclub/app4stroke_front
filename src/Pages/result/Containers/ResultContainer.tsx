@@ -37,7 +37,6 @@ const ResultContainer: React.FC = () => {
             <Data data={data} />
           </Grid>
           <Grid item xs={9} style={{marginTop:"72px"}}> <Result/> </Grid>
-        </Grid>
       <Footer />
     </>
   );

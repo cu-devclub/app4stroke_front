@@ -67,7 +67,7 @@ const HomeContainer: React.FC = () => {
 
   return (
     <>
-      <Header />
+      <Header doctorName="Dr. John Doe" />
       <Title />
       <SearchTables />
       <Paper className={classes.pageContent}>

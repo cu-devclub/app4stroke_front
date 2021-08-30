@@ -7,6 +7,7 @@ const useStyles = makeStyles(() => ({
   root: {
     width: "100%",
     backgroundColor: "transparent",
+    boxShadow: "none",
   },
 }));
 const Footer: React.FC = () => {
