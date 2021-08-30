@@ -13,6 +13,7 @@ import { IoFemaleOutline } from "react-icons/io5";
 import ArrivalOnset from "./ArrivalOnset";
 import { ErrorMessage } from "formik";
 import FileItem from "./FileItem";
+import { PatientProps } from "../../../interfaces";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -101,23 +102,7 @@ const GenderStyledToggleButtonGroup = withStyles(() => ({
   },
 }))(ToggleButtonGroup);
 
-interface PatientProps {
-  patientID: string;
-  age: string | number;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  arrivalDate: Date | null;
-  arrivalTime: Date | null;
-  clearDate: Date | null;
-  clearTime: Date | null;
-  lastDate: Date | null;
-  lastTime: Date | null;
-  firstDate: Date | null;
-  firstTime: Date | null;
-  onset: string;
-  file: any[] | null;
-}
+
 
 interface Props {
   values: PatientProps;

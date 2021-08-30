@@ -39,6 +39,7 @@ const useStyle = makeStyles((theme) =>
 
 const StrokePredictionForm: React.FC = () => {
   const classes = useStyle();
+
   return (
     <>
       <Formik
@@ -60,7 +61,28 @@ const StrokePredictionForm: React.FC = () => {
             onset: "",
             file: null,
           },
-          ChiefComplaint: "",
+          ChiefComplaint: {
+            timeCourse: "",
+            symptoms: {
+              alterationOfConsciousness: false,
+              facialWeakness: false,
+              facialWeaknessLeft: false,
+              facialWeaknessRight: false,
+              hemiparesis: false,
+              hemiparesisLeft: false,
+              hemiparesisRight: false,
+              hemiparesthesia: false,
+              hemiparesthesiaLeft: false,
+              hemiparesthesiaRight: false,
+              dysarthria: false,
+              aphasia: false,
+              ataxia: false,
+              vertigo: false,
+              visualProblem: false,
+              other: false,
+              otherText: "",
+            },
+          },
           UnderLyingDisease: {
             deny: false,
             hx: false,
@@ -76,23 +98,6 @@ const StrokePredictionForm: React.FC = () => {
             peripheralArterialDisease: false,
             obesity: false,
             smoking: false,
-          ChiefComplaint: {
-            timeCourse: "",
-            alterationOfConsciousness: false,
-            facialWeakness: false,
-            facialWeaknessLeft: false,
-            facialWeaknessRight: false,
-            hemiparesis: false,
-            hemiparesisLeft: false,
-            hemiparesisRight: false,
-            hemiparesthesia: false,
-            hemiparesthesiaLeft: false,
-            hemiparesthesiaRight: false,
-            dysarthria: false,
-            aphasia: false,
-            ataxia: false,
-            vertigo: false,
-            visualProblem: false,
             other: false,
             otherText: "",
           },
@@ -122,6 +127,8 @@ const StrokePredictionForm: React.FC = () => {
           },
         }}
         validate={validations}
+        validateOnChange={false}
+        validateOnBlur={false}
         onSubmit={(values) => {
           console.log(values);
         }}

@@ -5,6 +5,7 @@ import React from "react";
 import Controls from "./Control/Control";
 import { ErrorMessage } from "formik";
 import * as RadioData from "./Control/RadioData";
+import { NIHSSProps } from "../../../interfaces";
 
 const useStyles = makeStyles(() => ({
   textNIHSS: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface Props {
-  values: RadioData.NIHSSProps;
+  values: NIHSSProps;
   fieldName: string;
   onChange: any;
 }

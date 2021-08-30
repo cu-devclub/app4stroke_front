@@ -31,7 +31,7 @@ const data = {
 const ResultContainer: React.FC = () => {
   return (
     <>
-      <Header />
+      <Header doctorName={"test"} />
       <Grid container alignItems="stretch">
         <Grid item xs={3}>
           <Data data={data} />

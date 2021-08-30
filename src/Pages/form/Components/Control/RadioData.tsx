@@ -1,21 +1,3 @@
-export interface NIHSSProps {
-  levelOfConsciousness: string;
-  twoQuestions: string;
-  twoCommands: string;
-  bestGaze: string;
-  bestVisual: string;
-  facialPalsy: string;
-  bestMotorLeftArm: string;
-  bestMotorRightArm: string;
-  bestMotorLeftLeg: string;
-  bestMotorRightLeg: string;
-  limbAtaxia: string;
-  sensory: string;
-  bestLanguageAphasia: string;
-  dysarthria: string;
-  extinctionOrNeglect: string;
-}
-
 export const LevelOfConsciousness = () => [
   { id: "Alert", title: "0 : Alert" },
   { id: "Drowsy", title: "1 : Drowsy" },

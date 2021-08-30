@@ -6,6 +6,7 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { ErrorMessage } from "formik";
+import { VitalSignsProps } from "../../../interfaces";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -68,12 +69,6 @@ const VitalSignsBox = withStyles(() => ({
   },
 }))(Box);
 
-interface VitalSignsProps {
-  systolicBP: number | string;
-  diastolicBP: number | string;
-  heartRate: number | string;
-  buttonHeartRate: string;
-}
 
 interface Props {
   values: VitalSignsProps;

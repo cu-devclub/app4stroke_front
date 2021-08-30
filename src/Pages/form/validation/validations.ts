@@ -1,46 +1,27 @@
 import React from "react";
+import {
+  ChiefComplaintProps,
+  NIHSSProps,
+  PatientProps,
+  VitalSignsProps,
+} from "../../../interfaces";
 import * as RadioData from "../Components/Control/RadioData";
 
 const condition = (condition: string) => {
   return condition === null || condition === undefined || condition === "";
 };
 
-interface PatientProps {
-  patientID: string;
-  age: string | number;
-  firstName: string;
-  lastName: string;
-  arrivalDate: Date | null;
-  arrivalTime: Date | null;
-  clearDate: Date | null;
-  clearTime: Date | null;
-  lastDate: Date | null;
-  lastTime: Date | null;
-  firstDate: Date | null;
-  firstTime: Date | null;
-  gender: string;
-  onset: string;
-  file: any[] | null;
-}
-interface ChiefComplaintProps {
-  timeCourse: string;
-}
-interface VitalSignsProps {
-  systolicBP: number | string;
-  diastolicBP: number | string;
-  heartRate: number | string;
-  buttonHeartRate: string;
-}
-
-interface ValidateProps {
+interface ValueProps {
   PatientInformation: PatientProps;
   VitalSigns: VitalSignsProps;
-  NIHSS: RadioData.NIHSSProps;
+  NIHSS: NIHSSProps;
   ChiefComplaint: ChiefComplaintProps;
   EKG12Leads: string;
 }
 
-const validate = (values: ValidateProps) => {
+const validate = (values: ValueProps) => {
+  const { PatientInformation, VitalSigns, NIHSS, ChiefComplaint, EKG12Leads } =
+    values;
   const errors = {
     PatientInformation: {
       patientID: "",
@@ -61,6 +42,11 @@ const validate = (values: ValidateProps) => {
     },
     ChiefComplaint: {
       timeCourse: "",
+      symptoms: {
+        facialWeakness: "",
+        hemiparesis: "",
+        hemiparesthesia: "",
+      },
     },
     VitalSigns: {
       systolicBP: "",
@@ -87,162 +73,184 @@ const validate = (values: ValidateProps) => {
       extinctionOrNeglect: "",
     },
   };
-  if (condition(values.PatientInformation.patientID)) {
+  if (condition(PatientInformation.patientID)) {
     errors.PatientInformation.patientID = "Please enter patient ID";
   }
   if (
-    typeof values.PatientInformation.age !== typeof "" ||
-    values.PatientInformation.age < 1 ||
-    values.PatientInformation.age > 150
+    typeof PatientInformation.age !== typeof "" ||
+    PatientInformation.age < 1 ||
+    PatientInformation.age > 150
   ) {
     errors.PatientInformation.age = "Please enter age";
   }
-  if (condition(values.PatientInformation.firstName)) {
+  if (condition(PatientInformation.firstName)) {
     errors.PatientInformation.firstName = "Please enter first name";
   }
-  if (condition(values.PatientInformation.lastName)) {
+  if (condition(PatientInformation.lastName)) {
     errors.PatientInformation.lastName = "Please enter last name";
   }
-  if (condition(values.PatientInformation.gender)) {
+  if (condition(PatientInformation.gender)) {
     errors.PatientInformation.gender = "Please select gender";
   }
   if (
-    values.PatientInformation.arrivalDate === null ||
-    values.PatientInformation.arrivalDate === undefined
+    PatientInformation.arrivalDate === null ||
+    PatientInformation.arrivalDate === undefined
   ) {
     errors.PatientInformation.arrivalDate = "Please enter arrival date";
   }
   if (
-    values.PatientInformation.arrivalDate === null ||
-    values.PatientInformation.arrivalDate === undefined
+    PatientInformation.arrivalDate === null ||
+    PatientInformation.arrivalDate === undefined
   ) {
     errors.PatientInformation.arrivalTime = "Please enter arrival time";
   }
   if (
-    values.PatientInformation.clearDate === null ||
-    values.PatientInformation.clearDate === undefined
+    PatientInformation.clearDate === null ||
+    PatientInformation.clearDate === undefined
   ) {
     errors.PatientInformation.clearDate = "Please enter clear date";
   }
   if (
-    values.PatientInformation.clearDate === null ||
-    values.PatientInformation.clearDate === undefined
+    PatientInformation.clearDate === null ||
+    PatientInformation.clearDate === undefined
   ) {
     errors.PatientInformation.clearTime = "Please enter clear time";
   }
-  if (condition(values.PatientInformation.onset)) {
+  if (condition(PatientInformation.onset)) {
     errors.PatientInformation.onset = "Please select onset";
   }
   if (
-    values.PatientInformation.lastDate === null ||
-    values.PatientInformation.lastDate === undefined
+    PatientInformation.lastDate === null ||
+    PatientInformation.lastDate === undefined
   ) {
     errors.PatientInformation.lastDate = "Please enter last seen normal date";
   }
   if (
-    values.PatientInformation.lastDate === null ||
-    values.PatientInformation.lastDate === undefined
+    PatientInformation.lastDate === null ||
+    PatientInformation.lastDate === undefined
   ) {
     errors.PatientInformation.lastTime = "Please enter last seen normal time";
   }
   if (
-    values.PatientInformation.firstDate === null ||
-    values.PatientInformation.firstDate === undefined
+    PatientInformation.firstDate === null ||
+    PatientInformation.firstDate === undefined
   ) {
     errors.PatientInformation.firstDate =
       "Please enter first seen abnormal date";
   }
   if (
-    values.PatientInformation.firstDate === null ||
-    values.PatientInformation.firstDate === undefined
+    PatientInformation.firstDate === null ||
+    PatientInformation.firstDate === undefined
   ) {
     errors.PatientInformation.firstTime =
       "Please enter first seen abnormal time";
   }
   if (
-    values.PatientInformation.file === null ||
-    values.PatientInformation.file === undefined
+    PatientInformation.file === null ||
+    PatientInformation.file === undefined
   ) {
     errors.PatientInformation.file = "Please upload CT Scan file";
   }
-  if (condition(values.ChiefComplaint)) {
-    errors.ChiefComplaint = "Please select time course";
-=======
-  if (condition(values.ChiefComplaint.timeCourse)) {
+  if (condition(ChiefComplaint.timeCourse)) {
     errors.ChiefComplaint.timeCourse = "Please select time course";
   }
-  if (condition(values.EKG12Leads)) {
+  if (
+    ChiefComplaint.symptoms.facialWeakness &&
+    !ChiefComplaint.symptoms.facialWeaknessLeft &&
+    !ChiefComplaint.symptoms.facialWeaknessRight
+  ) {
+    errors.ChiefComplaint.symptoms.facialWeakness =
+      "Please select either left or right";
+  }
+  if (
+    ChiefComplaint.symptoms.hemiparesis &&
+    !ChiefComplaint.symptoms.hemiparesisLeft &&
+    !ChiefComplaint.symptoms.hemiparesisRight
+  ) {
+    errors.ChiefComplaint.symptoms.hemiparesis =
+      "Please select either left or right";
+  }
+  if (
+    ChiefComplaint.symptoms.hemiparesthesia &&
+    !ChiefComplaint.symptoms.hemiparesthesiaLeft &&
+    !ChiefComplaint.symptoms.hemiparesthesiaRight
+  ) {
+    errors.ChiefComplaint.symptoms.hemiparesthesia =
+      "Please select either left or right";
+  }
+  if (condition(EKG12Leads)) {
     errors.EKG12Leads = "Please select EKG 12 leads";
   }
   if (
-    typeof values.VitalSigns.systolicBP !== typeof "" ||
-    values.VitalSigns.systolicBP < 10 ||
-    values.VitalSigns.systolicBP > 400
+    typeof VitalSigns.systolicBP !== typeof "" ||
+    VitalSigns.systolicBP < 10 ||
+    VitalSigns.systolicBP > 400
   ) {
     errors.VitalSigns.systolicBP = "Please enter Systolic BP (mmHg)";
   }
   if (
-    typeof values.VitalSigns.diastolicBP !== typeof "" ||
-    values.VitalSigns.diastolicBP < 10 ||
-    values.VitalSigns.diastolicBP > 400
+    typeof VitalSigns.diastolicBP !== typeof "" ||
+    VitalSigns.diastolicBP < 10 ||
+    VitalSigns.diastolicBP > 400
   ) {
     errors.VitalSigns.diastolicBP = "Please enter Diastolic BP (mmHg)";
   }
   if (
-    typeof values.VitalSigns.heartRate !== typeof "" ||
-    values.VitalSigns.heartRate < 10 ||
-    values.VitalSigns.heartRate > 999
+    typeof VitalSigns.heartRate !== typeof "" ||
+    VitalSigns.heartRate < 10 ||
+    VitalSigns.heartRate > 999
   ) {
     errors.VitalSigns.heartRate = "Please select heart Rate";
   }
-  if (condition(values.VitalSigns.buttonHeartRate)) {
+  if (condition(VitalSigns.buttonHeartRate)) {
     errors.VitalSigns.buttonHeartRate = "Please select heart rate type";
   }
-  if (condition(values.NIHSS.levelOfConsciousness)) {
+  if (condition(NIHSS.levelOfConsciousness)) {
     errors.NIHSS.levelOfConsciousness = "Please select level of consciousness";
   }
-  if (condition(values.NIHSS.twoQuestions)) {
+  if (condition(NIHSS.twoQuestions)) {
     errors.NIHSS.twoQuestions = "Please select two questions";
   }
-  if (condition(values.NIHSS.twoCommands)) {
+  if (condition(NIHSS.twoCommands)) {
     errors.NIHSS.twoCommands = "Please select two commands";
   }
-  if (condition(values.NIHSS.bestGaze)) {
+  if (condition(NIHSS.bestGaze)) {
     errors.NIHSS.bestGaze = "Please select best gaze";
   }
-  if (condition(values.NIHSS.bestVisual)) {
+  if (condition(NIHSS.bestVisual)) {
     errors.NIHSS.bestVisual = "Please select best visual";
   }
-  if (condition(values.NIHSS.facialPalsy)) {
+  if (condition(NIHSS.facialPalsy)) {
     errors.NIHSS.facialPalsy = "Please select facial palsy";
   }
-  if (condition(values.NIHSS.bestMotorRightArm)) {
+  if (condition(NIHSS.bestMotorRightArm)) {
     errors.NIHSS.bestMotorRightArm = "Please select best motor right arm";
   }
-  if (condition(values.NIHSS.bestMotorLeftArm)) {
+  if (condition(NIHSS.bestMotorLeftArm)) {
     errors.NIHSS.bestMotorLeftArm = "Please select best motor left arm";
   }
-  if (condition(values.NIHSS.bestMotorRightLeg)) {
+  if (condition(NIHSS.bestMotorRightLeg)) {
     errors.NIHSS.bestMotorRightLeg = "Please select best motor right leg";
   }
-  if (condition(values.NIHSS.bestMotorLeftLeg)) {
+  if (condition(NIHSS.bestMotorLeftLeg)) {
     errors.NIHSS.bestMotorLeftLeg = "Please select best motor left leg";
   }
-  if (condition(values.NIHSS.limbAtaxia)) {
+  if (condition(NIHSS.limbAtaxia)) {
     errors.NIHSS.limbAtaxia = "Please select limb ataxia";
   }
-  if (condition(values.NIHSS.sensory)) {
+  if (condition(NIHSS.sensory)) {
     errors.NIHSS.sensory = "Please select sensory";
   }
-  if (condition(values.NIHSS.bestLanguageAphasia)) {
+  if (condition(NIHSS.bestLanguageAphasia)) {
     errors.NIHSS.bestLanguageAphasia = "Please select best language aphasia";
   }
-  if (condition(values.NIHSS.dysarthria)) {
+  if (condition(NIHSS.dysarthria)) {
     errors.NIHSS.dysarthria = "Please select dysarthria";
   }
-  if (condition(values.NIHSS.extinctionOrNeglect)) {
+  if (condition(NIHSS.extinctionOrNeglect)) {
     errors.NIHSS.extinctionOrNeglect = "Please select extinction or neglect";
   }
+  console.log(errors);
   return errors;
 };
 export default validate;

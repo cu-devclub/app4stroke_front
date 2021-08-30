@@ -67,7 +67,7 @@ const HomeContainer: React.FC = () => {
 
   return (
     <>
-      <Header />
+      <Header doctorName={"Test"} />
       <Box paddingX={8} paddingY={8}>
         <Title />
         <SearchTables />

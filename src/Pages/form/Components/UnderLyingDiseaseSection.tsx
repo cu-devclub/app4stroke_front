@@ -4,6 +4,7 @@ import { withStyles, makeStyles } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
 import React, { ChangeEvent, useState } from "react";
+import { UnderlyingProps } from "../../../interfaces";
 
 const useStyles = makeStyles(() => ({
   checkbox: {
@@ -43,32 +44,17 @@ const checkboxUnderlying = [
   { name: "smoking", label: "Smoking" },
 ];
 
-interface UnderlyingProps {
-  deny: boolean;
-  hx: boolean;
-  previousTia: boolean;
-  previousStroke: boolean;
-  ht: boolean;
-  dm: boolean;
-  dlp: boolean;
-  valvularHeartDisease: boolean;
-  af: boolean;
-  coronaryHeartDisease: boolean;
-  ckd: boolean;
-  peripheralArterialDisease: boolean;
-  obesity: boolean;
-  smoking: boolean;
-  other: boolean;
-  otherText: string;
-}
-
 interface Props {
   values: UnderlyingProps;
   fieldName: string;
-  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+  onChange: (
+    field: string,
+    value: UnderlyingProps,
+    shouldValidate?: boolean
+  ) => void;
 }
 
-const UnderLyingDiseaseSection = (props: Props) => {
+const UnderLyingDiseaseSection = (props: Props): JSX.Element => {
   const classes = useStyles();
   const { values, fieldName, onChange } = props;
 
@@ -80,12 +66,27 @@ const UnderLyingDiseaseSection = (props: Props) => {
     });
   };
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    onChange(fieldName, { ...values, [name]: value });
+  const handleInputCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (name === "other" && !event.target.checked) {
+      console.log(name, value);
+      onChange(fieldName, {
+        ...values,
+        ["otherText"]: "",
+        ["other"]: false,
+      });
+    } else {
+      onChange(fieldName, {
+        ...values,
+        [name]:
+          value !== ""
+            ? value
+            : name === "otherText"
+            ? ""
+            : event.target.checked,
+      });
+    }
   };
-  console.log("ทำไมมมมมม", values);
-
   return (
     <FormGroup className={classes.checkbox}>
       {checkboxUnderlying.map((checkboxUnderlying) => (
@@ -105,7 +106,7 @@ const UnderLyingDiseaseSection = (props: Props) => {
           <TextField
             label="Others"
             name="otherText"
-            onChange={handleInputChange}
+            onChange={handleInputCheckbox}
             value={values.other ? values.otherText : (values.otherText = "")}
             disabled={values.other ? false : true}
           />

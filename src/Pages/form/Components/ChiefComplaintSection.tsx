@@ -15,6 +15,7 @@ import {
   withStyles,
 } from "@material-ui/core/styles";
 import { ErrorMessage } from "formik";
+import { ChiefComplaintProps } from "../../../interfaces";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -70,31 +71,14 @@ const StyledToggleButtonGroup = withStyles((theme) => ({
   },
 }))(ToggleButtonGroup);
 
-interface ChiefComplaintProps {
-  timeCourse: string;
-  alterationOfConsciousness: boolean;
-  facialWeakness: boolean;
-  facialWeaknessLeft: boolean;
-  facialWeaknessRight: boolean;
-  hemiparesis: boolean;
-  hemiparesisLeft: boolean;
-  hemiparesisRight: boolean;
-  hemiparesthesia: boolean;
-  hemiparesthesiaLeft: boolean;
-  hemiparesthesiaRight: boolean;
-  dysarthria: boolean;
-  aphasia: boolean;
-  ataxia: boolean;
-  vertigo: boolean;
-  visualProblem: boolean;
-  other: boolean;
-  otherText: string;
-}
-
 interface Props {
   values: ChiefComplaintProps;
   fieldName: string;
-  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+  onChange: (
+    field: string,
+    value: ChiefComplaintProps,
+    shouldValidate?: boolean
+  ) => void;
 }
 
 const checkBox = [
@@ -131,21 +115,38 @@ const ChiefComplaintSection = (props: Props) => {
     event: React.MouseEvent<HTMLElement>,
     newTimeCourse: string | null
   ) => {
-    onChange(fieldName, { ...values, timeCourse: newTimeCourse });
+    if (newTimeCourse !== null)
+      onChange(fieldName, { ...values, timeCourse: newTimeCourse });
   };
-  //checkbox
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name } = event.target;
-    onChange(fieldName, {
-      ...values,
-      [name]: event.target.checked,
-    });
+
+  const handleInputCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (name === "other" && !event.target.checked) {
+      console.log(name, value);
+      onChange(fieldName, {
+        ...values,
+        ["symptoms"]: {
+          ...values.symptoms,
+          ["otherText"]: "",
+          ["other"]: false,
+        },
+      });
+    } else {
+      onChange(fieldName, {
+        ...values,
+        ["symptoms"]: {
+          ...values.symptoms,
+          [name]:
+            value !== ""
+              ? value
+              : name === "otherText"
+              ? ""
+              : event.target.checked,
+        },
+      });
+    }
   };
-  //otherCheckbox
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    onChange(fieldName, { ...values, [name]: value });
-  };
+
   return (
     <Box className={classes.root}>
       {/* Time Course */}
@@ -200,7 +201,7 @@ const ChiefComplaintSection = (props: Props) => {
           <FormControlLabel
             control={
               <PinkCheckbox
-                onChange={handleChange}
+                onChange={handleInputCheckbox}
                 name="alterationOfConsciousness"
               />
             }
@@ -208,86 +209,112 @@ const ChiefComplaintSection = (props: Props) => {
           />
           <FormControlLabel
             control={
-              <PinkCheckbox onChange={handleChange} name="facialWeakness" />
+              <PinkCheckbox
+                onChange={handleInputCheckbox}
+                name="facialWeakness"
+              />
             }
             label="Facial weakness"
           />
-          {values.facialWeakness && (
-            <FormGroup row className={classes.checkbox}>
-              {facialWeaknessSubCheckBox.map((facialWeaknessSubCheckBox) => (
-                <FormControlLabel
-                  control={
-                    <PinkCheckbox
-                      onChange={handleChange}
-                      name={facialWeaknessSubCheckBox.name}
-                    />
-                  }
-                  label={facialWeaknessSubCheckBox.label}
-                />
-              ))}
-            </FormGroup>
+          {values.symptoms.facialWeakness && (
+            <>
+              <FormGroup row className={classes.checkbox}>
+                {facialWeaknessSubCheckBox.map((facialWeaknessSubCheckBox) => (
+                  <FormControlLabel
+                    control={
+                      <PinkCheckbox
+                        onChange={handleInputCheckbox}
+                        name={facialWeaknessSubCheckBox.name}
+                      />
+                    }
+                    label={facialWeaknessSubCheckBox.label}
+                  />
+                ))}
+              </FormGroup>
+              <ErrorMessage name={`${fieldName}.symptoms.facialWeakness`}>
+                {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+              </ErrorMessage>
+            </>
           )}
           <FormControlLabel
             control={
-              <PinkCheckbox onChange={handleChange} name="hemiparesis" />
+              <PinkCheckbox onChange={handleInputCheckbox} name="hemiparesis" />
             }
             label="Hemiparesis"
           />
-          {values.hemiparesis && (
-            <FormGroup row className={classes.checkbox}>
-              {hemiparesisSubCheckBox.map((hemiparesisSubCheckBox) => (
-                <FormControlLabel
-                  control={
-                    <PinkCheckbox
-                      onChange={handleChange}
-                      name={hemiparesisSubCheckBox.name}
-                    />
-                  }
-                  label={hemiparesisSubCheckBox.label}
-                />
-              ))}
-            </FormGroup>
+          {values.symptoms.hemiparesis && (
+            <>
+              <FormGroup row className={classes.checkbox}>
+                {hemiparesisSubCheckBox.map((hemiparesisSubCheckBox) => (
+                  <FormControlLabel
+                    control={
+                      <PinkCheckbox
+                        onChange={handleInputCheckbox}
+                        name={hemiparesisSubCheckBox.name}
+                      />
+                    }
+                    label={hemiparesisSubCheckBox.label}
+                  />
+                ))}
+              </FormGroup>
+              <ErrorMessage name={`${fieldName}.symptoms.hemiparesis`}>
+                {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+              </ErrorMessage>
+            </>
           )}
           <FormControlLabel
             control={
-              <PinkCheckbox onChange={handleChange} name="hemiparesthesia" />
+              <PinkCheckbox
+                onChange={handleInputCheckbox}
+                name="hemiparesthesia"
+              />
             }
             label="Hemiparesthesia"
           />
-          {values.hemiparesthesia && (
-            <FormGroup row className={classes.checkbox}>
-              {hemiparesthesiaSubCheckBox.map((hemiparesthesiaSubCheckBox) => (
-                <FormControlLabel
-                  control={
-                    <PinkCheckbox
-                      onChange={handleChange}
-                      name={hemiparesthesiaSubCheckBox.name}
+          {values.symptoms.hemiparesthesia && (
+            <>
+              <FormGroup row className={classes.checkbox}>
+                {hemiparesthesiaSubCheckBox.map(
+                  (hemiparesthesiaSubCheckBox) => (
+                    <FormControlLabel
+                      control={
+                        <PinkCheckbox
+                          onChange={handleInputCheckbox}
+                          name={hemiparesthesiaSubCheckBox.name}
+                        />
+                      }
+                      label={hemiparesthesiaSubCheckBox.label}
                     />
-                  }
-                  label={hemiparesthesiaSubCheckBox.label}
-                />
-              ))}
-            </FormGroup>
+                  )
+                )}
+              </FormGroup>
+              <ErrorMessage name={`${fieldName}.symptoms.hemiparesthesia`}>
+                {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+              </ErrorMessage>
+            </>
           )}
           {checkBox.map((checkBox) => (
             <FormControlLabel
               control={
-                <PinkCheckbox onChange={handleChange} name={checkBox.name} />
+                <PinkCheckbox
+                  onChange={handleInputCheckbox}
+                  name={checkBox.name}
+                />
               }
               label={checkBox.label}
             />
           ))}
           <FormControlLabel
-            control={<PinkCheckbox onChange={handleChange} name="other" />}
+            control={
+              <PinkCheckbox onChange={handleInputCheckbox} name="other" />
+            }
             label={
               <TextField
                 label="Others"
                 name="otherText"
-                onChange={handleInputChange}
-                disabled={values.other ? false : true}
-                value={
-                  values.other ? values.otherText : (values.otherText = "")
-                }
+                onChange={handleInputCheckbox}
+                disabled={!values.symptoms.other}
+                value={values.symptoms.otherText}
               />
             }
           />
