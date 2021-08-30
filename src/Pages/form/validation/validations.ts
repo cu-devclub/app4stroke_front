@@ -250,7 +250,6 @@ const validate = (values: ValueProps) => {
   if (condition(NIHSS.extinctionOrNeglect)) {
     errors.NIHSS.extinctionOrNeglect = "Please select extinction or neglect";
   }
-  console.log(errors);
   return errors;
 };
 export default validate;
