@@ -4,6 +4,24 @@ import * as RadioData from "../Components/Control/RadioData";
 const condition = (condition: string) => {
   return condition === null || condition === undefined || condition === "";
 };
+
+interface PatientProps {
+  patientID: string;
+  age: string | number;
+  firstName: string;
+  lastName: string;
+  arrivalDate: Date | null;
+  arrivalTime: Date | null;
+  clearDate: Date | null;
+  clearTime: Date | null;
+  lastDate: Date | null;
+  lastTime: Date | null;
+  firstDate: Date | null;
+  firstTime: Date | null;
+  gender: string;
+  onset: string;
+  file: any[] | null;
+}
 interface ChiefComplaintProps {
   timeCourse: string;
 }
@@ -13,7 +31,9 @@ interface VitalSignsProps {
   heartRate: number | string;
   buttonHeartRate: string;
 }
+
 interface ValidateProps {
+  PatientInformation: PatientProps;
   VitalSigns: VitalSignsProps;
   NIHSS: RadioData.NIHSSProps;
   ChiefComplaint: ChiefComplaintProps;
@@ -22,6 +42,23 @@ interface ValidateProps {
 
 const validate = (values: ValidateProps) => {
   const errors = {
+    PatientInformation: {
+      patientID: "",
+      age: "",
+      firstName: "",
+      lastName: "",
+      arrivalDate: "",
+      arrivalTime: "",
+      clearDate: "",
+      clearTime: "",
+      lastDate: "",
+      lastTime: "",
+      firstDate: "",
+      firstTime: "",
+      gender: "",
+      onset: "",
+      file: "",
+    },
     ChiefComplaint: {
       timeCourse: "",
     },
@@ -50,6 +87,87 @@ const validate = (values: ValidateProps) => {
       extinctionOrNeglect: "",
     },
   };
+  if (condition(values.PatientInformation.patientID)) {
+    errors.PatientInformation.patientID = "Please enter patient ID";
+  }
+  if (
+    typeof values.PatientInformation.age !== typeof "" ||
+    values.PatientInformation.age < 1 ||
+    values.PatientInformation.age > 150
+  ) {
+    errors.PatientInformation.age = "Please enter age";
+  }
+  if (condition(values.PatientInformation.firstName)) {
+    errors.PatientInformation.firstName = "Please enter first name";
+  }
+  if (condition(values.PatientInformation.lastName)) {
+    errors.PatientInformation.lastName = "Please enter last name";
+  }
+  if (condition(values.PatientInformation.gender)) {
+    errors.PatientInformation.gender = "Please select gender";
+  }
+  if (
+    values.PatientInformation.arrivalDate === null ||
+    values.PatientInformation.arrivalDate === undefined
+  ) {
+    errors.PatientInformation.arrivalDate = "Please enter arrival date";
+  }
+  if (
+    values.PatientInformation.arrivalDate === null ||
+    values.PatientInformation.arrivalDate === undefined
+  ) {
+    errors.PatientInformation.arrivalTime = "Please enter arrival time";
+  }
+  if (
+    values.PatientInformation.clearDate === null ||
+    values.PatientInformation.clearDate === undefined
+  ) {
+    errors.PatientInformation.clearDate = "Please enter clear date";
+  }
+  if (
+    values.PatientInformation.clearDate === null ||
+    values.PatientInformation.clearDate === undefined
+  ) {
+    errors.PatientInformation.clearTime = "Please enter clear time";
+  }
+  if (condition(values.PatientInformation.onset)) {
+    errors.PatientInformation.onset = "Please select onset";
+  }
+  if (
+    values.PatientInformation.lastDate === null ||
+    values.PatientInformation.lastDate === undefined
+  ) {
+    errors.PatientInformation.lastDate = "Please enter last seen normal date";
+  }
+  if (
+    values.PatientInformation.lastDate === null ||
+    values.PatientInformation.lastDate === undefined
+  ) {
+    errors.PatientInformation.lastTime = "Please enter last seen normal time";
+  }
+  if (
+    values.PatientInformation.firstDate === null ||
+    values.PatientInformation.firstDate === undefined
+  ) {
+    errors.PatientInformation.firstDate =
+      "Please enter first seen abnormal date";
+  }
+  if (
+    values.PatientInformation.firstDate === null ||
+    values.PatientInformation.firstDate === undefined
+  ) {
+    errors.PatientInformation.firstTime =
+      "Please enter first seen abnormal time";
+  }
+  if (
+    values.PatientInformation.file === null ||
+    values.PatientInformation.file === undefined
+  ) {
+    errors.PatientInformation.file = "Please upload CT Scan file";
+  }
+  if (condition(values.ChiefComplaint)) {
+    errors.ChiefComplaint = "Please select time course";
+=======
   if (condition(values.ChiefComplaint.timeCourse)) {
     errors.ChiefComplaint.timeCourse = "Please select time course";
   }

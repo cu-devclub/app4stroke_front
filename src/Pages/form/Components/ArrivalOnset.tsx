@@ -1,7 +1,6 @@
 import "date-fns";
 import React, { useState } from "react";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -9,6 +8,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import intervalToDuration from "date-fns/intervalToDuration";
 import Controls from "./Control/Control";
+import { ErrorMessage } from "formik";
 
 const useStyle = makeStyles(() =>
   createStyles({
@@ -41,6 +41,11 @@ const useStyle = makeStyles(() =>
         pointerEvents: "none",
       },
     },
+    errorMessage: {
+      color: "#FF0000",
+      fontSize: "16px",
+      marginBottom: "20px",
+    },
   })
 );
 
@@ -63,55 +68,70 @@ const OnsetStyledToggleButtonGroup = withStyles(() => ({
   },
 }))(ToggleButtonGroup);
 
-const ArrivalOnset: React.FC = () => {
+interface PatientProps {
+  arrivalDate: Date | null;
+  arrivalTime: Date | null;
+  clearDate: Date | null;
+  clearTime: Date | null;
+  lastDate: Date | null;
+  lastTime: Date | null;
+  firstDate: Date | null;
+  firstTime: Date | null;
+  onset: string;
+}
+
+interface Props {
+  values: PatientProps;
+  fieldName: string;
+  onChange: (field: string, value: any, shouldValidate?: boolean) => void;
+}
+
+const ArrivalOnset = (props: Props) => {
   const classes = useStyle();
+  const { values, fieldName, onChange } = props;
 
-  //* Arrival
-  const [arrivalDate, setArrivalDate] = React.useState<Date | null>(null);
-  //* Onset
-  const [onset, setOnset] = React.useState<string | null>("");
-  //+ clear onset
   const [showClearPicker, setShowPickerClear] = useState(false);
-  const [clearDate, setClearDate] = React.useState<Date | null>(null);
-  //+ unknown onset
   const [showUnknownPicker, setShowPickerUnknown] = useState(false);
-  //- last seen
-  const [lastDate, setLastDate] = React.useState<Date | null>(null);
-  //- first seen
-  const [firstDate, setFirstDate] = React.useState<Date | null>(null);
-
-  //* Onset
-  // toggle button
+  const handlePickerChange = (name: string) => (value: Date) => {
+    if (name === "arrivalDate") {
+      values.clearDate = null;
+      values.firstDate = null;
+      values.lastDate = null;
+    } else if (name === "clearDate") {
+      values.firstDate = null;
+      values.lastDate = null;
+    } else if (name === "firstDate" || name === "lastDate") {
+      values.clearDate = null;
+    }
+    onChange(fieldName, { ...values, [name]: value });
+  };
   const handleOnset = (
     event: React.MouseEvent<HTMLElement>,
-    newOnset: string | null
+    newOnset: string
   ) => {
-    setOnset(newOnset);
+    onChange(fieldName, { ...values, onset: newOnset });
   };
 
   // duration
   const ArrivalClearDiff =
-    arrivalDate && clearDate !== null
+    values.arrivalDate && values.clearDate !== null
       ? intervalToDuration({
-          start: arrivalDate,
-          end: clearDate,
+          start: values.arrivalDate,
+          end: values.clearDate,
         })
       : "";
-
   const showDayDigitACDiff =
     ArrivalClearDiff !== ""
       ? ArrivalClearDiff.days?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showHourDigitACDiff =
     ArrivalClearDiff !== ""
       ? ArrivalClearDiff.hours?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showMinuteDigitACDiff =
     ArrivalClearDiff !== ""
       ? ArrivalClearDiff.minutes?.toLocaleString(undefined, {
@@ -120,27 +140,24 @@ const ArrivalOnset: React.FC = () => {
       : "";
 
   const ArrivalLastDiff =
-    arrivalDate && lastDate !== null
+    values.arrivalDate && values.lastDate !== null
       ? intervalToDuration({
-          start: arrivalDate,
-          end: lastDate,
+          start: values.arrivalDate,
+          end: values.lastDate,
         })
       : "";
-
   const showDayDigitALDiff =
     ArrivalLastDiff !== ""
       ? ArrivalLastDiff.days?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showHourDigitALDiff =
     ArrivalLastDiff !== ""
       ? ArrivalLastDiff.hours?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showMinuteDigitALDiff =
     ArrivalLastDiff !== ""
       ? ArrivalLastDiff.minutes?.toLocaleString(undefined, {
@@ -149,27 +166,24 @@ const ArrivalOnset: React.FC = () => {
       : "";
 
   const ArrivalFirstDiff =
-    arrivalDate && firstDate !== null
+    values.arrivalDate && values.firstDate !== null
       ? intervalToDuration({
-          start: arrivalDate,
-          end: firstDate,
+          start: values.arrivalDate,
+          end: values.firstDate,
         })
       : "";
-
   const showDayDigitAFDiff =
     ArrivalFirstDiff !== ""
       ? ArrivalFirstDiff.days?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showHourDigitAFDiff =
     ArrivalFirstDiff !== ""
       ? ArrivalFirstDiff.hours?.toLocaleString(undefined, {
           minimumIntegerDigits: 2,
         })
       : "";
-
   const showMinuteDigitAFDiff =
     ArrivalFirstDiff !== ""
       ? ArrivalFirstDiff.minutes?.toLocaleString(undefined, {
@@ -187,17 +201,26 @@ const ArrivalOnset: React.FC = () => {
         <Grid container spacing={7}>
           <Grid item>
             <Controls.DatePicker
+              maxDate={new Date()}
               label="Arrival Date"
-              value={arrivalDate}
-              onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
+              name="arrivalDate"
+              value={values.arrivalDate}
+              onChange={handlePickerChange("arrivalDate")}
             />
+            <ErrorMessage name={`${fieldName}.arrivalDate`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
           <Grid item>
             <Controls.TimePicker
               label="Arrival Time"
-              value={arrivalDate}
-              onChange={(date: MaterialUiPickersDate) => setArrivalDate(date)}
+              name="arrivalDate"
+              value={values.arrivalDate}
+              onChange={handlePickerChange("arrivalDate")}
             />
+            <ErrorMessage name={`${fieldName}.arrivalTime`}>
+              {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+            </ErrorMessage>
           </Grid>
         </Grid>
       </Box>
@@ -205,6 +228,9 @@ const ArrivalOnset: React.FC = () => {
       <Box className={classes.boxOnset}>
         <Box className={classes.textTitle}>
           <Typography variant="h4">Onset</Typography>
+          <ErrorMessage name={`${fieldName}.onset`}>
+            {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+          </ErrorMessage>
         </Box>
         <Grid container spacing={2}>
           <Box
@@ -215,7 +241,7 @@ const ArrivalOnset: React.FC = () => {
             }}
           >
             <OnsetStyledToggleButtonGroup
-              value={onset}
+              value={values.onset}
               exclusive
               onChange={handleOnset}
             >
@@ -235,7 +261,7 @@ const ArrivalOnset: React.FC = () => {
           </Box>
           <Box>
             <OnsetStyledToggleButtonGroup
-              value={onset}
+              value={values.onset}
               exclusive
               onChange={handleOnset}
             >
@@ -263,12 +289,15 @@ const ArrivalOnset: React.FC = () => {
                     Clear onset date
                   </Typography>
                   <Controls.DatePicker
+                    maxDate={values.arrivalDate}
                     label="Select date"
-                    value={clearDate}
-                    onChange={(date: MaterialUiPickersDate) =>
-                      setClearDate(date)
-                    }
+                    value={values.clearDate}
+                    name="clearDate"
+                    onChange={handlePickerChange("clearDate")}
                   />
+                  <ErrorMessage name={`${fieldName}.clearDate`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
                 </Grid>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
@@ -276,11 +305,13 @@ const ArrivalOnset: React.FC = () => {
                   </Typography>
                   <Controls.TimePicker
                     label="Select time"
-                    value={clearDate}
-                    onChange={(date: MaterialUiPickersDate) => {
-                      setClearDate(date);
-                    }}
+                    value={values.clearDate}
+                    name="clearTime"
+                    onChange={handlePickerChange("clearTime")}
                   />
+                  <ErrorMessage name={`${fieldName}.clearTime`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
                 </Grid>
                 <Grid item>
                   <Typography>Duration</Typography>
@@ -318,65 +349,18 @@ const ArrivalOnset: React.FC = () => {
               <Grid container spacing={8}>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
-                    Last seen normal date
-                  </Typography>
-                  <Controls.DatePicker
-                    label="Select date"
-                    value={lastDate}
-                    onChange={(date: any) => setLastDate(date)}
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography className={classes.addMarginBottom}>
-                    Last seen normal time
-                  </Typography>
-                  <Controls.TimePicker
-                    label="Select time"
-                    value={lastDate}
-                    onChange={(date: MaterialUiPickersDate) =>
-                      setLastDate(date)
-                    }
-                  />
-                </Grid>
-                <Grid item>
-                  <Typography>Duration</Typography>
-                  <Box
-                    className={classes.boxDuration}
-                    style={{
-                      backgroundColor: `${
-                        ArrivalLastDiff !== "" ? "#6ED0BB" : "#C4C4C4"
-                      }`,
-                    }}
-                  >
-                    {ArrivalLastDiff !== "" ? (
-                      <Typography
-                        style={{
-                          color: `${
-                            ArrivalLastDiff !== "" ? "#FFFFFF" : "#000000"
-                          }`,
-                        }}
-                      >
-                        {showDayDigitALDiff} : {showHourDigitALDiff} :{" "}
-                        {showMinuteDigitALDiff}
-                      </Typography>
-                    ) : (
-                      "dd:hh:mm"
-                    )}
-                  </Box>
-                </Grid>
-              </Grid>
-              <Grid container spacing={8}>
-                <Grid item>
-                  <Typography className={classes.addMarginBottom}>
                     First seen abnormal date
                   </Typography>
                   <Controls.DatePicker
+                    maxDate={values.arrivalDate}
                     label="Select date"
-                    value={firstDate}
-                    onChange={(date: MaterialUiPickersDate) =>
-                      setFirstDate(date)
-                    }
+                    value={values.firstDate}
+                    name="firstDate"
+                    onChange={handlePickerChange("firstDate")}
                   />
+                  <ErrorMessage name={`${fieldName}.firstDate`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
                 </Grid>
                 <Grid item>
                   <Typography className={classes.addMarginBottom}>
@@ -384,11 +368,13 @@ const ArrivalOnset: React.FC = () => {
                   </Typography>
                   <Controls.TimePicker
                     label="Select time"
-                    value={firstDate}
-                    onChange={(date: MaterialUiPickersDate) =>
-                      setFirstDate(date)
-                    }
+                    value={values.firstDate}
+                    name="firstDate"
+                    onChange={handlePickerChange("firstDate")}
                   />
+                  <ErrorMessage name={`${fieldName}.firstTime`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
                 </Grid>
                 <Grid item>
                   <Typography>Duration</Typography>
@@ -410,6 +396,63 @@ const ArrivalOnset: React.FC = () => {
                       >
                         {showDayDigitAFDiff} : {showHourDigitAFDiff} :{" "}
                         {showMinuteDigitAFDiff}
+                      </Typography>
+                    ) : (
+                      "dd:hh:mm"
+                    )}
+                  </Box>
+                </Grid>
+              </Grid>
+              <Grid container spacing={8}>
+                <Grid item>
+                  <Typography className={classes.addMarginBottom}>
+                    Last seen normal date
+                  </Typography>
+                  <Controls.DatePicker
+                    maxDate={values.firstDate}
+                    label="Select date"
+                    value={values.lastDate}
+                    name="lastDate"
+                    onChange={handlePickerChange("lastDate")}
+                  />
+                  <ErrorMessage name={`${fieldName}.lastDate`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.addMarginBottom}>
+                    Last seen normal time
+                  </Typography>
+                  <Controls.TimePicker
+                    label="Select time"
+                    value={values.lastDate}
+                    name="lastDate"
+                    onChange={handlePickerChange("lastDate")}
+                  />
+                  <ErrorMessage name={`${fieldName}.lastTime`}>
+                    {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
+                  </ErrorMessage>
+                </Grid>
+                <Grid item>
+                  <Typography>Duration</Typography>
+                  <Box
+                    className={classes.boxDuration}
+                    style={{
+                      backgroundColor: `${
+                        ArrivalLastDiff !== "" ? "#6ED0BB" : "#C4C4C4"
+                      }`,
+                    }}
+                  >
+                    {ArrivalLastDiff !== "" ? (
+                      <Typography
+                        style={{
+                          color: `${
+                            ArrivalLastDiff !== "" ? "#FFFFFF" : "#000000"
+                          }`,
+                        }}
+                      >
+                        {showDayDigitALDiff} : {showHourDigitALDiff} :{" "}
+                        {showMinuteDigitALDiff}
                       </Typography>
                     ) : (
                       "dd:hh:mm"
