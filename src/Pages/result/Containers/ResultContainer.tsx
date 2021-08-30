@@ -59,10 +59,10 @@ const ResultContainer: React.FC = () => {
     <>
       {isLoading && <Loading open={isLoading} setOpen={setIsLoading} />}
       <Box display="flex">
-        <Box width="20%">
+        <Box width="22%">
           <PatientFormDetail data={data} />
         </Box>
-        <Box width="80%" paddingX={4} height="100%">
+        <Box width="78%" paddingX={4} height="100%">
           <Result testId={testId} {...mockData} />
         </Box>
       </Box>

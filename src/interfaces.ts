@@ -92,3 +92,23 @@ export interface ResultProps {
   heatmapImageList: Array<{ url1: string; url2: string }>;
   ctScanImageList: Array<CTScanImage>;
 }
+
+export interface DataProps {
+  name: string;
+  patientID: string;
+  gender: string;
+  age: number;
+  arrivalDate: string;
+  totalTestsDone: number;
+  timeCourse: string;
+  onsetDate: string;
+  duration: string;
+  symptoms: string[];
+  underlyingDiseases: string[];
+  systolicBP: number;
+  diastolicBP: number;
+  heartRate: number;
+  heartRateText: string;
+  EKG12Leads: string;
+  NIHSS: number;
+}

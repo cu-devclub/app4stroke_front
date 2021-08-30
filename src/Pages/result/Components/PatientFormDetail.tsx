@@ -7,6 +7,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import BrainBackground from "../../../Assets/BrainBackground.png";
+import { DataProps } from "../../../interfaces";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundSize: "400px 300px",
-    marginBottom: "55px",
     paddingTop: "72px",
     backgroundColor: "#FFF1F8",
     padding: "16px",
@@ -40,28 +40,22 @@ const useStyles = makeStyles((theme) => ({
     padding: "16px",
     margin: theme.spacing(2),
   },
-  editButton: {
+  button: {
     height: "45px",
     width: "365px",
-    backgroundColor: "#EF5DA8",
     color: "#ffffff",
     textTransform: "none",
     borderRadius: "20px",
     fontSize: "20px",
     fontWeight: 700,
     marginBottom: "16px",
+  },
+  edit: {
+    backgroundColor: "#EF5DA8",
     "&:hover": { backgroundColor: "#EF5DA8", color: "#ffffff" },
   },
-  reButton: {
-    height: "45px",
-    width: "365px",
+  re: {
     backgroundColor: "#3A3A3D",
-    color: "#ffffff",
-    textTransform: "none",
-    borderRadius: "20px",
-    fontSize: "20px",
-    fontWeight: 700,
-    marginBottom: "16px",
     "&:hover": { backgroundColor: "#3A3A3D", color: "#ffffff" },
   },
 }));
@@ -92,19 +86,17 @@ const TextPinkBox = withStyles(() => ({
     fontWeight: 600,
     color: "#CF658D",
     marginBottom: "8px",
-    alignContent: "center",
-    justifyContent: "center",
-    display: "flex",
+    textAlign: "center",
+    fontSize: "12px",
   },
 }))(Typography);
 
 const TextBlackBox = withStyles(() => ({
   root: {
     fontWeight: 600,
-    alignContent: "center",
-    justifyContent: "center",
-    display: "flex",
+    textAlign: "center",
     color: "#3A3A3D",
+    fontSize: "14px",
   },
 }))(Typography);
 
@@ -124,33 +116,8 @@ const TextBlack = withStyles(() => ({
   },
 }))(Typography);
 
-interface DataProps {
-  name: string;
-  patientID: string;
-  gender: string;
-  age: number;
-  arrivalDate: string;
-  totalTestsDone: number;
-  timeCourse: string;
-  onsetDate: string;
-  duration: string;
-  symptoms: string[];
-  underlyingDiseases: string[];
-  systolicBP: number;
-  diastolicBP: number;
-  heartRate: number;
-  heartRateText: string;
-  EKG12Leads: string;
-  NIHSS: number;
-}
-
-interface Props {
-  data: DataProps;
-}
-
-const PatientFormDetail = (props: Props) => {
+const PatientFormDetail = ({ data }: { data: DataProps }): JSX.Element => {
   const classes = useStyles();
-  const { data } = props;
   const {
     name,
     patientID,
@@ -188,9 +155,7 @@ const PatientFormDetail = (props: Props) => {
           </TextBox>
           <TextBox>
             <TextPinkBox variant="subtitle1">Age</TextPinkBox>
-            <TextBlackBox style={{ fontSize: "19px" }}>
-              {age} years
-            </TextBlackBox>
+            <TextBlackBox>{age} years</TextBlackBox>
           </TextBox>
         </Toolbar>
       </Box>
@@ -249,11 +214,24 @@ const PatientFormDetail = (props: Props) => {
         <TextBlack>{EKG12Leads}</TextBlack>
       </Text>
       <BorderBox style={{ marginBottom: "48px" }}>
-        <TextPinkBox variant="h5">NIHSS</TextPinkBox>
-        <TextBlackBox variant="h3">{NIHSS}</TextBlackBox>
+        <TextPinkBox variant="h5" style={{ fontSize: "24px" }}>
+          NIHSS
+        </TextPinkBox>
+        <TextBlackBox variant="h3" style={{ fontSize: "24px" }}>
+          {NIHSS}
+        </TextBlackBox>
       </BorderBox>
-      <Button className={classes.editButton}>Edit</Button>
-      <Button className={classes.reButton}>Re-Evaluate</Button>
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Button className={`${classes.button} ${classes.edit}`}>Edit</Button>
+        <Button className={`${classes.button} ${classes.re}`}>
+          Re-Evaluate
+        </Button>
+      </Box>
     </Paper>
   );
 };
