@@ -61,6 +61,41 @@ const StrokePredictionForm: React.FC = () => {
             file: null,
           },
           ChiefComplaint: "",
+          UnderLyingDisease: {
+            deny: false,
+            hx: false,
+            previousTia: false,
+            previousStroke: false,
+            ht: false,
+            dm: false,
+            dlp: false,
+            valvularHeartDisease: false,
+            af: false,
+            coronaryHeartDisease: false,
+            ckd: false,
+            peripheralArterialDisease: false,
+            obesity: false,
+            smoking: false,
+          ChiefComplaint: {
+            timeCourse: "",
+            alterationOfConsciousness: false,
+            facialWeakness: false,
+            facialWeaknessLeft: false,
+            facialWeaknessRight: false,
+            hemiparesis: false,
+            hemiparesisLeft: false,
+            hemiparesisRight: false,
+            hemiparesthesia: false,
+            hemiparesthesiaLeft: false,
+            hemiparesthesiaRight: false,
+            dysarthria: false,
+            aphasia: false,
+            ataxia: false,
+            vertigo: false,
+            visualProblem: false,
+            other: false,
+            otherText: "",
+          },
           VitalSigns: {
             systolicBP: "",
             diastolicBP: "",
@@ -107,15 +142,19 @@ const StrokePredictionForm: React.FC = () => {
               <Section id="ChiefComplaint">
                 <SectionTitle title="Chief Complaint" />
                 <ChiefComplaintSection
-                  value={values.ChiefComplaint}
-                  name="ChiefComplaint"
+                  values={values.ChiefComplaint}
+                  fieldName="ChiefComplaint"
                   onChange={setFieldValue}
                 />
               </Section>
               {/* UnderLyingDisease */}
               <Section id="UnderLyingDisease">
                 <SectionTitle title="Underlying Disease" />
-                <UnderLyingDiseaseSection />
+                <UnderLyingDiseaseSection
+                  values={values.UnderLyingDisease}
+                  fieldName="UnderLyingDisease"
+                  onChange={setFieldValue}
+                />
               </Section>
               {/* Vital Signs */}
               <Section id="VitalSigns">

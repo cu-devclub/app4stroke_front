@@ -22,7 +22,9 @@ interface PatientProps {
   onset: string;
   file: any[] | null;
 }
-
+interface ChiefComplaintProps {
+  timeCourse: string;
+}
 interface VitalSignsProps {
   systolicBP: number | string;
   diastolicBP: number | string;
@@ -34,7 +36,7 @@ interface ValidateProps {
   PatientInformation: PatientProps;
   VitalSigns: VitalSignsProps;
   NIHSS: RadioData.NIHSSProps;
-  ChiefComplaint: string;
+  ChiefComplaint: ChiefComplaintProps;
   EKG12Leads: string;
 }
 
@@ -57,7 +59,9 @@ const validate = (values: ValidateProps) => {
       onset: "",
       file: "",
     },
-    ChiefComplaint: "",
+    ChiefComplaint: {
+      timeCourse: "",
+    },
     VitalSigns: {
       systolicBP: "",
       diastolicBP: "",
@@ -163,6 +167,9 @@ const validate = (values: ValidateProps) => {
   }
   if (condition(values.ChiefComplaint)) {
     errors.ChiefComplaint = "Please select time course";
+=======
+  if (condition(values.ChiefComplaint.timeCourse)) {
+    errors.ChiefComplaint.timeCourse = "Please select time course";
   }
   if (condition(values.EKG12Leads)) {
     errors.EKG12Leads = "Please select EKG 12 leads";
