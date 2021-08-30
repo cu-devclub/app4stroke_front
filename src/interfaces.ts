@@ -82,3 +82,13 @@ export interface UnderlyingProps {
   other: boolean;
   otherText: string;
 }
+
+export interface CTScanImage {
+  url: string;
+}
+export interface ResultProps {
+  testId: string;
+  prob: number;
+  heatmapImageList: Array<{ url1: string; url2: string }>;
+  ctScanImageList: Array<CTScanImage>;
+}
