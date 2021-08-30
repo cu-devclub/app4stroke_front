@@ -43,6 +43,22 @@ const StrokePredictionForm: React.FC = () => {
     <>
       <Formik
         initialValues={{
+          ChiefComplaint: "",
+          UnderLyingDisease: {
+            deny: false,
+            hx: false,
+            previousTia: false,
+            previousStroke: false,
+            ht: false,
+            dm: false,
+            dlp: false,
+            valvularHeartDisease: false,
+            af: false,
+            coronaryHeartDisease: false,
+            ckd: false,
+            peripheralArterialDisease: false,
+            obesity: false,
+            smoking: false,
           ChiefComplaint: {
             timeCourse: "",
             alterationOfConsciousness: false,
@@ -113,7 +129,11 @@ const StrokePredictionForm: React.FC = () => {
               {/* UnderLyingDisease */}
               <Section id="UnderLyingDisease">
                 <SectionTitle title="Underlying Disease" />
-                <UnderLyingDiseaseSection />
+                <UnderLyingDiseaseSection
+                  values={values.UnderLyingDisease}
+                  fieldName="UnderLyingDisease"
+                  onChange={setFieldValue}
+                />
               </Section>
               {/* Vital Signs */}
               <Section id="VitalSigns">
