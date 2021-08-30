@@ -59,6 +59,23 @@ const StrokePredictionForm: React.FC = () => {
             peripheralArterialDisease: false,
             obesity: false,
             smoking: false,
+          ChiefComplaint: {
+            timeCourse: "",
+            alterationOfConsciousness: false,
+            facialWeakness: false,
+            facialWeaknessLeft: false,
+            facialWeaknessRight: false,
+            hemiparesis: false,
+            hemiparesisLeft: false,
+            hemiparesisRight: false,
+            hemiparesthesia: false,
+            hemiparesthesiaLeft: false,
+            hemiparesthesiaRight: false,
+            dysarthria: false,
+            aphasia: false,
+            ataxia: false,
+            vertigo: false,
+            visualProblem: false,
             other: false,
             otherText: "",
           },
@@ -104,8 +121,8 @@ const StrokePredictionForm: React.FC = () => {
               <Section id="ChiefComplaint">
                 <SectionTitle title="Chief Complaint" />
                 <ChiefComplaintSection
-                  value={values.ChiefComplaint}
-                  name="ChiefComplaint"
+                  values={values.ChiefComplaint}
+                  fieldName="ChiefComplaint"
                   onChange={setFieldValue}
                 />
               </Section>

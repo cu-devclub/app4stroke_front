@@ -3,6 +3,7 @@ import React from "react";
 import Header from "../../HeaderFooter/Header";
 import Data from "../Components/Data";
 import Footer from "../../HeaderFooter/Footer";
+import Result from "../Components/Result";
 
 const data = {
   name: "Nattasuk Chaithana",
@@ -27,17 +28,15 @@ const data = {
   EKG12Leads: "Normal",
   NIHSS: 6,
 };
-
 const ResultContainer: React.FC = () => {
   return (
     <>
       <Header />
-      <Grid container alignItems="stretch">
-        <Grid item xs={3}>
-          <Data data={data} />
-        </Grid>
-        <Grid item xs={9}></Grid>
-      </Grid>
+        <Grid container alignItems="stretch">
+          <Grid item xs={3}>
+            <Data data={data} />
+          </Grid>
+          <Grid item xs={9} style={{marginTop:"72px"}}> <Result/> </Grid>
       <Footer />
     </>
   );
