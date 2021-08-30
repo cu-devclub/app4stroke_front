@@ -104,6 +104,7 @@ const Result = () => {
   const [index, setIndex] = React.useState<number>(1);
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
   const [open, setOpen] = React.useState(false);
+  // const [slideImages,setSlideImages] = useState(CTimageList)
 
   const handleClickOpen = () => {
     setOpen(true);

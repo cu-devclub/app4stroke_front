@@ -29,15 +29,18 @@ const data = {
   NIHSS: 6,
 };
 const ResultContainer: React.FC = () => {
+  
   return (
     <>
       <Header />
-        <Grid container alignItems="stretch">
-          <Grid item xs={3}>
-            <Data data={data} />
-          </Grid>
-          <Grid item xs={9} style={{marginTop:"72px"}}> <Result/> </Grid>
+      <Grid container alignItems="stretch">
+        <Grid item xs={3}>
+          <Data data={data} />
         </Grid>
+        <Grid item xs={9} style={{ marginTop: "72px" }}>
+          <Result />
+        </Grid>
+      </Grid>
       <Footer />
     </>
   );

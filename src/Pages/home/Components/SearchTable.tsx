@@ -4,18 +4,18 @@ import {
   Toolbar,
   TextField,
   Button,
+  Grid,
 } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    marginBottom: "16px",
+  },
   pageTitle: {
-    paddingLeft: theme.spacing(5),
-    padding: theme.spacing(3),
-    paddingBottom: theme.spacing(0),
     "& .MuiTypography-subtitle2": {
       color: "#979797",
-      marginTop: "12%",
       fontSize: "16px",
     },
     "& .MuiTypography-h6": {
@@ -23,10 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   search: {
-    marginLeft: "20%",
-    marginTop: "2.5%",
     "& .MuiTextField-root": {
-      margin: theme.spacing(1),
       width: "200px",
     },
     fontSize: "20px",
@@ -38,6 +35,12 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "20px",
     fontSize: "18px",
   },
+  childTextFieldMargin: {
+    textAlign: "right",
+    "& div > div": {
+      marginRight: "16px",
+    },
+  },
 }));
 
 const SearchTables = () => {
@@ -47,12 +50,12 @@ const SearchTables = () => {
 
   return (
     <>
-      <Toolbar>
-        <div className={classes.pageTitle}>
+      <Grid container className={classes.root}>
+        <Grid item xs={12} md={6}>
           <Typography variant="h6">Patient Tests</Typography>
           <Typography variant="subtitle2">Total 63 records</Typography>
-        </div>
-        <Toolbar className={classes.search}>
+        </Grid>
+        <Grid item xs={12} md={6} className={classes.childTextFieldMargin}>
           <TextField id="patientID" label="Patient ID"></TextField>
           <TextField id="name" label="Name"></TextField>
           <TextField
@@ -67,8 +70,8 @@ const SearchTables = () => {
             }}
           />
           <Button className={classes.buttonSearch}>Search</Button>
-        </Toolbar>
-      </Toolbar>
+        </Grid>
+      </Grid>
     </>
   );
 };

@@ -4,31 +4,32 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import AddIcon from "../../../Assets/add.png";
+import { useHistory } from "react-router-dom";
 
 //todo Style
 const useStyle = makeStyles(() =>
   createStyles({
     root: {
       width: "100%",
-      padding: "32px",
+      marginBottom: "16px",
     },
-
     //! Box
     boxWelcome: {
       width: "50%",
-      padding: "27px",
-      borderRadius: "20px",
+      borderRadius: "24px",
       background:
         "linear-gradient(94.59deg, #5028C6 9.91%, #FD85FF 81.34%, #F40000 111.1%)",
       boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+      marginRight: "16px",
+      padding: "16px",
     },
     boxTotalPatients: {
       width: "20%",
-      padding: "27px",
-      marginLeft: "24px",
       background: "#FFFFFF",
       boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-      borderRadius: " 20px",
+      borderRadius: "24px",
+      marginRight: "16px",
+      padding: "16px",
     },
     //! Text
     textWelcome: {
@@ -49,13 +50,17 @@ const useStyle = makeStyles(() =>
       backgroundColor: "#EF5DA8",
       width: "30%",
       borderRadius: "24px",
-      marginLeft: "47px",
+      padding: "16px",
     },
   })
 );
 
 const Title: React.FC = () => {
   const classes = useStyle();
+  const history = useHistory();
+  const handleClick = () => {
+    history.push("/form");
+  };
   return (
     <Box className={classes.root}>
       <Box display="flex">
@@ -80,7 +85,11 @@ const Title: React.FC = () => {
           </Box>
         </Box>
         {/* Register New Patients */}
-        <Button variant="contained" className={classes.buttonRegister}>
+        <Button
+          variant="contained"
+          className={classes.buttonRegister}
+          onClick={handleClick}
+        >
           <Box display="flex" flexDirection="column">
             <Box>
               <img src={AddIcon} alt="icon" />

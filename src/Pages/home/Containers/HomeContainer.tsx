@@ -4,6 +4,7 @@ import {
   Paper,
   TableRow,
   Button,
+  Box,
 } from "@material-ui/core";
 import React from "react";
 import SearchTables from "../Components/SearchTable";
@@ -13,7 +14,6 @@ import Title from "../Components/Title";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
-    margin: theme.spacing(5),
     padding: theme.spacing(3),
     borderRadius: "15px",
   },
@@ -68,29 +68,31 @@ const HomeContainer: React.FC = () => {
   return (
     <>
       <Header />
-      <Title />
-      <SearchTables />
-      <Paper className={classes.pageContent}>
-        <TblContainer>
-          <TblHead />
-          <TableBody>
-            {rows.map((row, index) => (
-              <TableRow key={index} className={classes.root}>
-                <TblCenter>{row.testID}</TblCenter>
-                <TblCenter>{row.date}</TblCenter>
-                <TblCenter>{row.patientID}</TblCenter>
-                <TblCenter>{row.name}</TblCenter>
-                <TblCenter>{row.age}</TblCenter>
-                <TblCenter>{row.cardioembolicProbability}</TblCenter>
-                <TblCenter>
-                  <Button className={classes.buttonView}>View</Button>
-                </TblCenter>
-              </TableRow>
-            ))}
-          </TableBody>
-        </TblContainer>
-        <TblPagination />
-      </Paper>
+      <Box paddingX={8} paddingY={8}>
+        <Title />
+        <SearchTables />
+        <Paper className={classes.pageContent}>
+          <TblContainer>
+            <TblHead />
+            <TableBody>
+              {rows.map((row, index) => (
+                <TableRow key={index} className={classes.root}>
+                  <TblCenter>{row.testID}</TblCenter>
+                  <TblCenter>{row.date}</TblCenter>
+                  <TblCenter>{row.patientID}</TblCenter>
+                  <TblCenter>{row.name}</TblCenter>
+                  <TblCenter>{row.age}</TblCenter>
+                  <TblCenter>{row.cardioembolicProbability}</TblCenter>
+                  <TblCenter>
+                    <Button className={classes.buttonView}>View</Button>
+                  </TblCenter>
+                </TableRow>
+              ))}
+            </TableBody>
+          </TblContainer>
+          <TblPagination />
+        </Paper>
+      </Box>
     </>
   );
 };
