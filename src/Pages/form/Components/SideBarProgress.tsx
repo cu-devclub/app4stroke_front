@@ -1,9 +1,9 @@
+import { Button, createStyles, makeStyles } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 import React from "react";
 import { useScrollSection } from "react-scroll-section";
 import styled from "styled-components";
-import Box from "@material-ui/core/Box";
-import GoToTopButton from '../Components/GoToTopButton';
-
+import GoToTopButton from "../Components/GoToTopButton";
 
 const Item = styled.li<{ selected: boolean }>`
   display: block;
@@ -17,7 +17,22 @@ const Item = styled.li<{ selected: boolean }>`
     ${(props) => (props.selected ? "#EF5DA8" : "transparent")};
 `;
 
+const useStyle = makeStyles((theme) =>
+  createStyles({
+    submitButton: {
+      backgroundColor: "#EF5DA8",
+      color: "#ffffff",
+      textTransform: "none",
+      borderRadius: "20px",
+      fontSize: "18px",
+      "&:hover": { backgroundColor: "#EF5DA8", color: "#ffffff" },
+    },
+  })
+);
+
 const SideBarProgress = () => {
+  const classes = useStyle();
+
   //Section
   const PatientInformationSection = useScrollSection("PatientInformation");
   const ChiefComplaintSection = useScrollSection("ChiefComplaint");
@@ -27,7 +42,23 @@ const SideBarProgress = () => {
   const NIHSSSection = useScrollSection("NIHSS");
 
   return (
-    <>
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      height="80vh"
+    >
+      <Button
+        type="submit"
+        style={{
+          width: "150px",
+          height: "40px",
+          marginBottom: "20px",
+        }}
+        className={classes.submitButton}
+      >
+        Submit
+      </Button>
       <Box>
         <Item
           onClick={PatientInformationSection.onClick}
@@ -62,9 +93,9 @@ const SideBarProgress = () => {
         <Item onClick={NIHSSSection.onClick} selected={NIHSSSection.selected}>
           NIHSS
         </Item>
-        <GoToTopButton/>
       </Box>
-    </>
+      <GoToTopButton />
+    </Box>
   );
 };
 export default SideBarProgress;

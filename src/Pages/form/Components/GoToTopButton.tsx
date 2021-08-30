@@ -7,7 +7,7 @@ const useStyle = makeStyles((theme) =>
   createStyles({
     GoToTop: {
       display: "block",
-      marginLeft: "auto",
+      margin: "auto",
       backgroundColor: "#EF5DA8",
       color: "white",
       padding: "15px",

@@ -1,9 +1,11 @@
 import Grid from "@material-ui/core/Grid";
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../HeaderFooter/Header";
 import Data from "../Components/Data";
 import Footer from "../../HeaderFooter/Footer";
 import Result from "../Components/Result";
+import { useEffect } from "react";
+import Loading from "../../../Components/Loading";
 
 const data = {
   name: "Nattasuk Chaithana",
@@ -29,8 +31,10 @@ const data = {
   NIHSS: 6,
 };
 const ResultContainer: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
   return (
     <>
+      {isLoading && <Loading open={isLoading} setOpen={setIsLoading} />}
       <Header doctorName={"test"} />
       <Grid container alignItems="stretch">
         <Grid item xs={3}>
