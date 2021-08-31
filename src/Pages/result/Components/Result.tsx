@@ -16,6 +16,7 @@ import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { ResultProps } from "../../../interfaces";
+import { KeyboardEvent } from "react";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -133,6 +134,7 @@ const Result = (props: ResultProps): JSX.Element => {
       setCurrentIndex(currentIndex + 1);
     }
   };
+
   //checkbox
   const [showHeatMapCheckbox, setshowHeatMapCheckbox] = React.useState({
     showHeatMap: true,
@@ -198,7 +200,7 @@ const Result = (props: ResultProps): JSX.Element => {
       >
         <Box>
           <Typography variant="h4">Results</Typography>
-          <Typography variant="h6">Test ID:</Typography>
+          <Typography variant="h6">Test ID: {testId}</Typography>
         </Box>
         <Box>
           <SharePrintDownloadButton>
@@ -235,7 +237,7 @@ const Result = (props: ResultProps): JSX.Element => {
           className={`${classes.textLayoutContent} ${classes.title}`}
           style={{ color: "#EF5DA8" }}
         >
-          23%
+          {prob * 100}%
         </Typography>
         <Box
           display="flex"
@@ -300,7 +302,9 @@ const Result = (props: ResultProps): JSX.Element => {
                   className={classes.image}
                 />
                 <Box className={classes.boxImage}>
-                  <Typography>Cardioembolic-Sign Probability: 0.23</Typography>
+                  <Typography>
+                    Cardioembolic-Sign Probability: {prob}
+                  </Typography>
                 </Box>
               </div>
             ) : (
@@ -320,7 +324,7 @@ const Result = (props: ResultProps): JSX.Element => {
                   />
                   <Box className={classes.boxImage}>
                     <Typography>
-                      Cardioembolic-Sign Probability: 0.23
+                      Cardioembolic-Sign Probability: {prob}
                     </Typography>
                   </Box>
                 </Box>
