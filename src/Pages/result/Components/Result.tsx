@@ -16,7 +16,6 @@ import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { ResultProps } from "../../../interfaces";
-import { KeyboardEvent } from "react";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
