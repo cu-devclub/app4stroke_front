@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchTables = () => {
+const SearchTables = (): JSX.Element => {
   const classes = useStyles();
 
   const [date, setDate] = useState(new Date());
@@ -51,11 +51,11 @@ const SearchTables = () => {
   return (
     <>
       <Grid container className={classes.root}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={2}>
           <Typography variant="h6">Patient Tests</Typography>
           <Typography variant="subtitle2">Total 63 records</Typography>
         </Grid>
-        <Grid item xs={12} md={6} className={classes.childTextFieldMargin}>
+        <Grid item xs={12} md={10} className={classes.childTextFieldMargin}>
           <TextField id="patientID" label="Patient ID"></TextField>
           <TextField id="name" label="Name"></TextField>
           <TextField

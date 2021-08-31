@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import SignInPage from "./Pages/signin/index";
 import HomePage from "./Pages/home/index";
 import FormPage from "./Pages/form/index";
@@ -15,7 +15,7 @@ const Routes: React.FC = () => {
   return (
     <Box>
       {isUserLogin() && <Header doctorName={"test"} />}
-      <Box style={{ backgroundColor: "#F8F8F8" }} paddingBottom={8}>
+      <Box style={{ backgroundColor: "#F8F8F8" }}>
         <Switch>
           {!isUserLogin() && (
             <Route path="/">
@@ -28,12 +28,15 @@ const Routes: React.FC = () => {
           <Route exact path="/form">
             <FormPage />
           </Route>
-          <Route exact path="/home">
+          <Route path="/home">
             <HomePage />
           </Route>
+          <Route path="/">
+            <Redirect to="/home" />
+          </Route>
         </Switch>
+        <Footer />
       </Box>
-      <Footer />
     </Box>
   );
 };

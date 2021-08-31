@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     height: "45px",
-    width: "365px",
+    width: "256px",
     color: "#ffffff",
     textTransform: "none",
     borderRadius: "20px",
@@ -76,7 +76,7 @@ const BorderBox = withStyles(() => ({
   root: {
     border: "2px solid #d3d3d3",
     borderRadius: 10,
-    padding: "16px",
+    padding: "8px",
     marginBottom: "16px",
   },
 }))(Box);

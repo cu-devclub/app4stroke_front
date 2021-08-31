@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useEffect, useRef, WheelEvent } from "react";
+import React, {
+  ChangeEvent,
+  useEffect,
+  useRef,
+  useState,
+  WheelEvent,
+} from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
@@ -13,7 +19,7 @@ import { AiFillPrinter } from "react-icons/ai";
 import { FiDownload } from "react-icons/fi";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
-
+import Loading from "../../../Components/Loading";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { ResultProps } from "../../../interfaces";
 
@@ -111,10 +117,10 @@ const PinkCheckbox = withStyles({
 const Result = (props: ResultProps): JSX.Element => {
   const { testId, prob, heatmapImageList, ctScanImageList } = props;
   const classes = useStyles();
-  const [index, setIndex] = React.useState<number>(1);
-  const [currentIndex, setCurrentIndex] = React.useState<number>(0);
-  const [open, setOpen] = React.useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState<number>(1);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [open, setOpen] = useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -134,7 +140,6 @@ const Result = (props: ResultProps): JSX.Element => {
     }
   };
 
-  //checkbox
   const [showHeatMapCheckbox, setshowHeatMapCheckbox] = React.useState({
     showHeatMap: true,
   });
@@ -155,7 +160,6 @@ const Result = (props: ResultProps): JSX.Element => {
     const x = document.getElementsByTagName("BODY")[0];
     x.classList.remove(classes.disabledScrollBar);
   };
-
   return (
     <Box height="100%">
       <Dialog
@@ -310,7 +314,7 @@ const Result = (props: ResultProps): JSX.Element => {
         >
           <Box>
             {!showHeatMapCheckbox.showHeatMap ? (
-              <div style={{ position: "relative" }} ref={ref}>
+              <div style={{ position: "relative" }}>
                 <img
                   src={ctScanImageList[currentIndex].url}
                   alt="noHeatMap"

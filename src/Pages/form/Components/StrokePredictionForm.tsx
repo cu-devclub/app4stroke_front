@@ -16,6 +16,8 @@ import {
   ScrollingProvider,
 } from "react-scroll-section";
 import styled from "styled-components";
+import { getToken } from "../../../Services/AuthService";
+import { postForm } from "../../../Services/UserServices";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -45,6 +47,7 @@ const Section = styled(BasicSection)`
 
 const StrokePredictionForm: React.FC = () => {
   const classes = useStyle();
+  const token = getToken();
 
   return (
     <>
@@ -135,8 +138,14 @@ const StrokePredictionForm: React.FC = () => {
         validate={validations}
         validateOnChange={false}
         validateOnBlur={false}
-        onSubmit={(values) => {
-          console.log(values);
+        onSubmit={(values, actions) => {
+          console.log(token);
+          if (token !== null) {
+            postForm({ body: values, token: token }).then((response) => {
+              console.log(response);
+            });
+          }
+          actions.setSubmitting(false);
         }}
       >
         {({ values, setFieldValue, isSubmitting }) => (
@@ -148,7 +157,7 @@ const StrokePredictionForm: React.FC = () => {
               height="100%"
               marginRight="32px"
             >
-              <Box position="sticky" top="0" right="0">
+              <Box position="sticky" top="100px" right="0">
                 <SideBarProgress />
               </Box>
             </Box>
@@ -219,8 +228,6 @@ const StrokePredictionForm: React.FC = () => {
                 Submit
               </Button>
             </Box>
-
-            {/* Sidebar */}
           </Form>
         )}
       </Formik>

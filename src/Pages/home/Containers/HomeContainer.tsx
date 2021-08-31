@@ -9,7 +9,6 @@ import {
 import React from "react";
 import SearchTables from "../Components/SearchTable";
 import Tables, { createData } from "../Components/Tables";
-import Header from "../../HeaderFooter/Header";
 import Title from "../Components/Title";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,14 +33,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: "testID", label: "Test ID" },
-  { id: "date", label: "Date" },
-  { id: "patientID", label: "Patient ID" },
-  { id: "name", label: "Name" },
-  { id: "age", label: "Age" },
+  { id: "testID", label: "Test ID", align: "center" },
+  { id: "date", label: "Date", align: "center" },
+  { id: "patientID", label: "Patient ID", align: "center" },
+  { id: "name", label: "Name", align: "left" },
+  { id: "age", label: "Age", align: "center" },
   {
     id: "cardioembolicProbability",
     label: "Cardioembolic Probability (%)",
+    align: "center",
   },
 ];
 
@@ -60,7 +60,13 @@ const rows = [
 
 const HomeContainer: React.FC = () => {
   const classes = useStyles();
-  const { TblContainer, TblHead, TblCenter, TblPagination } = Tables({
+  const {
+    TblContainer,
+    TblHead,
+    TblCenter,
+    TblPagination,
+    TblCenterButtonView,
+  } = Tables({
     rows: rows,
     headCells: headCells,
   });
@@ -76,15 +82,16 @@ const HomeContainer: React.FC = () => {
             <TableBody>
               {rows.map((row, index) => (
                 <TableRow key={index} className={classes.root}>
-                  <TblCenter>{row.testID}</TblCenter>
-                  <TblCenter>{row.date}</TblCenter>
-                  <TblCenter>{row.patientID}</TblCenter>
-                  <TblCenter>{row.name}</TblCenter>
-                  <TblCenter>{row.age}</TblCenter>
-                  <TblCenter>{row.cardioembolicProbability}</TblCenter>
-                  <TblCenter>
-                    <Button className={classes.buttonView}>View</Button>
-                  </TblCenter>
+                  <TblCenter data={row.testID} align="center" />
+                  <TblCenter data={row.date} align="center"></TblCenter>
+                  <TblCenter data={row.patientID} align="center" />
+                  <TblCenter data={row.name} align="left" />
+                  <TblCenter data={row.age} align="center" />
+                  <TblCenter
+                    data={row.cardioembolicProbability}
+                    align="center"
+                  ></TblCenter>
+                  <TblCenterButtonView path={row.testID} />
                 </TableRow>
               ))}
             </TableBody>

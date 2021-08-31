@@ -19,7 +19,12 @@ export const login = (props: LoginProps): Promise<any> => {
     return response.json();
   });
 };
-export const isUserLogin = () => {
+
+export const getToken = (): string | null => {
   const token = localStorage.getItem("token");
-  return token !== null;
+  return token;
+};
+
+export const isUserLogin = () => {
+  return getToken() !== null;
 };

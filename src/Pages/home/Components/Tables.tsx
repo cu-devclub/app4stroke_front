@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import {
+  Button,
+  makeStyles,
   Table,
   TableCell,
   TableHead,
@@ -7,6 +9,19 @@ import {
   TableRow,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
+import { useHistory } from "react-router-dom";
+
+const useStyles = makeStyles((theme) => ({
+  buttonView: {
+    backgroundColor: "transparent",
+    color: "#CF658D",
+    border: "1.5px solid #CF658D",
+    textTransform: "none",
+    borderRadius: "20px",
+    fontSize: "16px",
+    height: "30px",
+  },
+}));
 
 const TableCellHead = withStyles({
   root: {
@@ -44,10 +59,12 @@ interface TableProps {
     age: number;
     cardioembolicProbability: number;
   }>;
-  headCells?: Array<{ id: string; label: string }>;
+  headCells?: Array<{ id: string; label: string; align: string }>;
 }
 
 const Tables = ({ rows, headCells }: TableProps) => {
+  const history = useHistory();
+  const classes = useStyles();
   const TblContainer: React.FC = (props: any) => (
     <Table>{props.children}</Table>
   );
@@ -57,7 +74,7 @@ const Tables = ({ rows, headCells }: TableProps) => {
       <TableRow>
         {headCells &&
           headCells.map((headCell: any) => (
-            <TableCellHead align="center" key={headCell.id}>
+            <TableCellHead align={headCell.align} key={headCell.id}>
               {headCell.label}
             </TableCellHead>
           ))}
@@ -65,14 +82,29 @@ const Tables = ({ rows, headCells }: TableProps) => {
     </TableHead>
   );
 
-  const TblCenter: React.FC = (props) => (
-    <TableCellBody align="center">{props.children}</TableCellBody>
+  const TblCenter = ({
+    data,
+    align,
+  }: {
+    data?: string | number;
+    align: "left" | "right" | "inherit" | "center" | "justify" | undefined;
+  }) => <TableCellBody align={align}>{data}</TableCellBody>;
+
+  const TblCenterButtonView = ({ path }: { path: string }) => (
+    <TableCellBody align="center">
+      <Button
+        className={classes.buttonView}
+        onClick={() => history.push(`/result/${path}`)}
+      >
+        View
+      </Button>
+    </TableCellBody>
   );
 
   const TblPagination: React.FC = () => {
     const pages = [5, 10, 25];
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(pages[page]);
+    const [rowsPerPage] = useState(pages[page]);
 
     const handleChangePage = (event: any, newPage: number) => {
       setPage(newPage);
@@ -94,6 +126,7 @@ const Tables = ({ rows, headCells }: TableProps) => {
     TblHead,
     TblCenter,
     TblPagination,
+    TblCenterButtonView,
   };
 };
 

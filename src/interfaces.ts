@@ -20,7 +20,6 @@ export interface ChiefComplaintProps {
     otherText: string;
   };
 }
-
 export interface NIHSSProps {
   levelOfConsciousness: string;
   twoQuestions: string;
@@ -81,6 +80,14 @@ export interface UnderlyingProps {
   smoking: boolean;
   other: boolean;
   otherText: string;
+}
+
+export interface FormProps {
+  PatientInformation: PatientProps;
+  UnderLyingDisease: UnderlyingProps;
+  VitalSigns: VitalSignsProps;
+  NIHSS: NIHSSProps;
+  ChiefComplaint: ChiefComplaintProps;
 }
 
 export interface CTScanImage {
