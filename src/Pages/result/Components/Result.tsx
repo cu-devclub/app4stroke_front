@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, WheelEvent } from "react";
+import React, { ChangeEvent, useEffect, useRef, WheelEvent } from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
@@ -22,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
     height: "80%",
     marginTop: "32px",
     padding: "32px",
+  },
+  disabledScrollBar: {
+    overflowY: "hidden",
+    width: "100%",
+    height: "100%",
   },
   title: {
     fontSize: "36px",
@@ -64,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
   },
   boxImage: {
     background: "#222224",
+    overscrollBehavior: "contain",
     color: "#FFFFFF",
     fontSize: "20px",
     borderRadius: "8px",
@@ -108,7 +114,7 @@ const Result = (props: ResultProps): JSX.Element => {
   const [index, setIndex] = React.useState<number>(1);
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
   const [open, setOpen] = React.useState(false);
-  const wheelTimeout = useRef();
+  const ref = useRef<HTMLDivElement>(null);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -131,11 +137,22 @@ const Result = (props: ResultProps): JSX.Element => {
   const [showHeatMapCheckbox, setshowHeatMapCheckbox] = React.useState({
     showHeatMap: true,
   });
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setshowHeatMapCheckbox({
       ...showHeatMapCheckbox,
       [event.target.name]: event.target.checked,
     });
+  };
+
+  const handleMouseEnter = (e: any) => {
+    const x = document.getElementsByTagName("BODY")[0];
+    x.classList.add(classes.disabledScrollBar);
+  };
+
+  const handleMouseLeave = (e: any) => {
+    const x = document.getElementsByTagName("BODY")[0];
+    x.classList.remove(classes.disabledScrollBar);
   };
 
   return (
@@ -268,20 +285,24 @@ const Result = (props: ResultProps): JSX.Element => {
             View max probability slice
           </Link>
         </Toolbar>
-        <Box className={classes.imageContainer}>
+        <Box
+          className={classes.imageContainer}
+          onMouseEnter={(e) => handleMouseEnter(e)}
+          onMouseLeave={(e) => handleMouseLeave(e)}
+          onWheel={(e: WheelEvent<HTMLImageElement>) => handleScroll(e)}
+        >
           <Box>
             {!showHeatMapCheckbox.showHeatMap ? (
-              <Box position="relative">
+              <div style={{ position: "relative" }} ref={ref}>
                 <img
                   src={ctScanImageList[currentIndex].url}
                   alt="noHeatMap"
                   className={classes.image}
-                  onWheel={(e: WheelEvent<HTMLImageElement>) => handleScroll(e)}
                 />
                 <Box className={classes.boxImage}>
                   <Typography>Cardioembolic-Sign Probability: 0.23</Typography>
                 </Box>
-              </Box>
+              </div>
             ) : (
               <>
                 <Box position="relative">
@@ -289,18 +310,12 @@ const Result = (props: ResultProps): JSX.Element => {
                     alt="Brain1"
                     className={classes.image}
                     src={heatmapImageList[currentIndex].url1}
-                    onWheel={(e: WheelEvent<HTMLImageElement>) =>
-                      handleScroll(e)
-                    }
                     style={{ marginRight: "8px" }}
                   />
                   <img
                     alt="Brain2"
                     className={classes.image}
                     src={heatmapImageList[currentIndex].url2}
-                    onWheel={(e: WheelEvent<HTMLImageElement>) =>
-                      handleScroll(e)
-                    }
                     style={{ marginLeft: "8px" }}
                   />
                   <Box className={classes.boxImage}>
