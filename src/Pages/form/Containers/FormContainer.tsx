@@ -7,7 +7,6 @@ import StrokePredictionForm from "../Components/StrokePredictionForm";
 const FormContainer: React.FC = () => {
   return (
     <>
-      <Header doctorName={"Test"} />
       <ScrollingProvider>
         <Box position="relative">
           <Box

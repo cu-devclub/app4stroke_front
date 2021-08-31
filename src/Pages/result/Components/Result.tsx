@@ -198,8 +198,24 @@ const Result = (props: ResultProps): JSX.Element => {
         marginTop={8}
       >
         <Box>
-          <Typography variant="h4">Results</Typography>
-          <Typography variant="h6">Test ID: {testId}</Typography>
+          <Typography
+            variant="subtitle1"
+            style={{ fontSize: "36px", fontWeight: "bold" }}
+          >
+            Results
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            style={{ fontSize: "24px", fontWeight: "bold" }}
+          >
+            Test ID:{" "}
+            <Typography
+              component="span"
+              style={{ fontSize: "24px", fontWeight: "bold", color: "#CF658D" }}
+            >
+              {testId}
+            </Typography>
+          </Typography>
         </Box>
         <Box>
           <SharePrintDownloadButton>

@@ -9,6 +9,9 @@ import Avatar from "@material-ui/core/Avatar";
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      boxShadow: "0px 4px 10px 2px rgba(121, 121, 121, 0.1)",
+    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -42,7 +45,7 @@ const Header: React.FC<{ doctorName: string }> = ({ doctorName }) => {
   return (
     <div>
       <AppBar position="static" color="inherit">
-        <Toolbar>
+        <Toolbar className={classes.root}>
           <img src={aiCuteLogo} alt="icon" className={classes.logo} />
           <Typography variant="h6" className={classes.name}>
             {doctorName}
