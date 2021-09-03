@@ -7,7 +7,7 @@ export const postForm = ({
   body: FormProps;
   token: string;
 }): Promise<any> => {
-  return fetch("sern.xyz:48921/api/submitPatient", {
+  return fetch("http://203.159.92.226:3000/api/submitPatient", {
     method: "POST",
     mode: "cors",
     cache: "no-cache",

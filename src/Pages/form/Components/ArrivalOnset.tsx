@@ -214,9 +214,9 @@ const ArrivalOnset = (props: Props) => {
           <Grid item>
             <Controls.TimePicker
               label="Arrival Time"
-              name="arrivalDate"
-              value={values.arrivalDate}
-              onChange={handlePickerChange("arrivalDate")}
+              name="arrivalTime"
+              value={values.arrivalTime}
+              onChange={handlePickerChange("arrivalTime")}
             />
             <ErrorMessage name={`${fieldName}.arrivalTime`}>
               {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
@@ -305,7 +305,7 @@ const ArrivalOnset = (props: Props) => {
                   </Typography>
                   <Controls.TimePicker
                     label="Select time"
-                    value={values.clearDate}
+                    value={values.clearTime}
                     name="clearTime"
                     onChange={handlePickerChange("clearTime")}
                   />

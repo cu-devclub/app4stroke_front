@@ -150,6 +150,7 @@ const StrokePredictionForm: React.FC = () => {
       >
         {({ values, setFieldValue, isSubmitting }) => (
           <Form>
+            {console.log(values)}
             <Box
               position="absolute"
               top="0"
