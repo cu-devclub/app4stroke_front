@@ -18,6 +18,7 @@ import {
 import styled from "styled-components";
 import { getToken } from "../../../Services/AuthService";
 import { postForm } from "../../../Services/UserServices";
+import { useHistory } from "react-router-dom";
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -48,7 +49,8 @@ const Section = styled(BasicSection)`
 const StrokePredictionForm: React.FC = () => {
   const classes = useStyle();
   const token = getToken();
-
+  const history = useHistory();
+  
   return (
     <>
       <Formik
@@ -60,13 +62,9 @@ const StrokePredictionForm: React.FC = () => {
             lastName: "",
             gender: "",
             arrivalDate: null,
-            arrivalTime: null,
             clearDate: null,
-            clearTime: null,
             lastDate: null,
-            lastTime: null,
             firstDate: null,
-            firstTime: null,
             onset: "",
             file: null,
           },
@@ -135,22 +133,24 @@ const StrokePredictionForm: React.FC = () => {
             extinctionOrNeglect: "",
           },
         }}
-        validate={validations}
+        // validate={validations}
         validateOnChange={false}
         validateOnBlur={false}
         onSubmit={(values, actions) => {
           console.log(token);
           if (token !== null) {
+            console.log(values);
             postForm({ body: values, token: token }).then((response) => {
               console.log(response);
+              // history.push(`/result/${response.data.testId}`);
             });
+            // history.push(`/result/125`);
           }
           actions.setSubmitting(false);
         }}
       >
         {({ values, setFieldValue, isSubmitting }) => (
           <Form>
-            {console.log(values)}
             <Box
               position="absolute"
               top="0"

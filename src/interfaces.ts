@@ -45,13 +45,9 @@ export interface PatientProps {
   lastName: string;
   gender: string;
   arrivalDate: Date | null;
-  arrivalTime: Date | null;
   clearDate: Date | null;
-  clearTime: Date | null;
   lastDate: Date | null;
-  lastTime: Date | null;
   firstDate: Date | null;
-  firstTime: Date | null;
   onset: string;
   file: any[] | null;
 }

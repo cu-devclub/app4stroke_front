@@ -7,13 +7,16 @@ import Result from "../Components/Result";
 import { useEffect } from "react";
 import Loading from "../../../Components/Loading";
 import { Box } from "@material-ui/core";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
+import { getToken } from "../../../Services/AuthService";
+import { getResults } from "../../../Services/UserServices";
 import Brain1 from "../../../Assets/Brain1.jpg";
 import Brain2 from "../../../Assets/Brain2.jpg";
 import Brain3 from "../../../Assets/Brain3.jpg";
 import Brain4 from "../../../Assets/Brain4.jpg";
+import { DataProps } from "../../../interfaces";
 
-const data = {
+const init_data = {
   name: "Nattasuk Chaithana",
   patientID: "10003484",
   gender: "Male",
@@ -54,7 +57,14 @@ const mockData = {
 const ResultContainer: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { testId } = useParams<{ testId: string }>();
-
+  const token = getToken();
+  const history = useHistory();
+  const [data, setData] = useState<DataProps>(init_data);
+  if (token !== null) {
+    useEffect(() => {
+      getResults({ testId: testId, token: token }).then((response) => { setData(response.data); });
+    }, []);
+  }
   return (
     <>
       {isLoading && <Loading open={isLoading} setOpen={setIsLoading} />}

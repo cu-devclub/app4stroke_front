@@ -29,13 +29,9 @@ const validate = (values: ValueProps) => {
       firstName: "",
       lastName: "",
       arrivalDate: "",
-      arrivalTime: "",
       clearDate: "",
-      clearTime: "",
       lastDate: "",
-      lastTime: "",
       firstDate: "",
-      firstTime: "",
       gender: "",
       onset: "",
       file: "",
@@ -98,53 +94,34 @@ const validate = (values: ValueProps) => {
   ) {
     errors.PatientInformation.arrivalDate = "Please enter arrival date";
   }
-  if (
-    PatientInformation.arrivalDate === null ||
-    PatientInformation.arrivalDate === undefined
-  ) {
-    errors.PatientInformation.arrivalTime = "Please enter arrival time";
-  }
-  if (
-    PatientInformation.clearDate === null ||
-    PatientInformation.clearDate === undefined
-  ) {
-    errors.PatientInformation.clearDate = "Please enter clear date";
-  }
-  if (
-    PatientInformation.clearDate === null ||
-    PatientInformation.clearDate === undefined
-  ) {
-    errors.PatientInformation.clearTime = "Please enter clear time";
-  }
+ 
   if (condition(PatientInformation.onset)) {
     errors.PatientInformation.onset = "Please select onset";
   }
+
   if (
-    PatientInformation.lastDate === null ||
-    PatientInformation.lastDate === undefined
+    (PatientInformation.onset === "clearOnset") && (PatientInformation.clearDate === null ||
+    PatientInformation.clearDate === undefined)
+
+  ) {
+    errors.PatientInformation.clearDate = "Please enter clear date";
+  }
+  
+  if (
+    (PatientInformation.onset === "unknownOnset") && (PatientInformation.lastDate === null ||
+    PatientInformation.lastDate === undefined)
   ) {
     errors.PatientInformation.lastDate = "Please enter last seen normal date";
   }
+ 
   if (
-    PatientInformation.lastDate === null ||
-    PatientInformation.lastDate === undefined
-  ) {
-    errors.PatientInformation.lastTime = "Please enter last seen normal time";
-  }
-  if (
-    PatientInformation.firstDate === null ||
-    PatientInformation.firstDate === undefined
+    (PatientInformation.onset === "unknownOnset") && (PatientInformation.firstDate === null ||
+    PatientInformation.firstDate === undefined)
   ) {
     errors.PatientInformation.firstDate =
       "Please enter first seen abnormal date";
   }
-  if (
-    PatientInformation.firstDate === null ||
-    PatientInformation.firstDate === undefined
-  ) {
-    errors.PatientInformation.firstTime =
-      "Please enter first seen abnormal time";
-  }
+  
   if (
     PatientInformation.file === null ||
     PatientInformation.file === undefined
@@ -250,6 +227,7 @@ const validate = (values: ValueProps) => {
   if (condition(NIHSS.extinctionOrNeglect)) {
     errors.NIHSS.extinctionOrNeglect = "Please select extinction or neglect";
   }
+  console.log(errors);
   return errors;
 };
 export default validate;

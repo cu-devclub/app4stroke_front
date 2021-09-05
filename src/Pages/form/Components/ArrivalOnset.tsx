@@ -70,13 +70,9 @@ const OnsetStyledToggleButtonGroup = withStyles(() => ({
 
 interface PatientProps {
   arrivalDate: Date | null;
-  arrivalTime: Date | null;
   clearDate: Date | null;
-  clearTime: Date | null;
   lastDate: Date | null;
-  lastTime: Date | null;
   firstDate: Date | null;
-  firstTime: Date | null;
   onset: string;
 }
 
@@ -214,11 +210,11 @@ const ArrivalOnset = (props: Props) => {
           <Grid item>
             <Controls.TimePicker
               label="Arrival Time"
-              name="arrivalTime"
-              value={values.arrivalTime}
-              onChange={handlePickerChange("arrivalTime")}
+              name="arrivalDate"
+              value={values.arrivalDate}
+              onChange={handlePickerChange("arrivalDate")}
             />
-            <ErrorMessage name={`${fieldName}.arrivalTime`}>
+            <ErrorMessage name={`${fieldName}.arrivalDate`}>
               {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
             </ErrorMessage>
           </Grid>
@@ -305,11 +301,11 @@ const ArrivalOnset = (props: Props) => {
                   </Typography>
                   <Controls.TimePicker
                     label="Select time"
-                    value={values.clearTime}
-                    name="clearTime"
-                    onChange={handlePickerChange("clearTime")}
+                    value={values.clearDate}
+                    name="clearDate"
+                    onChange={handlePickerChange("clearDate")}
                   />
-                  <ErrorMessage name={`${fieldName}.clearTime`}>
+                  <ErrorMessage name={`${fieldName}.clearDate`}>
                     {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
                   </ErrorMessage>
                 </Grid>
@@ -372,7 +368,7 @@ const ArrivalOnset = (props: Props) => {
                     name="firstDate"
                     onChange={handlePickerChange("firstDate")}
                   />
-                  <ErrorMessage name={`${fieldName}.firstTime`}>
+                  <ErrorMessage name={`${fieldName}.firstDate`}>
                     {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
                   </ErrorMessage>
                 </Grid>
@@ -429,7 +425,7 @@ const ArrivalOnset = (props: Props) => {
                     name="lastDate"
                     onChange={handlePickerChange("lastDate")}
                   />
-                  <ErrorMessage name={`${fieldName}.lastTime`}>
+                  <ErrorMessage name={`${fieldName}.lastDate`}>
                     {(msg) => <Box className={classes.errorMessage}>{msg}</Box>}
                   </ErrorMessage>
                 </Grid>
