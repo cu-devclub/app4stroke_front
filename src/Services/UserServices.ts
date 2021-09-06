@@ -1,6 +1,24 @@
 import { FormProps } from "../interfaces";
+import JSZip from "jszip";
 
-const backendHost = "http://sern.xyz:48921";
+// const backendHost = "http://sern.xyz:48921";
+const backendHost = "http://203.159.92.226:3000";
+
+const zipForm = async (files: Array<any> | null) => {
+
+  const zip = new JSZip();
+
+  if (files !== null) {
+    for (const file of files) {
+      zip.file(file.name, file);
+    }
+  }
+
+  return await zip.generateAsync({ type: 'blob' }).then((blobdata) => {
+    return new File([blobdata], "files.zip");
+  });
+
+};
 
 const genForm = (data: any) => {
 
@@ -11,10 +29,10 @@ const genForm = (data: any) => {
       // append nested object
       for (const previewKey in data[dataKey]) {
 
-        if (data[dataKey][previewKey] instanceof Object && dataKey !== 'file') { 
+        if (data[dataKey][previewKey] instanceof Object && dataKey !== 'file') {
 
-          for (const previewKey2 in data[dataKey][previewKey]){
-              formData.append(`${dataKey}_${previewKey}_${previewKey2}`, data[dataKey][previewKey][previewKey2]);
+          for (const previewKey2 in data[dataKey][previewKey]) {
+            formData.append(`${dataKey}_${previewKey}_${previewKey2}`, data[dataKey][previewKey][previewKey2]);
 
           }
 
@@ -30,16 +48,12 @@ const genForm = (data: any) => {
           }
 
           const v = data[dataKey][previewKey];
-          console.log(k);
-          console.log(v);
           formData.append(k, v);
 
         }
       }
     }
     else {
-      console.log(dataKey);
-      console.log(data[dataKey]);
       formData.append(dataKey, data[dataKey]);
     }
   }
@@ -47,7 +61,7 @@ const genForm = (data: any) => {
   return formData;
 };
 
-export const postForm = ({
+export const postForm = async ({
   body,
   token,
 }: {
@@ -55,16 +69,9 @@ export const postForm = ({
   token: string;
 }): Promise<any> => {
   const newBody = JSON.parse(JSON.stringify(body));
-  console.log('start');
-  console.log(body);
-  console.log(JSON.stringify(body));
-  console.log(newBody);
-  console.log('end');
   delete newBody.PatientInformation.file;
-  newBody.file = body.PatientInformation.file;
+  newBody.file = [await zipForm(body.PatientInformation.file)];
   const formBody = genForm(newBody);
-  console.log(formBody);
-
 
   for (const pair of <Array<[string, FormDataEntryValue]>><unknown>formBody.entries()) {
     console.log(pair);

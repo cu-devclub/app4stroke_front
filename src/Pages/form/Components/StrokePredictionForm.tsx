@@ -139,7 +139,6 @@ const StrokePredictionForm: React.FC = () => {
         onSubmit={(values, actions) => {
           console.log(token);
           if (token !== null) {
-            console.log(values);
             postForm({ body: values, token: token }).then((response) => {
               console.log(response);
               // history.push(`/result/${response.data.testId}`);
