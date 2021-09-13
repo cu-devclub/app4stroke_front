@@ -85,7 +85,7 @@ const checkBox = [
   { name: "dysarthria", label: "Dysarthria" },
   {
     name: "aphasia",
-    label: "Dysphasia/aphasia",
+    label: "Aphasia",
   },
   { name: "ataxia", label: "Ataxia" },
   { name: "vertigo", label: "Vertigo" },
