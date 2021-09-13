@@ -18,7 +18,7 @@ const zipForm = async (files: Array<any> | null) => {
   });
 };
 
-const genForm = (data: any) => {
+const toFormData = (data: any) => {
   const formData = new FormData();
 
   for (const dataKey in data) {
@@ -53,18 +53,24 @@ const genForm = (data: any) => {
   return formData;
 };
 
-const reversedForm = (information: any) => {
-  const data = {
+
+const toDate = (dateString: string) => {
+  return dateString != 'null' ? new Date(dateString) : null;
+};
+
+
+const convertForm = (information: any) : FormProps => {
+  const data: FormProps = {
     PatientInformation: {
-      clearDate: information["PatientInformation_clearDate"],
-      lastDate: information["PatientInformation_lastDate"],
-      firstDate: information["PatientInformation_firstDate"],
+      clearDate: toDate(information["PatientInformation_clearDate"]),
+      lastDate: toDate(information["PatientInformation_lastDate"]),
+      firstDate: toDate(information["PatientInformation_firstDate"]),
       patientID: information["PatientInformation_patientID"],
       age: information["PatientInformation_age"],
       firstName: information["PatientInformation_firstName"],
       lastName: information["PatientInformation_lastName"],
       gender: information["PatientInformation_gender"],
-      arrivalDate: information["PatientInformation_arrivalDate"],
+      arrivalDate: toDate(information["PatientInformation_arrivalDate"]),
       onset: information["PatientInformation_onset"],
       file: [], // need to be update
     },
@@ -94,7 +100,7 @@ const reversedForm = (information: any) => {
         ataxia: information["ChiefComplaint_symptoms_ataxia"],
         vertigo: information["ChiefComplaint_symptoms_vertigo"],
         visualProblem: information["ChiefComplaint_symptoms_visualProblem"],
-        symptoms_other: information["ChiefComplaint_symptoms_other"],
+        other: information["ChiefComplaint_symptoms_other"],
       },
     },
 
@@ -413,7 +419,7 @@ export const postForm = async ({
   const newBody = JSON.parse(JSON.stringify(body));
   delete newBody.PatientInformation.file;
   newBody.file = [await zipForm(body.PatientInformation.file)];
-  const formBody = genForm(newBody);
+  const formBody = toFormData(newBody);
 
   return fetch(`${backendHost}/api/submitPatient`, {
     method: "POST",
@@ -457,10 +463,26 @@ export const convertForResults = async ({
   token: string;
 }) => {
   const res = await view({testId, token});
+  const patientID = res.data.information[0]["PatientInformation_patientID"];
+  const totalTest = await getTotalTests({patientID, token});
   const data = {
     sideData: convertSideData(res.data.information[0]),
     prediction: res.data.prediction[0],
   };
+  data.sideData.totalTestsDone = totalTest;
+  return data;
+};
+
+
+export const convertForForm = async ({
+  testId,
+  token,
+}: {
+  testId: string;
+  token: string;
+}) => {
+  const res = await view({testId, token});
+  const data = convertForm(res.data.information[0]);
   return data;
 };
 

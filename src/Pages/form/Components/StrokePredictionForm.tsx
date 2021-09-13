@@ -49,104 +49,108 @@ const Section = styled(BasicSection)`
   margin-bottom: 32px;
 `;
 
+const onKeyDown = (keyEvent: any) => {
+  if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+    keyEvent.preventDefault();
+  }
+};
+
+const initVal = {
+  PatientInformation: {
+    patientID: "",
+    age: "",
+    firstName: "",
+    lastName: "",
+    gender: "",
+    arrivalDate: null,
+    clearDate: null,
+    lastDate: null,
+    firstDate: null,
+    onset: "",
+    file: null,
+  },
+  ChiefComplaint: {
+    timeCourse: "",
+    symptoms: {
+      alterationOfConsciousness: false,
+      facialWeakness: false,
+      facialWeaknessLeft: false,
+      facialWeaknessRight: false,
+      hemiparesis: false,
+      hemiparesisLeft: false,
+      hemiparesisRight: false,
+      hemiparesthesia: false,
+      hemiparesthesiaLeft: false,
+      hemiparesthesiaRight: false,
+      dysarthria: false,
+      aphasia: false,
+      ataxia: false,
+      vertigo: false,
+      visualProblem: false,
+      other: false,
+      otherText: "",
+    },
+  },
+  UnderLyingDisease: {
+    deny: false,
+    hx: false,
+    previousTia: false,
+    previousStroke: false,
+    ht: false,
+    dm: false,
+    dlp: false,
+    valvularHeartDisease: false,
+    af: false,
+    coronaryHeartDisease: false,
+    ckd: false,
+    peripheralArterialDisease: false,
+    obesity: false,
+    smoking: false,
+    other: false,
+    otherText: "",
+  },
+  VitalSigns: {
+    systolicBP: "",
+    diastolicBP: "",
+    heartRate: "",
+    buttonHeartRate: "",
+  },
+  EKG12Leads: "",
+  NIHSS: {
+    levelOfConsciousness: "",
+    twoQuestions: "",
+    twoCommands: "",
+    bestGaze: "",
+    bestVisual: "",
+    facialPalsy: "",
+    bestMotorLeftArm: "",
+    bestMotorRightArm: "",
+    bestMotorLeftLeg: "",
+    bestMotorRightLeg: "",
+    limbAtaxia: "",
+    sensory: "",
+    bestLanguageAphasia: "",
+    dysarthria: "",
+    extinctionOrNeglect: "",
+  },
+};
+
 const StrokePredictionForm = ({ initValues }: { initValues: FormProps | null }): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const classes = useStyle();
   const token = getToken();
   const history = useHistory();
-  let initialValues;
 
-
-  initialValues = {
-    PatientInformation: {
-      patientID: "",
-      age: "",
-      firstName: "",
-      lastName: "",
-      gender: "",
-      arrivalDate: null,
-      clearDate: null,
-      lastDate: null,
-      firstDate: null,
-      onset: "",
-      file: null,
-    },
-    ChiefComplaint: {
-      timeCourse: "",
-      symptoms: {
-        alterationOfConsciousness: false,
-        facialWeakness: false,
-        facialWeaknessLeft: false,
-        facialWeaknessRight: false,
-        hemiparesis: false,
-        hemiparesisLeft: false,
-        hemiparesisRight: false,
-        hemiparesthesia: false,
-        hemiparesthesiaLeft: false,
-        hemiparesthesiaRight: false,
-        dysarthria: false,
-        aphasia: false,
-        ataxia: false,
-        vertigo: false,
-        visualProblem: false,
-        other: false,
-        otherText: "",
-      },
-    },
-    UnderLyingDisease: {
-      deny: false,
-      hx: false,
-      previousTia: false,
-      previousStroke: false,
-      ht: false,
-      dm: false,
-      dlp: false,
-      valvularHeartDisease: false,
-      af: false,
-      coronaryHeartDisease: false,
-      ckd: false,
-      peripheralArterialDisease: false,
-      obesity: false,
-      smoking: false,
-      other: false,
-      otherText: "",
-    },
-    VitalSigns: {
-      systolicBP: "",
-      diastolicBP: "",
-      heartRate: "",
-      buttonHeartRate: "",
-    },
-    EKG12Leads: "",
-    NIHSS: {
-      levelOfConsciousness: "",
-      twoQuestions: "",
-      twoCommands: "",
-      bestGaze: "",
-      bestVisual: "",
-      facialPalsy: "",
-      bestMotorLeftArm: "",
-      bestMotorRightArm: "",
-      bestMotorLeftLeg: "",
-      bestMotorRightLeg: "",
-      limbAtaxia: "",
-      sensory: "",
-      bestLanguageAphasia: "",
-      dysarthria: "",
-      extinctionOrNeglect: "",
-    },
-  };
-
-  if (initValues !== null) {
-
-    initialValues = initValues;
+  if (initValues == null) {
+    initValues = initVal;
   }
 
   return (
     <>
       
       <Formik
-        initialValues={initialValues}
+        initialValues={initValues}
+        enableReinitialize
         // validate={validations}
         validateOnChange={false}
         validateOnBlur={false}
@@ -163,7 +167,7 @@ const StrokePredictionForm = ({ initValues }: { initValues: FormProps | null }):
         }}
       >
         {({ values, setFieldValue, isSubmitting }) => (
-          <Form>
+          <Form onKeyDown={onKeyDown}>
             {isLoading && <Loading open={isLoading} setOpen={setIsLoading} />}
             <Box
               position="absolute"
