@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PatientInformationSection from "../Components/PatientInformationSection";
 import ChiefComplaintSection from "../Components/ChiefComplaintSection";
 import NIHSSSection from "../Components/NIHSSSection";
@@ -7,6 +7,7 @@ import EKG12LeadsSection from "../Components/EKG12LeadsSection";
 import UnderLyingDiseaseSection from "../Components/UnderLyingDiseaseSection";
 import VitalSignsSection from "../Components/VitalSignsSection";
 import SideBarProgress from "../Components/SideBarProgress";
+import { FormProps } from "../../../interfaces";
 import { Formik, Form } from "formik";
 import validations from "../Validation/validations";
 import { Box, Button } from "@material-ui/core";
@@ -19,6 +20,8 @@ import styled from "styled-components";
 import { getToken } from "../../../Services/AuthService";
 import { postForm } from "../../../Services/UserServices";
 import { useHistory } from "react-router-dom";
+import Loading from "../../../Components/Loading";
+
 
 const useStyle = makeStyles((theme) =>
   createStyles({
@@ -46,110 +49,122 @@ const Section = styled(BasicSection)`
   margin-bottom: 32px;
 `;
 
-const StrokePredictionForm: React.FC = () => {
+const StrokePredictionForm = ({ initValues }: { initValues: FormProps | null }): JSX.Element => {
+  const [isLoading, setIsLoading] = useState(false);
   const classes = useStyle();
   const token = getToken();
   const history = useHistory();
-  
+  let initialValues;
+
+
+  initialValues = {
+    PatientInformation: {
+      patientID: "",
+      age: "",
+      firstName: "",
+      lastName: "",
+      gender: "",
+      arrivalDate: null,
+      clearDate: null,
+      lastDate: null,
+      firstDate: null,
+      onset: "",
+      file: null,
+    },
+    ChiefComplaint: {
+      timeCourse: "",
+      symptoms: {
+        alterationOfConsciousness: false,
+        facialWeakness: false,
+        facialWeaknessLeft: false,
+        facialWeaknessRight: false,
+        hemiparesis: false,
+        hemiparesisLeft: false,
+        hemiparesisRight: false,
+        hemiparesthesia: false,
+        hemiparesthesiaLeft: false,
+        hemiparesthesiaRight: false,
+        dysarthria: false,
+        aphasia: false,
+        ataxia: false,
+        vertigo: false,
+        visualProblem: false,
+        other: false,
+        otherText: "",
+      },
+    },
+    UnderLyingDisease: {
+      deny: false,
+      hx: false,
+      previousTia: false,
+      previousStroke: false,
+      ht: false,
+      dm: false,
+      dlp: false,
+      valvularHeartDisease: false,
+      af: false,
+      coronaryHeartDisease: false,
+      ckd: false,
+      peripheralArterialDisease: false,
+      obesity: false,
+      smoking: false,
+      other: false,
+      otherText: "",
+    },
+    VitalSigns: {
+      systolicBP: "",
+      diastolicBP: "",
+      heartRate: "",
+      buttonHeartRate: "",
+    },
+    EKG12Leads: "",
+    NIHSS: {
+      levelOfConsciousness: "",
+      twoQuestions: "",
+      twoCommands: "",
+      bestGaze: "",
+      bestVisual: "",
+      facialPalsy: "",
+      bestMotorLeftArm: "",
+      bestMotorRightArm: "",
+      bestMotorLeftLeg: "",
+      bestMotorRightLeg: "",
+      limbAtaxia: "",
+      sensory: "",
+      bestLanguageAphasia: "",
+      dysarthria: "",
+      extinctionOrNeglect: "",
+    },
+  };
+
+  if (initValues !== null) {
+
+    initialValues = initValues;
+  }
+
   return (
     <>
+      
       <Formik
-        initialValues={{
-          PatientInformation: {
-            patientID: "",
-            age: "",
-            firstName: "",
-            lastName: "",
-            gender: "",
-            arrivalDate: null,
-            clearDate: null,
-            lastDate: null,
-            firstDate: null,
-            onset: "",
-            file: null,
-          },
-          ChiefComplaint: {
-            timeCourse: "",
-            symptoms: {
-              alterationOfConsciousness: false,
-              facialWeakness: false,
-              facialWeaknessLeft: false,
-              facialWeaknessRight: false,
-              hemiparesis: false,
-              hemiparesisLeft: false,
-              hemiparesisRight: false,
-              hemiparesthesia: false,
-              hemiparesthesiaLeft: false,
-              hemiparesthesiaRight: false,
-              dysarthria: false,
-              aphasia: false,
-              ataxia: false,
-              vertigo: false,
-              visualProblem: false,
-              other: false,
-              otherText: "",
-            },
-          },
-          UnderLyingDisease: {
-            deny: false,
-            hx: false,
-            previousTia: false,
-            previousStroke: false,
-            ht: false,
-            dm: false,
-            dlp: false,
-            valvularHeartDisease: false,
-            af: false,
-            coronaryHeartDisease: false,
-            ckd: false,
-            peripheralArterialDisease: false,
-            obesity: false,
-            smoking: false,
-            other: false,
-            otherText: "",
-          },
-          VitalSigns: {
-            systolicBP: "",
-            diastolicBP: "",
-            heartRate: "",
-            buttonHeartRate: "",
-          },
-          EKG12Leads: "",
-          NIHSS: {
-            levelOfConsciousness: "",
-            twoQuestions: "",
-            twoCommands: "",
-            bestGaze: "",
-            bestVisual: "",
-            facialPalsy: "",
-            bestMotorLeftArm: "",
-            bestMotorRightArm: "",
-            bestMotorLeftLeg: "",
-            bestMotorRightLeg: "",
-            limbAtaxia: "",
-            sensory: "",
-            bestLanguageAphasia: "",
-            dysarthria: "",
-            extinctionOrNeglect: "",
-          },
-        }}
+        initialValues={initialValues}
         // validate={validations}
         validateOnChange={false}
         validateOnBlur={false}
         onSubmit={(values, actions) => {
-          console.log(token);
           if (token !== null) {
+            setIsLoading(true);
             postForm({ body: values, token: token }).then((response) => {
               console.log(response);
-              // history.push(`/result/${response.data.testId}`);
+              history.push(`/result/${response.data.information[0].testID}`);
+              setIsLoading(false);
             });
-            // history.push(`/result/125`);
           }
           actions.setSubmitting(false);
         }}
       >
         {({ values, setFieldValue, isSubmitting }) => (
           <Form>
+            {isLoading && <Loading open={isLoading} setOpen={setIsLoading} />}
             <Box
               position="absolute"
               top="0"

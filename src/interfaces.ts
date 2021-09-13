@@ -84,6 +84,7 @@ export interface FormProps {
   VitalSigns: VitalSignsProps;
   NIHSS: NIHSSProps;
   ChiefComplaint: ChiefComplaintProps;
+  EKG12Leads: string;
 }
 
 export interface CTScanImage {

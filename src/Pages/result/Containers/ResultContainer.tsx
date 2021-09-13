@@ -5,11 +5,10 @@ import PatientFormDetail from "../Components/PatientFormDetail";
 import Footer from "../../HeaderFooter/Footer";
 import Result from "../Components/Result";
 import { useEffect } from "react";
-import Loading from "../../../Components/Loading";
 import { Box } from "@material-ui/core";
 import { useParams, useHistory } from "react-router-dom";
 import { getToken } from "../../../Services/AuthService";
-import { getResults } from "../../../Services/UserServices";
+import { view } from "../../../Services/UserServices";
 import Brain1 from "../../../Assets/Brain1.jpg";
 import Brain2 from "../../../Assets/Brain2.jpg";
 import Brain3 from "../../../Assets/Brain3.jpg";
@@ -55,19 +54,17 @@ const mockData = {
 };
 
 const ResultContainer: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const { testId } = useParams<{ testId: string }>();
   const token = getToken();
   const history = useHistory();
   const [data, setData] = useState<DataProps>(init_data);
   if (token !== null) {
     useEffect(() => {
-      getResults({ testId: testId, token: token }).then((response) => { setData(response.data); });
+      view({ testId: testId, token: token }).then((response) => { setData(response.data); });
     }, []);
   }
   return (
     <>
-      {isLoading && <Loading open={isLoading} setOpen={setIsLoading} />}
       <Box display="flex">
         <Box width="22%">
           <PatientFormDetail data={data} />

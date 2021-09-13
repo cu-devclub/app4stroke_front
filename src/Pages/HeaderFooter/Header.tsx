@@ -21,6 +21,7 @@ import {
   MenuItem,
   Paper,
 } from "@material-ui/core";
+import { logOut } from "../../Services/AuthService";
 
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,6 +63,13 @@ const Header: React.FC<{ doctorName: string }> = ({ doctorName }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef<HTMLButtonElement>(null);
   const history = useHistory();
+
+  const handleLogout = () => {
+    if (confirm('Logging out, confirm ?')) {
+      logOut();
+      window.location.reload();
+    }
+  };
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -139,7 +147,7 @@ const Header: React.FC<{ doctorName: string }> = ({ doctorName }) => {
                     >
                       <MenuItem onClick={handleClose}>Profile</MenuItem>
                       <MenuItem onClick={handleClose}>My account</MenuItem>
-                      <MenuItem onClick={handleClose}>Logout</MenuItem>
+                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>

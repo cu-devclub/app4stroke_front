@@ -87,13 +87,17 @@ const SignInForm: React.FC = () => {
   };
   const submit = () => {
     login(data).then((data) => {
-      localStorage.setItem("token", data.token);
-      history.push("/home");
-      window.location.reload();
+      if (data.token !== undefined) {
+        localStorage.setItem("token", data.token);
+        history.push("/home");
+        window.location.reload();
+      }
     });
   };
-  const handleEnterKey = (e: any) => {if (e.key == 'Enter') submit();};
-  
+  const handleEnterKey = (e: any) => {
+    if (e.key == "Enter") submit();
+  };
+
   return (
     <>
       <StyledContainer>
@@ -131,11 +135,7 @@ const SignInForm: React.FC = () => {
               type="password"
               autoComplete="current-password"
             />
-            <StyledFormButton
-              onClick={submit}
-            >
-              Login
-            </StyledFormButton>
+            <StyledFormButton onClick={submit}>Login</StyledFormButton>
           </form>
         </StyledFormArea>
       </StyledContainer>

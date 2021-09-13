@@ -171,7 +171,7 @@ interface LoadingProps {
 export default function Loading({ open, setOpen }: LoadingProps): JSX.Element {
   const classes = useStyles();
   const handleClose = () => {
-    setOpen(false);
+    // setOpen(false);
   };
 
   return (

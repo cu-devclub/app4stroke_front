@@ -6,7 +6,9 @@ import {
   Button,
   Box,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getToken } from "../../../Services/AuthService";
+import { getPatientTable } from "../../../Services/UserServices";
 import SearchTables from "../Components/SearchTable";
 import Tables, { createData } from "../Components/Tables";
 import Title from "../Components/Title";
@@ -45,21 +47,35 @@ const headCells = [
   },
 ];
 
-const rows = [
-  createData("1150", "28/02/2564", "12345678", "Somachi Tang", 23, 0.23),
-  createData("1134", "19/02/2564", "12435637", "Evan Jefferson", 31, 0.55),
-  createData("1119", "06/02/2564", "10003484", "Nattasuk Chaithana", 38, 0.12),
-  createData("1118", "06/02/2564", "10475995", "Srisawut Somkierd", 42, 0.23),
-  createData("1107", "04/02/2564", "20384857", "Meethana Julsiri", 26, 13),
-  createData("1092", "25/01/2564", "20038480", "Sanphop Klinpipat", 63, 18),
-  createData("1088", "25/01/2564", "10004832", "Malini Smith", 49, 22),
-  createData("1056", "16/01/2564", "10003884", "Evan Jeffer", 68, 27),
-  createData("1045", "15/01/2564", "17399400", "Leelerd Somjai", 50, 19),
-  createData("1001", "12/01/2564", "19293948", "Srisaket Charoensri", 37, 25),
-];
+const preprocessRows = (data: any) => {
+  const rows = data.map((e: any) => {
+    return {
+      testID: e.testID,
+      date: new Date(e.date).toLocaleDateString("en-GB"),
+      patientID: e.patientID,
+      name: e.firstName + " " + e.lastName,
+      age: e.age,
+      cardioembolicProbability: (parseFloat(e.prob) * 100).toFixed(2),
+    };
+  });
+  return rows;
+};
 
 const HomeContainer: React.FC = () => {
   const classes = useStyles();
+
+  const token = getToken();
+  const [rows, setRows] = useState([
+    {
+      testID: "",
+      date: "",
+      patientID: "",
+      name: "",
+      age: 0,
+      cardioembolicProbability: 0.0,
+    },
+  ]);
+
   const {
     TblContainer,
     TblHead,
@@ -70,6 +86,14 @@ const HomeContainer: React.FC = () => {
     rows: rows,
     headCells: headCells,
   });
+
+  if (token !== null) {
+    useEffect(() => {
+      getPatientTable({ token: token }).then((response) => {
+        setRows(preprocessRows(response.data));
+      });
+    }, []);
+  }
 
   return (
     <>

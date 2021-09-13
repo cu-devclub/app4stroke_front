@@ -6,13 +6,12 @@ interface LoginProps {
 export const login = (props: LoginProps): Promise<any> => {
   const { email, password } = props;
   //const token = localStorage.getItem("token");
-  return fetch("http://localhost:8100/api/user/login", {
+  return fetch("http://203.159.92.226:3000/api/user/login", {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     headers: {
       "Content-Type": "application/json",
-      //Authorization: `token ${token}`
     },
     body: JSON.stringify({ email: email, password: password }), // body data type must match "Content-Type" header
   }).then((response) => {
@@ -27,4 +26,8 @@ export const getToken = (): string | null => {
 
 export const isUserLogin = () => {
   return getToken() !== null;
+};
+
+export const logOut = () => {
+  localStorage.removeItem("token");
 };
