@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { useParams, useHistory } from "react-router-dom";
 import { getToken } from "../../../Services/AuthService";
-import { view } from "../../../Services/UserServices";
+import { convertForResults } from "../../../Services/UserServices";
 import Brain1 from "../../../Assets/Brain1.jpg";
 import Brain2 from "../../../Assets/Brain2.jpg";
 import Brain3 from "../../../Assets/Brain3.jpg";
@@ -21,7 +21,7 @@ const init_data = {
   gender: "Male",
   age: 38,
   arrivalDate: "26/05/2564 03:34",
-  totalTestsDone: 2,
+  totalTestsDone: 0,
   timeCourse: "Peak at onset",
   onsetDate: "26/05/2564 02:50",
   duration: "00:44:00",
@@ -60,7 +60,7 @@ const ResultContainer: React.FC = () => {
   const [data, setData] = useState<DataProps>(init_data);
   if (token !== null) {
     useEffect(() => {
-      view({ testId: testId, token: token }).then((response) => { setData(response.data); });
+      convertForResults({ testId: testId, token: token }).then((response) => { setData(response.sideData); });
     }, []);
   }
   return (

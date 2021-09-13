@@ -428,14 +428,14 @@ export const postForm = async ({
   });
 };
 
-export const view = ({
+export const view = async ({
   testId,
   token,
 }: {
   testId: string;
   token: string;
 }): Promise<any> => {
-  return fetch(`${backendHost}/api/view/${testId}`, {
+  return await fetch(`${backendHost}/api/view/${testId}`, {
     method: "GET",
     mode: "cors",
     cache: "no-cache",
@@ -447,6 +447,23 @@ export const view = ({
     return response.json();
   });
 };
+
+
+export const convertForResults = async ({
+  testId,
+  token,
+}: {
+  testId: string;
+  token: string;
+}) => {
+  const res = await view({testId, token});
+  const data = {
+    sideData: convertSideData(res.data.information[0]),
+    prediction: res.data.prediction[0],
+  };
+  return data;
+};
+
 
 export const getPatientTable = ({ token }: { token: string }): Promise<any> => {
   return fetch(`${backendHost}/api/results`, {
