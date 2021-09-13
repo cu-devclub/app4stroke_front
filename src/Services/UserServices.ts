@@ -151,66 +151,237 @@ const reversedForm = (information: any) => {
   return data;
 };
 
-
 const getTotalTests = async ({
   patientID,
   token,
 }: {
   patientID: number;
   token: string;
-}) : Promise<number> => {
+}): Promise<number> => {
   const res = await getPatientTable({ token });
-  const totalTests = res.data.filter((e: any)=>{return e.patientID == patientID;}).length;
+  const totalTests = res.data.filter((e: any) => {
+    return e.patientID == patientID;
+  }).length;
   return totalTests;
 };
 
-
-const formatDate = (dateString: string) : string => {
-    return new Date(dateString).toLocaleString('en-GB').replace(',', '').slice(0, -3);
+const formatDate = (dateString: string): string => {
+  return new Date(dateString)
+    .toLocaleString("en-GB")
+    .replace(",", "")
+    .slice(0, -3);
 };
 
-
-const formatTimeCourse = (timeCourseString: string) : string => {
-    if (timeCourseString === 'wakeUP') return 'Wake-Up';
-    if (timeCourseString === 'peakAtOnset') return 'Peak at Onset';
-    if (timeCourseString === 'Gradual') return 'Gradual';
-    if (timeCourseString === 'rapidlyImprove') return 'Rapidly Improve';
-    return timeCourseString;
+const formatTimeCourse = (timeCourseString: string): string => {
+  if (timeCourseString === "wakeUP") return "Wake-Up";
+  if (timeCourseString === "peakAtOnset") return "Peak at Onset";
+  if (timeCourseString === "Gradual") return "Gradual";
+  if (timeCourseString === "rapidlyImprove") return "Rapidly Improve";
+  return timeCourseString;
 };
-
 
 const findOnsetDate = (information: any) => {
-  if (information["PatientInformation_onset"] === 'clearOnset') return information["PatientInformation_clearDate"];
+  if (information["PatientInformation_onset"] === "clearOnset")
+    return information["PatientInformation_clearDate"];
   return information["PatientInformation_firstDate"];
 };
 
-
 const millisecToDuration = (millisec: number) => {
-	const minute = 60 * 1000;
-	const hour = 60 * minute;
-	const day = 24 * hour;
+  const minute = 60 * 1000;
+  const hour = 60 * minute;
+  const day = 24 * hour;
 
-	const days = Math.floor(millisec / day);
-	const days_rem = millisec % day;
-	const hours = Math.floor(days_rem / hour);
-	const hours_rem = days_rem % hour;
-	const minutes = Math.floor(hours_rem / minute);
+  const days = Math.floor(millisec / day);
+  const days_rem = millisec % day;
+  const hours = Math.floor(days_rem / hour);
+  const hours_rem = days_rem % hour;
+  const minutes = Math.floor(hours_rem / minute);
 
-	const duration = days + ' d : ' + hours + ' h : ' + minutes + ' m';
+  const duration = days + " d : " + hours + " h : " + minutes + " m";
 
-	return duration;
+  return duration;
 };
 
 const onsetDuration = (information: any) => {
   const arrivalDate = new Date(information["PatientInformation_arrivalDate"]);
   const onsetDate = new Date(findOnsetDate(information));
-  const duration = millisecToDuration(arrivalDate.getTime() - onsetDate.getTime());
+  const duration = millisecToDuration(
+    arrivalDate.getTime() - onsetDate.getTime()
+  );
   return duration;
 };
 
-const convertSideData = (information : any) => {
+const symptomSummary = (information: any) => {
+  const summary = [];
+
+  if (information["ChiefComplaint_symptoms_alterationOfConsciousness"])
+    summary.push("Alteration of consciousness");
+  if (information["ChiefComplaint_symptoms_facialWeaknessLeft"])
+    summary.push("Facial weakness (Left)");
+  if (information["ChiefComplaint_symptoms_facialWeaknessRight"])
+    summary.push("Facial weakness (Right)");
+  if (information["ChiefComplaint_symptoms_hemiparesisLeft"])
+    summary.push("Hemiparesis (Left)");
+  if (information["ChiefComplaint_symptoms_hemiparesisRight"])
+    summary.push("Hemiparesis (Right)");
+  if (information["ChiefComplaint_symptoms_hemiparesthesiaLeft"])
+    summary.push("Hemiparesthesia (Left)");
+  if (information["ChiefComplaint_symptoms_hemiparesthesiaRight"])
+    summary.push("Hemiparesthesia (Right)");
+  if (information["ChiefComplaint_symptoms_dysarthria"])
+    summary.push("Dysarthria");
+  if (information["ChiefComplaint_symptoms_aphasia"]) summary.push("Aphasia");
+  if (information["ChiefComplaint_symptoms_ataxia"]) summary.push("Ataxia");
+  if (information["ChiefComplaint_symptoms_vertigo"]) summary.push("Vertigo");
+  if (information["ChiefComplaint_symptoms_visualProblem"])
+    summary.push("Visual problem");
+  if (information["ChiefComplaint_symptoms_otherText"])
+    summary.push(information["ChiefComplaint_symptoms_otherText"]);
+
+  return summary;
+};
+
+const udSummary = (information: any) => {
+  const summary = [];
+
+  if (information["UnderLyingDisease_deny"])
+    summary.push("Deny underlying disease");
+  if (information["UnderLyingDisease_hx"])
+    summary.push("Hx TIA (same site, within 2 weeks)");
+  if (information["UnderLyingDisease_previousTia"])
+    summary.push("Previous TIA");
+  if (information["UnderLyingDisease_previousStroke"])
+    summary.push("Previous stroke");
+  if (information["UnderLyingDisease_ht"]) summary.push("HT");
+  if (information["UnderLyingDisease_dm"]) summary.push("DM");
+  if (information["UnderLyingDisease_dlp"]) summary.push("DLP");
+  if (information["UnderLyingDisease_valvularHeartDisease"])
+    summary.push("Valvular heart disease");
+  if (information["UnderLyingDisease_af"]) summary.push("AF");
+  if (information["UnderLyingDisease_coronaryHeartDisease"])
+    summary.push("Coronary heart disease");
+  if (information["UnderLyingDisease_ckd"]) summary.push("CKD");
+  if (information["UnderLyingDisease_peripheralArterialDisease"])
+    summary.push("Peripheral arterial disease");
+  if (information["UnderLyingDisease_obesity"]) summary.push("Obesity");
+  if (information["UnderLyingDisease_smoking"]) summary.push("Smoking");
+  if (information["UnderLyingDisease_otherText"])
+    summary.push(information["UnderLyingDisease_otherText"]);
+
+  return summary;
+};
+
+const calNIHSS = (information: any) => {
+
+  type freeKeyObj = { [key: string]: number };
+
+  const LevelOfConsciousness: freeKeyObj = {
+    Alert: 0,
+    Drowsy: 1,
+    Stuporous: 2,
+    Coma: 3,
+  };
+
+  const TwoQuestions: freeKeyObj = {
+    BothCorrect: 0,
+    OneCorrect: 1,
+    NoneCorrect: 2,
+  };
+
+  const TwoCommands: freeKeyObj = {
+    ObeysBoth: 0,
+    ObeysOne: 1,
+    ObeysNone: 2,
+  };
+
+  const BestGaze: freeKeyObj = {
+    Normal: 0,
+    PartialGazePulsy: 1,
+    ForcedDeviation: 2,
+  };
+
+  const BestVisual: freeKeyObj = {
+    NoVisualLoss: 0,
+    PartialHemianopia: 1,
+    CompleteHemianopia: 2,
+    BilateralHemianopia: 3,
+  };
+
+  const FacialPalsy: freeKeyObj = {
+    Normal: 0,
+    Minor: 1,
+    Partial: 2,
+    Complete: 3,
+  };
+
+  const BestMotor: freeKeyObj = {
+    NoDrift: 0,
+    Drift: 1,
+    FallIn10Seconds: 2,
+    NoEffortAgainstGravity: 3,
+    NoMovement: 4,
+    AmputationOrJointFusion: 0,
+  };
+
+  const LimbAtaxia: freeKeyObj = {
+    Absent: 0,
+    UpperOrLowerLimb: 1,
+    UpperAndLowerLimb: 2,
+    AmputationOrJointFusion: 0,
+  };
+
+  const Sensory: freeKeyObj = {
+    Normal: 0,
+    PartialLoss: 1,
+    DenseLoss: 2,
+  };
+
+  const BestLanguageAphasia: freeKeyObj = {
+    "No aphasia": 0,
+    MildToModerate: 1,
+    Severe: 2,
+    Mute: 3,
+  };
+
+  const Dysarthria: freeKeyObj = {
+    NormalArticulation: 0,
+    MildToModerate: 1,
+    Severe: 2,
+    IntubatedOrOtherPhysicalBarrier: 0,
+  };
+
+  const ExtinctionOrNeglect: freeKeyObj = {
+    NoNeglect: 0,
+    SensoryOrVisual: 1,
+    SensoryAndVisual: 2,
+  };
+
+  let nihss = 0;
+  nihss += LevelOfConsciousness[information["NIHSS_levelOfConsciousness"]];
+  nihss += TwoQuestions[information["NIHSS_twoQuestions"]];
+  nihss += TwoCommands[information["NIHSS_twoCommands"]];
+  nihss += BestGaze[information["NIHSS_bestGaze"]];
+  nihss += BestVisual[information["NIHSS_bestVisual"]];
+  nihss += FacialPalsy[information["NIHSS_facialPalsy"]];
+  nihss += BestMotor[information["NIHSS_bestMotorLeftArm"]];
+  nihss += BestMotor[information["NIHSS_bestMotorRightArm"]];
+  nihss += BestMotor[information["NIHSS_bestMotorLeftLeg"]];
+  nihss += BestMotor[information["NIHSS_bestMotorRightLeg"]];
+  nihss += LimbAtaxia[information["NIHSS_limbAtaxia"]];
+  nihss += Sensory[information["NIHSS_sensory"]];
+  nihss += BestLanguageAphasia[information["NIHSS_bestLanguageAphasia"]];
+  nihss += Dysarthria[information["NIHSS_dysarthria"]];
+  nihss += ExtinctionOrNeglect[information["NIHSS_extinctionOrNeglect"]];
+
+  return nihss;
+};
+
+const convertSideData = (information: any) => {
   const data = {
-    name: information["PatientInformation_firstName"] + " " + information["PatientInformation_lastName"],
+    name:
+      information["PatientInformation_firstName"] +
+      " " +
+      information["PatientInformation_lastName"],
     patientID: information["PatientInformation_patientID"].toString(),
     gender: information["PatientInformation_gender"],
     age: information["PatientInformation_age"],
@@ -219,18 +390,14 @@ const convertSideData = (information : any) => {
     timeCourse: formatTimeCourse(information["ChiefComplaint_timeCourse"]),
     onsetDate: formatDate(findOnsetDate(information)),
     duration: onsetDuration(information),
-    symptoms: [
-      "Alteration of consciousness",
-      "Facial Weakness (left)",
-      "Dysphasia / aphasia",
-    ],
-    underlyingDiseases: ["DM", "Asthma"],
-    systolicBP: 80.89,
-    diastolicBP: 76.79,
-    heartRate: 90.9,
-    heartRateText: "AF",
-    EKG12Leads: "Normal",
-    NIHSS: 6,
+    symptoms: symptomSummary(information),
+    underlyingDiseases: udSummary(information),
+    systolicBP: information["VitalSigns_systolicBP"],
+    diastolicBP: information["VitalSigns_diastolicBP"],
+    heartRate: information["VitalSigns_heartRate"],
+    heartRateText: information["VitalSigns_buttonHeartRate"],
+    EKG12Leads: information["EKG12Leads"],
+    NIHSS: calNIHSS(information),
   };
 
   return data;
