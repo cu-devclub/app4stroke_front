@@ -256,7 +256,7 @@ const Result = (props: ResultProps): JSX.Element => {
           className={`${classes.textLayoutContent} ${classes.title}`}
           style={{ color: "#EF5DA8" }}
         >
-          {prob * 100}%
+          {(prob * 100).toFixed(2)}%
         </Typography>
         <Box
           display="flex"
@@ -322,7 +322,7 @@ const Result = (props: ResultProps): JSX.Element => {
                 />
                 <Box className={classes.boxImage}>
                   <Typography>
-                    Cardioembolic-Sign Probability: {prob}
+                    Cardioembolic-Sign Probability: {ctScanImageList[currentIndex].score.toFixed(4)}
                   </Typography>
                 </Box>
               </div>
@@ -343,7 +343,7 @@ const Result = (props: ResultProps): JSX.Element => {
                   />
                   <Box className={classes.boxImage}>
                     <Typography>
-                      Cardioembolic-Sign Probability: {prob}
+                      Cardioembolic-Sign Probability: {heatmapImageList[currentIndex].score.toFixed(4)}
                     </Typography>
                   </Box>
                 </Box>

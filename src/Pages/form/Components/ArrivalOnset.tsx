@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -85,9 +85,14 @@ interface Props {
 const ArrivalOnset = (props: Props) => {
   const classes = useStyle();
   const { values, fieldName, onChange } = props;
-
-  const [showClearPicker, setShowPickerClear] = useState(false);
-  const [showUnknownPicker, setShowPickerUnknown] = useState(false);
+   const showClearPicker = useMemo(
+    () => (values.onset == "clearOnset" ? true : false),
+    [values.onset]
+  );
+  const showUnknownPicker = useMemo(
+    () => (values.onset == "unknownOnset" ? true : false),
+    [values.onset]
+  );
   const handlePickerChange = (name: string) => (value: Date) => {
     if (name === "arrivalDate") {
       values.clearDate = null;
@@ -244,10 +249,6 @@ const ArrivalOnset = (props: Props) => {
               <ToggleButton
                 value="clearOnset"
                 className={classes.button}
-                onClick={() => {
-                  setShowPickerClear(true);
-                  setShowPickerUnknown(false);
-                }}
               >
                 <Box>
                   <Typography variant="subtitle1">Clear onset</Typography>
@@ -264,10 +265,6 @@ const ArrivalOnset = (props: Props) => {
               <ToggleButton
                 value="unknownOnset"
                 className={classes.button}
-                onClick={() => {
-                  setShowPickerClear(false);
-                  setShowPickerUnknown(true);
-                }}
               >
                 <Box>
                   <Typography variant="subtitle1">Unknown onset</Typography>

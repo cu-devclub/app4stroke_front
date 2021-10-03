@@ -411,14 +411,17 @@ const convertSideData = (information: any) => {
 
 export const postForm = async ({
   body,
+  testId,
   token,
 }: {
   body: FormProps;
+  testId: string | null;
   token: string;
 }): Promise<any> => {
-  const newBody = JSON.parse(JSON.stringify(body));
-  delete newBody.PatientInformation.file;
-  newBody.file = [await zipForm(body.PatientInformation.file)];
+  const newBody = JSON.parse(JSON.stringify(body)); //flatten
+  delete newBody.PatientInformation.file; //flatten
+  newBody.file = [await zipForm(body.PatientInformation.file)]; //flatten
+  newBody.testId = testId;
   const formBody = toFormData(newBody);
 
   return fetch(`${backendHost}/api/submitPatient`, {

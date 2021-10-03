@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import BrainBackground from "../../../Assets/BrainBackground.png";
 import { DataProps } from "../../../interfaces";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -116,7 +117,13 @@ const TextBlack = withStyles(() => ({
   },
 }))(Typography);
 
-const PatientFormDetail = ({ data }: { data: DataProps }): JSX.Element => {
+const PatientFormDetail = ({
+  data,
+  testId,
+}: {
+  data: DataProps;
+  testId: string;
+}): JSX.Element => {
   const classes = useStyles();
   const {
     name,
@@ -137,7 +144,9 @@ const PatientFormDetail = ({ data }: { data: DataProps }): JSX.Element => {
     EKG12Leads,
     NIHSS,
   } = data;
-
+  const history = useHistory();
+  const handleEdit = ()=>{history.push(`/form/${testId}`);};
+  const handleReEval = ()=>{history.push(`/form/${testId}/reEval`);};
   return (
     <Paper elevation={0} className={classes.root}>
       <Typography className={classes.name} variant="h5">
@@ -227,8 +236,8 @@ const PatientFormDetail = ({ data }: { data: DataProps }): JSX.Element => {
         justifyContent="center"
         alignItems="center"
       >
-        <Button className={`${classes.button} ${classes.edit}`}>Edit</Button>
-        <Button className={`${classes.button} ${classes.re}`}>
+        <Button className={`${classes.button} ${classes.edit}`} onClick={handleEdit}>Edit</Button>
+        <Button className={`${classes.button} ${classes.re}`} onClick={handleReEval}>
           Re-Evaluate
         </Button>
       </Box>

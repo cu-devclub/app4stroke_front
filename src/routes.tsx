@@ -25,10 +25,7 @@ const Routes: React.FC = () => {
           <Route exact path="/result/:testId">
             <ResultPage />
           </Route>
-          <Route exact path="/form/:testId">
-            <FormPage />
-          </Route>
-          <Route exact path="/form">
+          <Route exact path="/form/:testId?/:reEval?">
             <FormPage />
           </Route>
           <Route path="/home">

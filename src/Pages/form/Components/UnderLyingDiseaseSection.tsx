@@ -27,23 +27,6 @@ const PinkCheckbox = withStyles({
   checked: {},
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />);
 
-const checkboxUnderlying = [
-  { name: "deny", label: "Deny underlying disease" },
-  { name: "hx", label: "Hx TIA (same site, within 2 weeks)" },
-  { name: "previousTia", label: "Previous TIA" },
-  { name: "previousStroke", label: "Previous stroke" },
-  { name: "ht", label: "HT" },
-  { name: "dm", label: "DM" },
-  { name: "dlp", label: "DLP" },
-  { name: "valvularHeartDisease", label: "Valvular heart disease" },
-  { name: "af", label: "AF" },
-  { name: "coronaryHeartDisease", label: "Coronary heart disease" },
-  { name: "ckd", label: "CKD" },
-  { name: "peripheralArterialDisease", label: "Peripheral arterial disease" },
-  { name: "obesity", label: "Obesity" },
-  { name: "smoking", label: "Smoking" },
-];
-
 interface Props {
   values: UnderlyingProps;
   fieldName: string;
@@ -69,7 +52,7 @@ const UnderLyingDiseaseSection = (props: Props): JSX.Element => {
   const handleInputCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name === "other" && !event.target.checked) {
-      console.log(name, value);
+      
       onChange(fieldName, {
         ...values,
         ["otherText"]: "",
@@ -87,6 +70,24 @@ const UnderLyingDiseaseSection = (props: Props): JSX.Element => {
       });
     }
   };
+
+  const checkboxUnderlying = [
+    { name: "deny", label: "Deny underlying disease", checked: values.deny},
+    { name: "hx", label: "Hx TIA (same site, within 2 weeks)", checked: values.hx },
+    { name: "previousTia", label: "Previous TIA", checked: values.previousTia },
+    { name: "previousStroke", label: "Previous stroke", checked: values.previousStroke },
+    { name: "ht", label: "HT", checked: values.ht },
+    { name: "dm", label: "DM", checked: values.dm },
+    { name: "dlp", label: "DLP", checked: values.dlp },
+    { name: "valvularHeartDisease", label: "Valvular heart disease", checked: values.valvularHeartDisease },
+    { name: "af", label: "AF", checked: values.af },
+    { name: "coronaryHeartDisease", label: "Coronary heart disease", checked: values.coronaryHeartDisease },
+    { name: "ckd", label: "CKD", checked: values.ckd },
+    { name: "peripheralArterialDisease", label: "Peripheral arterial disease", checked: values.peripheralArterialDisease },
+    { name: "obesity", label: "Obesity", checked: values.obesity },
+    { name: "smoking", label: "Smoking", checked: values.smoking },
+  ];
+
   return (
     <FormGroup className={classes.checkbox}>
       {checkboxUnderlying.map((checkboxUnderlying) => (
@@ -94,6 +95,7 @@ const UnderLyingDiseaseSection = (props: Props): JSX.Element => {
           control={
             <PinkCheckbox
               onChange={handleChange}
+              checked={checkboxUnderlying.checked}
               name={checkboxUnderlying.name}
             />
           }
@@ -101,7 +103,7 @@ const UnderLyingDiseaseSection = (props: Props): JSX.Element => {
         />
       ))}
       <FormControlLabel
-        control={<PinkCheckbox name="other" onChange={handleChange} />}
+        control={<PinkCheckbox name="other" checked={values.other} onChange={handleChange} />}
         label={
           <TextField
             label="Others"

@@ -135,7 +135,7 @@ const initVal = {
   },
 };
 
-const StrokePredictionForm = ({ initValues }: { initValues: FormProps | null }): JSX.Element => {
+const StrokePredictionForm = ({ initValues, testId }: { initValues: FormProps | null, testId: string | null }): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const classes = useStyle();
   const token = getToken();
@@ -144,7 +144,7 @@ const StrokePredictionForm = ({ initValues }: { initValues: FormProps | null }):
   if (initValues == null) {
     initValues = initVal;
   }
-
+  
   return (
     <>
       
@@ -157,8 +157,7 @@ const StrokePredictionForm = ({ initValues }: { initValues: FormProps | null }):
         onSubmit={(values, actions) => {
           if (token !== null) {
             setIsLoading(true);
-            postForm({ body: values, token: token }).then((response) => {
-              console.log(response);
+            postForm({ body: values, testId: testId, token: token }).then((response) => {
               history.push(`/result/${response.data.information[0].testID}`);
               setIsLoading(false);
             });

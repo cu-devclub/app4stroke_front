@@ -24,6 +24,14 @@ export const getToken = (): string | null => {
   return token;
 };
 
+export const getUserInfo = (): {userName: string | null, institute: string | null} => {
+  // const userName = localStorage.getItem("userName");
+  // const institute = localStorage.getItem("institute");
+  const userName = "Dr. Sawasdee";
+  const institute = "Chulalongkorn Stroke Center";
+  return {userName: userName, institute: institute};
+};
+
 export const isUserLogin = () => {
   return getToken() !== null;
 };

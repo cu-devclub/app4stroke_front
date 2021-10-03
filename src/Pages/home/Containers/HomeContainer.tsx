@@ -1,38 +1,11 @@
 import {
-  TableBody,
-  makeStyles,
-  Paper,
-  TableRow,
-  Button,
   Box,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { getToken } from "../../../Services/AuthService";
+import { getToken, getUserInfo } from "../../../Services/AuthService";
 import { getPatientTable } from "../../../Services/UserServices";
-import SearchTables from "../Components/SearchTable";
-import Tables, { createData } from "../Components/Tables";
+import Tables from "../Components/Tables";
 import Title from "../Components/Title";
-
-const useStyles = makeStyles((theme) => ({
-  pageContent: {
-    padding: theme.spacing(3),
-    borderRadius: "15px",
-  },
-  buttonView: {
-    backgroundColor: "transparent",
-    color: "#CF658D",
-    border: "1.5px solid #CF658D",
-    textTransform: "none",
-    borderRadius: "20px",
-    fontSize: "16px",
-    height: "30px",
-  },
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: "#FFF6FD",
-    },
-  },
-}));
 
 const headCells = [
   { id: "testID", label: "Test ID", align: "center" },
@@ -58,13 +31,19 @@ const preprocessRows = (data: any) => {
       cardioembolicProbability: (parseFloat(e.prob) * 100).toFixed(2),
     };
   });
+  rows.sort((a: any, b: any) => (a.date < b.date) ? 1 : (a.date === b.date) ? ((a.testID < b.testID) ? 1 : -1) : -1 );
   return rows;
 };
 
+const totalPatient = (rows: any) => {
+  const allPatient = new Set(rows.map((row: any) => row.patientID));
+  return allPatient.size;
+};
+
 const HomeContainer: React.FC = () => {
-  const classes = useStyles();
 
   const token = getToken();
+  const userInfo = getUserInfo();
   const [rows, setRows] = useState([
     {
       testID: "",
@@ -75,17 +54,6 @@ const HomeContainer: React.FC = () => {
       cardioembolicProbability: 0.0,
     },
   ]);
-
-  const {
-    TblContainer,
-    TblHead,
-    TblCenter,
-    TblPagination,
-    TblCenterButtonView,
-  } = Tables({
-    rows: rows,
-    headCells: headCells,
-  });
 
   if (token !== null) {
     useEffect(() => {
@@ -98,30 +66,8 @@ const HomeContainer: React.FC = () => {
   return (
     <>
       <Box paddingX={8} paddingY={8}>
-        <Title />
-        <SearchTables />
-        <Paper className={classes.pageContent}>
-          <TblContainer>
-            <TblHead />
-            <TableBody>
-              {rows.map((row, index) => (
-                <TableRow key={index} className={classes.root}>
-                  <TblCenter data={row.testID} align="center" />
-                  <TblCenter data={row.date} align="center"></TblCenter>
-                  <TblCenter data={row.patientID} align="center" />
-                  <TblCenter data={row.name} align="left" />
-                  <TblCenter data={row.age} align="center" />
-                  <TblCenter
-                    data={row.cardioembolicProbability}
-                    align="center"
-                  ></TblCenter>
-                  <TblCenterButtonView path={row.testID} />
-                </TableRow>
-              ))}
-            </TableBody>
-          </TblContainer>
-          <TblPagination />
-        </Paper>
+        <Title userName={userInfo.userName} institute={userInfo.institute} totalCases={totalPatient(rows)}/>
+        <Tables rows={rows} headCells={headCells}></Tables>
       </Box>
     </>
   );

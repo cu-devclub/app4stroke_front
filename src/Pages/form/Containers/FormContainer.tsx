@@ -9,7 +9,7 @@ import Header from "../../HeaderFooter/Header";
 import StrokePredictionForm from "../Components/StrokePredictionForm";
 
 const FormContainer: React.FC = () => {
-  const { testId } = useParams<{ testId: string }>();
+  const { testId, reEval } = useParams<{ testId: string, reEval: string }>();
   const [initialValues, setInitialValues] = useState<FormProps | null>(null);
   const token = getToken();
   if (token != null && testId != null) {
@@ -29,7 +29,7 @@ const FormContainer: React.FC = () => {
             paddingY={4}
             minHeight="100%"
           >
-            <StrokePredictionForm initValues={initialValues}/>
+            <StrokePredictionForm initValues={initialValues} testId={reEval? null: testId}/>
           </Box>
         </Box>
       </Box>

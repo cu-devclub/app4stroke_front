@@ -1,5 +1,5 @@
 import "date-fns";
-import React from "react";
+import React, { useMemo } from "react";
 import { createStyles, makeStyles, withStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -102,8 +102,6 @@ const GenderStyledToggleButtonGroup = withStyles(() => ({
   },
 }))(ToggleButtonGroup);
 
-
-
 interface Props {
   values: PatientProps;
   fieldName: string;
@@ -114,9 +112,14 @@ const PatientInformationSection = (props: Props) => {
   const classes = useStyle();
 
   const { values, fieldName, onChange } = props;
-
-  const [isMaleWhite, setIsMaleWhite] = React.useState(false);
-  const [isFemaleWhite, setIsFemaleWhite] = React.useState(false);
+  const isMale = useMemo(
+    () => (values.gender == "male" ? true : false),
+    [values.gender]
+  );
+  const isFemale = useMemo(
+    () => (values.gender == "female" ? true : false),
+    [values.gender]
+  );
   const [showFileName, setShowFileName] = React.useState(false);
 
   const handleInputChange = (e: any) => {
@@ -263,15 +266,11 @@ const PatientInformationSection = (props: Props) => {
                 value={values.gender}
                 exclusive
                 onChange={handleGender}
-                onClick={() => {
-                  setIsMaleWhite(true);
-                  setIsFemaleWhite(false);
-                }}
               >
                 <ToggleButton value="male" className={classes.button}>
                   <Box display="flex">
                     <IoMaleOutline
-                      color={isMaleWhite ? "#FFFFFF" : "#5D5FEF"}
+                      color={isMale ? "#FFFFFF" : "#5D5FEF"}
                       className={classes.maleIcon}
                     />
                   </Box>
@@ -286,15 +285,11 @@ const PatientInformationSection = (props: Props) => {
                 value={values.gender}
                 exclusive
                 onChange={handleGender}
-                onClick={() => {
-                  setIsMaleWhite(false);
-                  setIsFemaleWhite(true);
-                }}
               >
                 <ToggleButton value="female" className={classes.button}>
                   <Box display="flex">
                     <IoFemaleOutline
-                      color={isFemaleWhite ? "#FFFFFF" : "#FF4181"}
+                      color={isFemale ? "#FFFFFF" : "#FF4181"}
                       className={classes.femaleIcon}
                     />
                   </Box>

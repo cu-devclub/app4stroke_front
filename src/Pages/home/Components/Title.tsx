@@ -1,10 +1,10 @@
-import React from "react";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import AddIcon from "../../../Assets/add.png";
 import { useHistory } from "react-router-dom";
+import { StringLiteralType } from "typescript";
 
 //todo Style
 const useStyle = makeStyles(() =>
@@ -55,7 +55,7 @@ const useStyle = makeStyles(() =>
   })
 );
 
-const Title: React.FC = () => {
+const Title = ({userName, institute, totalCases}: {userName: string | null, institute: string | null, totalCases: number}): JSX.Element => {
   const classes = useStyle();
   const history = useHistory();
   const handleClick = () => {
@@ -68,8 +68,8 @@ const Title: React.FC = () => {
         <Box border={0} className={classes.boxWelcome}>
           <Box className={classes.textWelcome} display="inline">
             <Typography variant="body2">Welcome</Typography>
-            <Typography variant="h6">Dr. Sawasdee</Typography>
-            <Typography variant="h5">Chulalongkorn Stroke Center</Typography>
+            <Typography variant="h6">{userName}</Typography>
+            <Typography variant="h5">{institute}</Typography>
           </Box>
         </Box>
         {/* Total Patients */}
@@ -81,7 +81,7 @@ const Title: React.FC = () => {
             >
               Total Patients
             </Typography>
-            <Typography variant="h2">20</Typography>
+            <Typography variant="h2">{totalCases}</Typography>
           </Box>
         </Box>
         {/* Register New Patients */}

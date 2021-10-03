@@ -49,7 +49,9 @@ const PinkCheckbox = withStyles({
     },
   },
   checked: {},
-})((props: CheckboxProps) => <Checkbox color="default" {...props} />);
+})((props: CheckboxProps) => {
+  return <Checkbox color="default" {...props}/>;
+});
 
 const StyledToggleButtonGroup = withStyles((theme) => ({
   grouped: {
@@ -81,32 +83,6 @@ interface Props {
   ) => void;
 }
 
-const checkBox = [
-  { name: "dysarthria", label: "Dysarthria" },
-  {
-    name: "aphasia",
-    label: "Aphasia",
-  },
-  { name: "ataxia", label: "Ataxia" },
-  { name: "vertigo", label: "Vertigo" },
-  { name: "visualProblem", label: "Visual problem" },
-];
-const facialWeaknessSubCheckBox = [
-  { name: "facialWeaknessLeft", label: "Left" },
-  { name: "facialWeaknessRight", label: "Right" },
-];
-const hemiparesisSubCheckBox = [
-  { name: "hemiparesisLeft", label: "Left" },
-  { name: "hemiparesisRight", label: "Right" },
-];
-const hemiparesthesiaSubCheckBox = [
-  { name: "hemiparesthesiaLeft", label: "Left" },
-  {
-    name: "hemiparesthesiaRight",
-    label: "Right",
-  },
-];
-
 const ChiefComplaintSection = (props: Props) => {
   const classes = useStyle();
   const { values, fieldName, onChange } = props;
@@ -122,7 +98,7 @@ const ChiefComplaintSection = (props: Props) => {
   const handleInputCheckbox = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name === "other" && !event.target.checked) {
-      console.log(name, value);
+      
       onChange(fieldName, {
         ...values,
         ["symptoms"]: {
@@ -146,7 +122,32 @@ const ChiefComplaintSection = (props: Props) => {
       });
     }
   };
-
+  const checkBox = [
+    { name: "dysarthria", label: "Dysarthria", checked: values.symptoms.dysarthria},
+    {
+      name: "aphasia",
+      label: "Aphasia",
+    },
+    { name: "ataxia", label: "Ataxia" },
+    { name: "vertigo", label: "Vertigo" },
+    { name: "visualProblem", label: "Visual problem" },
+  ];
+  const facialWeaknessSubCheckBox = [
+    { name: "facialWeaknessLeft", label: "Left", checked: values.symptoms.facialWeaknessLeft},
+    { name: "facialWeaknessRight", label: "Right", checked: values.symptoms.facialWeaknessRight},
+  ];
+  const hemiparesisSubCheckBox = [
+    { name: "hemiparesisLeft", label: "Left", checked: values.symptoms.hemiparesisLeft},
+    { name: "hemiparesisRight", label: "Right", checked: values.symptoms.hemiparesisRight},
+  ];
+  const hemiparesthesiaSubCheckBox = [
+    { name: "hemiparesthesiaLeft", label: "Left", checked: values.symptoms.hemiparesthesiaLeft},
+    {
+      name: "hemiparesthesiaRight",
+      label: "Right",
+      checked: values.symptoms.hemiparesthesiaRight
+    },
+  ];
   return (
     <Box className={classes.root}>
       {/* Time Course */}
@@ -202,6 +203,7 @@ const ChiefComplaintSection = (props: Props) => {
             control={
               <PinkCheckbox
                 onChange={handleInputCheckbox}
+                checked={values.symptoms.alterationOfConsciousness}
                 name="alterationOfConsciousness"
               />
             }
@@ -211,6 +213,7 @@ const ChiefComplaintSection = (props: Props) => {
             control={
               <PinkCheckbox
                 onChange={handleInputCheckbox}
+                checked={values.symptoms.facialWeakness}
                 name="facialWeakness"
               />
             }
@@ -224,6 +227,7 @@ const ChiefComplaintSection = (props: Props) => {
                     control={
                       <PinkCheckbox
                         onChange={handleInputCheckbox}
+                        checked={facialWeaknessSubCheckBox.checked}
                         name={facialWeaknessSubCheckBox.name}
                       />
                     }
@@ -238,7 +242,7 @@ const ChiefComplaintSection = (props: Props) => {
           )}
           <FormControlLabel
             control={
-              <PinkCheckbox onChange={handleInputCheckbox} name="hemiparesis" />
+              <PinkCheckbox onChange={handleInputCheckbox} name="hemiparesis" checked={values.symptoms.hemiparesis}/>
             }
             label="Hemiparesis"
           />
@@ -250,6 +254,7 @@ const ChiefComplaintSection = (props: Props) => {
                     control={
                       <PinkCheckbox
                         onChange={handleInputCheckbox}
+                        checked={hemiparesisSubCheckBox.checked}
                         name={hemiparesisSubCheckBox.name}
                       />
                     }
@@ -266,6 +271,7 @@ const ChiefComplaintSection = (props: Props) => {
             control={
               <PinkCheckbox
                 onChange={handleInputCheckbox}
+                checked={values.symptoms.hemiparesthesia}
                 name="hemiparesthesia"
               />
             }
@@ -281,6 +287,7 @@ const ChiefComplaintSection = (props: Props) => {
                         <PinkCheckbox
                           onChange={handleInputCheckbox}
                           name={hemiparesthesiaSubCheckBox.name}
+                          checked={hemiparesthesiaSubCheckBox.checked}
                         />
                       }
                       label={hemiparesthesiaSubCheckBox.label}
@@ -298,6 +305,7 @@ const ChiefComplaintSection = (props: Props) => {
               control={
                 <PinkCheckbox
                   onChange={handleInputCheckbox}
+                  checked={checkBox.checked}
                   name={checkBox.name}
                 />
               }
@@ -306,7 +314,7 @@ const ChiefComplaintSection = (props: Props) => {
           ))}
           <FormControlLabel
             control={
-              <PinkCheckbox onChange={handleInputCheckbox} name="other" />
+              <PinkCheckbox onChange={handleInputCheckbox} name="other" checked={values.symptoms.other} />
             }
             label={
               <TextField

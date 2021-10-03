@@ -13,7 +13,7 @@ import Brain1 from "../../../Assets/Brain1.jpg";
 import Brain2 from "../../../Assets/Brain2.jpg";
 import Brain3 from "../../../Assets/Brain3.jpg";
 import Brain4 from "../../../Assets/Brain4.jpg";
-import { DataProps } from "../../../interfaces";
+import { DataProps, PredProps } from "../../../interfaces";
 
 const init_data = {
   name: "Nattasuk Chaithana",
@@ -39,18 +39,18 @@ const init_data = {
   NIHSS: 6,
 };
 const SlideImages = [
-  { url: Brain1 },
-  { url: Brain2 },
-  { url: Brain3 },
-  { url: Brain4 },
+  { url: Brain1, score: 0},
+  { url: Brain2, score: 0},
+  { url: Brain3, score: 0 },
+  { url: Brain4, score: 0 },
 ];
 
 const mockData = {
   prob: 0.26,
-  heatmapImageList: SlideImages.map((item: any) => {
-    return { url1: item.url, url2: item.url };
-  }),
   ctScanImageList: SlideImages,
+  heatmapImageList: SlideImages.map((item: any) => {
+    return { url1: item.url, url2: item.url, score: item.score};
+  }),
 };
 
 const ResultContainer: React.FC = () => {
@@ -58,19 +58,31 @@ const ResultContainer: React.FC = () => {
   const token = getToken();
   const history = useHistory();
   const [data, setData] = useState<DataProps>(init_data);
+  const [prediction, setPrediction] = useState<PredProps>();
+  const [predData, setPredData] = useState(mockData);
   if (token !== null) {
     useEffect(() => {
-      convertForResults({ testId: testId, token: token }).then((response) => { setData(response.sideData); });
+      convertForResults({ testId: testId, token: token }).then((response) => {
+        setData(response.sideData);
+        setPrediction(response.prediction);
+        setPredData({
+          prob: response.prediction? parseFloat(response.prediction.prob): 0,
+          heatmapImageList: SlideImages.map((item: any) => {
+            return { url1: item.url, url2: item.url, score: item.score };
+          }),
+          ctScanImageList: SlideImages,
+        });
+      });
     }, []);
   }
   return (
     <>
       <Box display="flex">
         <Box width="22%">
-          <PatientFormDetail data={data} />
+          <PatientFormDetail data={data} testId={testId} />
         </Box>
         <Box width="78%" paddingX={4} height="100%">
-          <Result testId={testId} {...mockData} />
+          <Result testId={testId} {...predData} />
         </Box>
       </Box>
     </>

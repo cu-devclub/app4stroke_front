@@ -88,12 +88,20 @@ export interface FormProps {
 }
 
 export interface CTScanImage {
+  score: number;
   url: string;
 }
+
+export interface HeatmapImage {
+  score: number;
+  url1: string;
+  url2: string;
+}
+
 export interface ResultProps {
   testId: string;
   prob: number;
-  heatmapImageList: Array<{ url1: string; url2: string }>;
+  heatmapImageList: Array<HeatmapImage>;
   ctScanImageList: Array<CTScanImage>;
 }
 
@@ -115,4 +123,24 @@ export interface DataProps {
   heartRateText: string;
   EKG12Leads: string;
   NIHSS: number;
+}
+
+export interface PredProps {
+  total_slices: number;
+  maxScmax_score_sliceoreSlice: string;
+  max_ct_score: string;
+  imgPath: string[];
+  heatmapPath: string[];
+  ctScores: string[];
+  prob: string;
+  top_pos_factors: string[];
+  top_pos_values: string[];
+  top_pos_impacts: string[];
+  top_neg_factors: string[];
+  top_neg_values: string[];
+  top_neg_impacts: string[];
+  addDate: string;
+  _id: string[];
+  testID: number;
+  __v: number;
 }
