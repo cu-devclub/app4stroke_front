@@ -102,7 +102,7 @@ export interface ResultProps {
   testId: string;
   prob: number;
   heatmapImageList: Array<HeatmapImage>;
-  ctScanImageList: Array<CTScanImage>;
+  maxScoreIndex: number;
 }
 
 export interface DataProps {

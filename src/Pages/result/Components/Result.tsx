@@ -19,7 +19,6 @@ import { AiFillPrinter } from "react-icons/ai";
 import { FiDownload } from "react-icons/fi";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox, { CheckboxProps } from "@material-ui/core/Checkbox";
-import Loading from "../../../Components/Loading";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { ResultProps } from "../../../interfaces";
 
@@ -115,11 +114,17 @@ const PinkCheckbox = withStyles({
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />);
 
 const Result = (props: ResultProps): JSX.Element => {
-  const { testId, prob, heatmapImageList, ctScanImageList } = props;
+
+  const { testId, prob, heatmapImageList, maxScoreIndex } = props;
   const classes = useStyles();
-  const [index, setIndex] = useState<number>(1);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [index, setIndex] = useState<number>(maxScoreIndex + 1);
+  const [currentIndex, setCurrentIndex] = useState<number>(maxScoreIndex);
   const [open, setOpen] = useState(false);
+
+  const handleViewMaxSlice = () => {
+    setIndex(maxScoreIndex + 1);
+    setCurrentIndex(maxScoreIndex);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -134,7 +139,7 @@ const Result = (props: ResultProps): JSX.Element => {
     if (deltaY < 0 && currentIndex > 0) {
       setIndex(index - 1);
       setCurrentIndex(currentIndex - 1);
-    } else if (deltaY >= 0 && currentIndex < ctScanImageList.length - 1) {
+    } else if (deltaY >= 0 && currentIndex < heatmapImageList.length - 1) {
       setIndex(index + 1);
       setCurrentIndex(currentIndex + 1);
     }
@@ -160,8 +165,12 @@ const Result = (props: ResultProps): JSX.Element => {
     const x = document.getElementsByTagName("BODY")[0];
     x.classList.remove(classes.disabledScrollBar);
   };
+
+  useEffect(()=>{handleViewMaxSlice();}, [maxScoreIndex]);
+
   return (
     <Box height="100%">
+      
       <Dialog
         onClose={handleClose}
         aria-labelledby="MaxProb"
@@ -172,7 +181,7 @@ const Result = (props: ResultProps): JSX.Element => {
           <Box display="flex">
             {!showHeatMapCheckbox.showHeatMap ? (
               <img
-                src={ctScanImageList[currentIndex].url}
+                src={heatmapImageList[currentIndex].url1}
                 alt="Brain2"
                 style={{ height: "550px", width: "550px" }}
               />
@@ -277,14 +286,14 @@ const Result = (props: ResultProps): JSX.Element => {
               if (
                 e.target.value !== "" &&
                 parseInt(e.target.value) >= 1 &&
-                parseInt(e.target.value) <= ctScanImageList.length
+                parseInt(e.target.value) <= heatmapImageList.length
               ) {
                 setCurrentIndex(parseInt(e.target.value) - 1);
               }
               setIndex(parseInt(e.target.value));
             }}
           ></TextField>
-          / {ctScanImageList.length}
+          / {heatmapImageList.length}
         </Box>
         <Toolbar>
           <Box flexGrow={1}>
@@ -301,7 +310,7 @@ const Result = (props: ResultProps): JSX.Element => {
             style={{
               color: "#EF5DA8",
             }}
-            onClick={handleClickOpen}
+            onClick={handleViewMaxSlice}
           >
             View max probability slice
           </Link>
@@ -316,13 +325,15 @@ const Result = (props: ResultProps): JSX.Element => {
             {!showHeatMapCheckbox.showHeatMap ? (
               <div style={{ position: "relative" }}>
                 <img
-                  src={ctScanImageList[currentIndex].url}
+                  src={heatmapImageList[currentIndex].url1}
                   alt="noHeatMap"
                   className={classes.image}
+                  onClick={handleClickOpen}
                 />
                 <Box className={classes.boxImage}>
                   <Typography>
-                    Cardioembolic-Sign Probability: {ctScanImageList[currentIndex].score.toFixed(4)}
+                    Cardioembolic-Sign Probability:{" "}
+                    {(heatmapImageList[currentIndex].score * 100).toFixed(2)}%
                   </Typography>
                 </Box>
               </div>
@@ -334,16 +345,19 @@ const Result = (props: ResultProps): JSX.Element => {
                     className={classes.image}
                     src={heatmapImageList[currentIndex].url1}
                     style={{ marginRight: "8px" }}
+                    onClick={handleClickOpen}
                   />
                   <img
                     alt="Brain2"
                     className={classes.image}
                     src={heatmapImageList[currentIndex].url2}
                     style={{ marginLeft: "8px" }}
+                    onClick={handleClickOpen}
                   />
                   <Box className={classes.boxImage}>
                     <Typography>
-                      Cardioembolic-Sign Probability: {heatmapImageList[currentIndex].score.toFixed(4)}
+                      Cardioembolic-Sign Probability:{" "}
+                      {(heatmapImageList[currentIndex].score * 100).toFixed(2)}%
                     </Typography>
                   </Box>
                 </Box>

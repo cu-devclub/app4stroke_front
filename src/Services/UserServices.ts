@@ -53,13 +53,11 @@ const toFormData = (data: any) => {
   return formData;
 };
 
-
 const toDate = (dateString: string) => {
-  return dateString != 'null' ? new Date(dateString) : null;
+  return dateString != "null" ? new Date(dateString) : null;
 };
 
-
-const convertForm = (information: any) : FormProps => {
+const convertForm = (information: any): FormProps => {
   const data: FormProps = {
     PatientInformation: {
       clearDate: toDate(information["PatientInformation_clearDate"]),
@@ -278,7 +276,6 @@ const udSummary = (information: any) => {
 };
 
 const calNIHSS = (information: any) => {
-
   type freeKeyObj = { [key: string]: number };
 
   const LevelOfConsciousness: freeKeyObj = {
@@ -457,6 +454,72 @@ export const view = async ({
   });
 };
 
+export const download = async ({
+  filePath,
+  token,
+}: {
+  filePath: string;
+  token: string;
+}): Promise<string> => {
+  return fetch(`${backendHost}/api/files/download/${filePath}`, {
+    method: "GET",
+    mode: "cors",
+    cache: "no-cache",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => response.blob())
+    .then((myBlob) => {
+      return URL.createObjectURL(myBlob);
+    });
+};
+
+function indexOfMax(arr: Array<number>) {
+  if (arr.length === 0) {
+      return -1;
+  }
+
+  let max = arr[0];
+  let maxIndex = 0;
+
+  for (let i = 1; i < arr.length; i++) {
+      if (arr[i] > max) {
+          maxIndex = i;
+          max = arr[i];
+      }
+  }
+
+  return maxIndex;
+}
+
+const prepareImages = async ({
+  imgPath,
+  heatmapPath,
+  ctScores,
+  token,
+}: {
+  imgPath: Array<string>;
+  heatmapPath: Array<string>;
+  ctScores: Array<string>;
+  token: string;
+}) => {
+  const images: Array<string> = await Promise.all(
+    imgPath.map(async (filePath: string) => {
+      return await download({ filePath, token });
+    })
+  );
+  const heatmaps: Array<string> = await Promise.all(
+    heatmapPath.map(async (filePath: string) => {
+      return await download({ filePath, token });
+    })
+  );
+  const imageResults = images.map((item: any, index: any) => {
+    return { url1: images[index], url2: heatmaps[index], score: ctScores[index] };
+  });
+
+  return imageResults;
+};
 
 export const convertForResults = async ({
   testId,
@@ -465,17 +528,29 @@ export const convertForResults = async ({
   testId: string;
   token: string;
 }) => {
-  const res = await view({testId, token});
+  const res = await view({ testId, token });
   const patientID = res.data.information[0]["PatientInformation_patientID"];
-  const totalTest = await getTotalTests({patientID, token});
+  const totalTest = await getTotalTests({ patientID, token });
+  const imgPath = res.data.prediction[0].imgPath;
+  const heatmapPath = res.data.prediction[0].heatmapPath;
+  const ctScores = res.data.prediction[0].ctScores.map((item: any) => {
+    return parseFloat(item);
+  });
+  const imageResults = await prepareImages({
+    imgPath,
+    heatmapPath,
+    ctScores,
+    token,
+  });
   const data = {
     sideData: convertSideData(res.data.information[0]),
     prediction: res.data.prediction[0],
+    imageResults: imageResults,
+    maxScoreIndex: indexOfMax(ctScores),
   };
   data.sideData.totalTestsDone = totalTest;
   return data;
 };
-
 
 export const convertForForm = async ({
   testId,
@@ -484,11 +559,10 @@ export const convertForForm = async ({
   testId: string;
   token: string;
 }) => {
-  const res = await view({testId, token});
+  const res = await view({ testId, token });
   const data = convertForm(res.data.information[0]);
   return data;
 };
-
 
 export const getPatientTable = ({ token }: { token: string }): Promise<any> => {
   return fetch(`${backendHost}/api/results`, {

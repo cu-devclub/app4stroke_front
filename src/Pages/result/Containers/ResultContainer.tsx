@@ -8,12 +8,13 @@ import { useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { useParams, useHistory } from "react-router-dom";
 import { getToken } from "../../../Services/AuthService";
-import { convertForResults } from "../../../Services/UserServices";
+import { convertForResults, download } from "../../../Services/UserServices";
 import Brain1 from "../../../Assets/Brain1.jpg";
 import Brain2 from "../../../Assets/Brain2.jpg";
 import Brain3 from "../../../Assets/Brain3.jpg";
 import Brain4 from "../../../Assets/Brain4.jpg";
 import { DataProps, PredProps } from "../../../interfaces";
+import Loading from "../../../Components/Loading";
 
 const init_data = {
   name: "Nattasuk Chaithana",
@@ -47,10 +48,10 @@ const SlideImages = [
 
 const mockData = {
   prob: 0.26,
-  ctScanImageList: SlideImages,
   heatmapImageList: SlideImages.map((item: any) => {
     return { url1: item.url, url2: item.url, score: item.score};
   }),
+  maxScoreIndex: 0,
 };
 
 const ResultContainer: React.FC = () => {
@@ -60,6 +61,7 @@ const ResultContainer: React.FC = () => {
   const [data, setData] = useState<DataProps>(init_data);
   const [prediction, setPrediction] = useState<PredProps>();
   const [predData, setPredData] = useState(mockData);
+  const [isLoading, setIsLoading] = useState(true);
   if (token !== null) {
     useEffect(() => {
       convertForResults({ testId: testId, token: token }).then((response) => {
@@ -67,16 +69,16 @@ const ResultContainer: React.FC = () => {
         setPrediction(response.prediction);
         setPredData({
           prob: response.prediction? parseFloat(response.prediction.prob): 0,
-          heatmapImageList: SlideImages.map((item: any) => {
-            return { url1: item.url, url2: item.url, score: item.score };
-          }),
-          ctScanImageList: SlideImages,
+          heatmapImageList: response.imageResults,
+          maxScoreIndex: response.maxScoreIndex,
         });
+        setIsLoading(false);
       });
     }, []);
   }
   return (
     <>
+      {isLoading && <Loading open={isLoading} setOpen={setIsLoading} />}
       <Box display="flex">
         <Box width="22%">
           <PatientFormDetail data={data} testId={testId} />
