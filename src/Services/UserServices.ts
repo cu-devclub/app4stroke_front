@@ -418,9 +418,9 @@ export const postForm = async ({
   const newBody = JSON.parse(JSON.stringify(body)); //flatten
   delete newBody.PatientInformation.file; //flatten
   newBody.file = [await zipForm(body.PatientInformation.file)]; //flatten
-  newBody.testId = testId;
+  newBody.testID = testId;
   const formBody = toFormData(newBody);
-
+  console.log(formBody);
   return fetch(`${backendHost}/api/submitPatient`, {
     method: "POST",
     mode: "cors",
