@@ -6,6 +6,7 @@ import { getToken, getUserInfo } from "../../../Services/AuthService";
 import { getPatientTable } from "../../../Services/UserServices";
 import Tables from "../Components/Tables";
 import Title from "../Components/Title";
+import Loading from "../../../Components/Loading";
 
 const headCells = [
   { id: "testID", label: "Test ID", align: "center" },
@@ -41,7 +42,7 @@ const totalPatient = (rows: any) => {
 };
 
 const HomeContainer: React.FC = () => {
-
+  const [isLoading, setIsLoading] = useState(true);
   const token = getToken();
   const userInfo = getUserInfo();
   const [rows, setRows] = useState([
@@ -59,12 +60,14 @@ const HomeContainer: React.FC = () => {
     useEffect(() => {
       getPatientTable({ token: token }).then((response) => {
         setRows(preprocessRows(response.data));
+        setIsLoading(false);
       });
     }, []);
   }
 
   return (
     <>
+      {isLoading && <Loading open={isLoading} setOpen={setIsLoading} />}
       <Box paddingX={8} paddingY={8}>
         <Title userName={userInfo.userName} institute={userInfo.institute} totalCases={totalPatient(rows)}/>
         <Tables rows={rows} headCells={headCells}></Tables>
