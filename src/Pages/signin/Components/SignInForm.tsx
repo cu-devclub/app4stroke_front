@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Background from "../../../Assets/StrokeBackground.png";
-import LoginLogo from "../../../Assets/LoginLogo.png";
+import LoginLogo from "../../../Assets/LoginLogoAICute.png";
 //React router
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -71,8 +71,8 @@ const useStyles = makeStyles(() => ({
     marginTop: "0.1%",
   },
   logo: {
-    width: "250px",
-    height: "110px",
+    width: "40%",
+    height: "50%",
     margin: "auto",
   },
 }));
