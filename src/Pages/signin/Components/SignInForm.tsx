@@ -79,7 +79,7 @@ const useStyles = makeStyles(() => ({
 
 const SignInForm: React.FC = () => {
   const classes = useStyles();
-  const [data, setData] = useState({ email: "", password: "" });
+  const [data, setData] = useState({ username: "", password: "" });
   const history = useHistory();
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -104,19 +104,19 @@ const SignInForm: React.FC = () => {
         <StyledFormArea>
           <img src={LoginLogo} className={classes.logo} />
           <form className={classes.form} noValidate>
-            {/*Email*/}
+            {/*username*/}
             <TextField
               variant="standard"
               margin="normal"
               required
               fullWidth
-              id="email"
-              name="email"
-              value={data.email}
+              id="username"
+              name="username"
+              value={data.username}
               onChange={handleInputChange}
-              label="Email"
-              placeholder="Enter Your Email Address"
-              autoComplete="email"
+              label="Username"
+              placeholder="Enter Your Username"
+              autoComplete="username"
               autoFocus
             />
             {/* Password */}

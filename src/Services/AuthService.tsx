@@ -1,10 +1,10 @@
 interface LoginProps {
-  email: string;
+  username: string;
   password: string;
 }
 
 export const login = (props: LoginProps): Promise<any> => {
-  const { email, password } = props;
+  const { username, password } = props;
   //const token = localStorage.getItem("token");
   return fetch("http://203.159.92.226:3000/api/user/login", {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -13,7 +13,7 @@ export const login = (props: LoginProps): Promise<any> => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email: email, password: password }), // body data type must match "Content-Type" header
+    body: JSON.stringify({ username: username, password: password }), // body data type must match "Content-Type" header
   }).then((response) => {
     return response.json();
   });
