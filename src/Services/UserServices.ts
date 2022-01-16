@@ -476,17 +476,17 @@ export const download = async ({
 
 function indexOfMax(arr: Array<number>) {
   if (arr.length === 0) {
-      return -1;
+    return -1;
   }
 
   let max = arr[0];
   let maxIndex = 0;
 
   for (let i = 1; i < arr.length; i++) {
-      if (arr[i] > max) {
-          maxIndex = i;
-          max = arr[i];
-      }
+    if (arr[i] > max) {
+      maxIndex = i;
+      max = arr[i];
+    }
   }
 
   return maxIndex;
@@ -514,7 +514,11 @@ const prepareImages = async ({
     })
   );
   const imageResults = images.map((item: any, index: any) => {
-    return { url1: images[index], url2: heatmaps[index], score: ctScores[index] };
+    return {
+      url1: images[index],
+      url2: heatmaps[index],
+      score: ctScores[index],
+    };
   });
 
   return imageResults;
@@ -528,11 +532,11 @@ export const convertForResults = async ({
   token: string;
 }) => {
   const res = await view({ testId, token });
-  const patientID = res.data.information[0]["PatientInformation_patientID"];
+  const patientID = res.data.information["PatientInformation_patientID"];
   const totalTest = await getTotalTests({ patientID, token });
-  const imgPath = res.data.prediction[0].imgPath;
-  const heatmapPath = res.data.prediction[0].heatmapPath;
-  const ctScores = res.data.prediction[0].ctScores.map((item: any) => {
+  const imgPath = res.data.prediction["img_path"];
+  const heatmapPath = res.data.prediction["heatmap_path"];
+  const ctScores = res.data.prediction["ct_score"].map((item: any) => {
     return parseFloat(item);
   });
   const imageResults = await prepareImages({
@@ -542,8 +546,8 @@ export const convertForResults = async ({
     token,
   });
   const data = {
-    sideData: convertSideData(res.data.information[0]),
-    prediction: res.data.prediction[0],
+    sideData: convertSideData(res.data.information),
+    prediction: res.data.prediction,
     imageResults: imageResults,
     maxScoreIndex: indexOfMax(ctScores),
   };
